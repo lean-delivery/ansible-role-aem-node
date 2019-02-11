@@ -1,0 +1,78 @@
+---
+# file: tasks/set_facts.yml
+
+- name: check if required variables are defined
+  fail:
+    msg: 'Variable {{ item }} should be defined!'
+  when: item is undefined
+  with_items:
+    - environmentType
+    - aemInstanceType
+    - aemInstancePort
+    - aemAdminLogin
+    - aemAdminPassword
+
+- name: variables initialization
+  set_fact:
+    # AEM Home Dir: aemRoot = /opt/aem/author(publish)
+    aemHome: '{{ aemRoot }}/{{ aemInstanceType }}'
+    # AEM service name
+    aemServiceName: 'aem-{{ aemInstanceType }}'
+    # FTP server link to download
+    ftpServerLink: 'ftp://{{ ftpLogin }}:{{ ftpPassword }}@{{ ftpServer }}/aem-playbook/aem/{{ aemVersion }}'
+    # Destination file name
+    cqFileName: 'cq-{{ aemInstanceType }}-p{{ aemInstancePort }}'
+    # AEM REST Link
+    aemRESTLink: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}'
+
+- name: variables initialization
+  set_fact:
+    aemFile: '/opt/{{ aemServiceName }}.done'
+    tasksPath: '{{ role_path }}/tasks'
+
+- name: reinitialization of defaults as variables
+  set_fact:
+    aemVersion: '{{ aemVersion }}'
+    aemPackages: '{{ aemPackages }}'
+    aemNoSampleContent: '{{ aemNoSampleContent }}'
+    aemCustomModes: '{{ aemCustomModes }}'
+    aemRoot: '{{ aemRoot }}'
+    aemUser: '{{ aemUser }}'
+    aemGroup: '{{ aemGroup }}'
+    aemUserID: '{{ aemUserID }}'
+    aemGroupID: '{{ aemGroupID }}'
+    aemChangeDefaultAdminPassword: '{{ aemChangeDefaultAdminPassword }}'
+    aemGroups: '{{ aemGroups }}'
+    aemUsers: '{{ aemUsers }}'
+    # For replication agents
+    publishers: []
+    # For flush agents
+    renders: []
+    dispatcherWRenders: []
+    baseAgentBody: "retryDelay=60000&logLevel=error&serializationType=flush"
+
+- name: prepare handlers content
+  set_fact:
+    aemLoadHandler:
+      -
+        path: 'damadmin'
+        content: 'Assets'
+      -
+        path: 'miscadmin'
+        content: 'Tools'
+      -
+        path: 'system/console/bundles'
+        content: 'Experience'
+- name: prepare handlers content for 5.5
+  set_fact:
+    aemLoadHandler:
+      -
+        path: 'damadmin'
+        content: 'damadmin.infinity'
+      -
+        path: 'miscadmin'
+        content: 'Tools'
+      -
+        path: 'system/console/bundles'
+        content: '/system/console/productinfo'
+  when: "aemVersion == '5.5' or aemVersion == 5.5"

@@ -1,0 +1,66 @@
+---
+# file: tasks/add-group.yml
+
+- name: init variable for group creation
+  set_fact:
+    createGroup: false
+
+- name: 'check if authorizableId for {{ group.name }} presents'
+  uri:
+    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.id }}%22%7D%5D%7D'
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    return_content: yes
+  register: dirtyAuthQuery
+
+- name: set create group to True
+  set_fact:
+    createGroup: True
+  when: dirtyAuthQuery.json.total == 0
+
+- name: 'add a new {{ group.name }} group'
+  uri:
+    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/libs/granite/security/post/authorizables'
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: 'createGroup=&authorizableId={{ group.id }}&./profile/givenName={{ group.name }}&./profile/aboutMe={{ group.description }}&_charset_=utf-8'
+    status_code: 201
+  changed_when: True
+  when: createGroup
+- name: 'find path for {{ group.rootGroup }} group'
+  uri:
+    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.rootGroup }}%22%7D%5D%7D'
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    return_content: yes
+  register: dirtyGroupPath
+- name: write down new group path in crx
+  set_fact:
+    groupPath: '{{ dirtyGroupPath.json.authorizables[0].home }}'
+- name: 'add {{ group.name }} in {{ group.rootGroup }} group'
+  uri:
+    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}{{ groupPath }}.rw.html'
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: 'addMembers={{ group.id }}&_charset_=utf-8'
+    status_code: 200
+- name: 'configure ACL for the {{ group.name }} group'
+  uri:
+    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/.cqactions.html'
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: 'authorizableId={{ group.id }}&_charset_=utf-8&changelog={{ permission }}'
+    status_code: 200
+  ignore_errors: yes
+  with_items: '{{ group.permissions }}'
+  loop_control:
+    loop_var: permission
+  when: group.permissions|length > 0

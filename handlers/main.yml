@@ -1,0 +1,57 @@
+# file: roles/aem_instance/handlers/main.yml
+
+- name: stop aem
+  service:
+    name: '{{ aemServiceName }}'
+    state: stopped
+    daemon_reload: true
+  notify:
+  - wait while stopping
+
+- name: wait while stopping
+  shell: "ps -u {{ aemUser }} | grep java -c"
+  ignore_errors: yes
+  register: service_aem_status
+  until: service_aem_status.stdout.find("0") != -1
+  retries: 50
+  delay: 10
+
+- name: start aem
+  service:
+    name: '{{ aemServiceName }}'
+    enabled: yes
+    state: started
+
+- name: firstload aem
+  uri:
+    url: '{{ aemRESTLink }}/{{ item.path }}'
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    method: GET
+    return_content: yes
+    status_code: 200
+  register: aemLoad
+  until: (item.content in aemLoad.content)
+  retries: 100
+  delay: 120
+  with_items: '{{ aemLoadHandler }}'
+
+- name: wait 5 minutes
+  pause:
+    minutes: 5
+
+- name: load aem
+  uri:
+    url: '{{ aemRESTLink }}/{{ item.path }}'
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    method: GET
+    return_content: yes
+    status_code: 200
+  register: aemLoad
+  until: (item.content in aemLoad.content)
+  retries: 100
+  delay: 60
+  with_items: '{{ aemLoadHandler }}'

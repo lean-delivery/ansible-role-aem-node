@@ -1,0 +1,53 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: aem-{{ aemInstanceType }}
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: aem-{{ aemInstanceType }}
+# Description: Manages Adobe Experience Manager ({{ aemInstanceType }} Role)
+# 
+### END INIT INFO
+
+SCRIPT_NAME=`basename $0`
+AEM_ROOT={{ aemHome }}
+AEM_USER={{ aemUser}}
+export CQ_PORT='{{ aemInstancePort }}'
+export CQ_RUNMODE='{{ aemInstanceType }},{{ environmentType }}{% if aemNoSampleContent %},nosamplecontent{% endif %}{% if aemCustomModes != '' %},{{ aemCustomModes }}{% endif %}'
+export CQ_JVM_OPTS='-server -Xmx{{ ansible_memtotal_mb-1024 }}m -XX:MaxPermSize=256M -Djava.awt.headless=true'
+
+########
+BIN=${AEM_ROOT}/crx-quickstart/bin
+START=${BIN}/start
+STOP=${BIN}/stop
+STATUS=${BIN}/status
+ 
+case "$1" in
+start)
+echo -n "Starting AEM services: "
+su ${AEM_USER} ${START}
+touch /var/lock/subsys/$SCRIPT_NAME
+;;
+stop)
+echo -n "Shutting down AEM services: "
+su ${AEM_USER} ${STOP}
+rm -f /var/lock/subsys/$SCRIPT_NAME
+;;
+status)
+su ${AEM_USER} ${STATUS}
+;;
+restart)
+su ${AEM_USER} ${STOP}
+echo -n "Wait until process is opened"
+while [ $(ps -u {{ aemUser }} | grep java -c) -ge 1 ]
+do
+echo '.'
+done
+su ${AEM_USER} ${START}
+;;
+*)
+echo "Usage: $SCRIPT_NAME {start|stop|status|restart}"
+exit 1
+;;
+esac

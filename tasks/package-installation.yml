@@ -1,0 +1,49 @@
+---
+# file: tasks/package-installation.yml
+
+- name: 'check if {{ aemPackage }} have been already installed'
+  uri:
+    url: '{{ aemRESTLink }}/crx/packmgr/service.jsp?cmd=ls'
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    return_content: yes
+  register: packageList
+
+- name: 'make a decision to install {{ aemPackage }}'
+  set_fact:
+    packageInstall: True
+  when: aemPackage not in packageList.content
+  notify:
+  - stop aem
+  - start aem
+  - load aem
+- meta: flush_handlers
+
+- name: 'make a decision to not install {{ aemPackage }}'
+  set_fact:
+    packageInstall: false
+  when: aemPackage in packageList.content
+
+- block:
+  - name: 'ensure that {{ aemPackage }} package is downloaded'
+    get_url:
+      url: '{{ ftpServerLink }}/packages/{{ aemPackage }}.zip'
+      dest: '/tmp/{{ aemPackage }}.zip'
+      owner: '{{ aemUser }}'
+      group: '{{ aemUser }}'
+      mode: 0640
+  - name: 'send request to upload and install {{ aemPackage }}'
+    shell: "curl -u {{ aemAdminLogin }}:{{ aemAdminPassword }} -F file=@'/tmp/{{ aemPackage }}.zip' -F name='{{ aemPackage }}' -F force=true -F install=true -F recursive=true {{ aemRESTLink }}/crx/packmgr/service.jsp"
+    notify:
+    - wait 5 minutes
+    - load aem
+    changed_when: True
+    tags:
+      - skip_ansible_lint
+  - meta: flush_handlers
+  - name: 'remove zip with {{ aemPackage }} from temporary folder'
+    file:
+      path: '/tmp/{{ aemPackage }}.zip'
+      state: absent
+  when: packageInstall

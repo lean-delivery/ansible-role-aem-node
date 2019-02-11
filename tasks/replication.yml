@@ -1,0 +1,55 @@
+---
+# file: tasks/replication.yml
+
+- name: remove default agents
+  uri:
+    url: "{{ aemRESTLink }}/bin/wcmcommand"
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: 'cmd=deletePage&charset=UTF-8&forse=true&path=/etc/replication/agents.{{ aemInstanceType }}/{{ item }}'
+  register: agentDisable
+  until: (agentDisable is succeeded)
+  retries: 100
+  delay: 5
+  ignore_errors: yes
+  with_items:
+    - flush
+    - publish
+
+- block:
+  - name: 'find publishers in {{ environmentType }}'
+    set_fact:
+      publishers: "{{ publishers + [ item ] }}"
+    when: hostvars[item]['environmentType'] == environmentType
+    with_items: "{{ groups['aem_publishers'] }}"
+  - name: configure publish agents
+    include: '{{ tasksPath }}/configure-replication-agent.yml publisher={{ item }}'
+    with_items: "{{ publishers }}"
+  - name: remove default agents
+    include: '{{ tasksPath }}/remove-replication-agent.yml agent={{ item }}'
+    with_items: "{{ groups['aem_publishers'] }}"
+    when: item not in publishers
+  when: "aemInstanceType == 'author' and groups['aem_publishers'] is defined"
+
+- block:
+  - name: find dispatchers with defined render variable
+    set_fact:
+      dispatcherWRenders: "{{ dispatcherWRenders + [ item ] }}"
+    with_items: "{{ groups['aem_dispatchers'] }}"
+    when: hostvars[item]['render'] is defined
+  - name: find dispatchers with defined render variable which are connected with this AEM instance
+    set_fact:
+      renders: "{{ renders + [ item ] }}"
+    with_items: "{{ dispatcherWRenders }}"
+    when: inventory_hostname in hostvars[item]['render'].split(',') and dispatcherWRenders|length>0
+  - name: find dispatchers with undefined render variable
+    set_fact:
+      renders: "{{ renders + [ item ] }}"
+    with_items: "{{ groups['aem_dispatchers'] }}"
+    when: hostvars[item]['render'] is undefined and hostvars[item]['inventory_hostname'] == inventory_hostname
+  - name: configure flush replication
+    include: '{{ tasksPath }}/configure-flush-agent.yml host={{ item }}'
+    with_items: "{{ renders }}"
+  when: "groups['aem_dispatchers'] is defined"

@@ -1,0 +1,26 @@
+---
+# file: tasks/remove-replication-agent.yml
+
+- name: "check if an agent {{ agent|replace('.','-')|lower() }} exists"
+  uri:
+    url: "{{ aemRESTLink }}/etc/replication/agents.author/{{ agent|replace('.','-')|lower() }}.html"
+    method: GET
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    status_code: 200, 404, -1
+  register: checkRequest
+
+- name: "remove agent {{ agent|replace('.','-')|lower() }}"
+  uri:
+    url: "{{ aemRESTLink }}/bin/wcmcommand"
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: "cmd=deletePage&charset=UTF-8&forse=true&path=/etc/replication/agents.author/{{ agent|replace('.','-')|lower() }}"
+  register: agentDisable
+  until: (agentDisable is succeeded)
+  retries: 100
+  delay: 5
+  when: checkRequest.status != 404

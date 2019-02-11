@@ -1,0 +1,68 @@
+---
+# file: defaults/main.yml
+
+## AEM SECTION ###
+
+# AEM version (6.0, 6.1 or 6.2)
+aemVersion: '6.2'
+
+# List of additional AEM Packages to install
+aemPackages: []
+
+# INFO: AEM Run mode by default: <aemInstanceType - e.g. "author">,<env type - e.g. "dev">
+
+# True if you need "noSampleContent" run mode, or false - if you don't
+aemNoSampleContent: false
+
+# Comma separated custom run modes
+aemCustomModes: ''
+
+# Default AEM root path
+aemRoot: /opt/aem
+
+# Linux username and group which operates AEM
+aemUser: aem
+aemGroup: aem
+
+# And their UID
+aemUserID: 99999
+aemGroupID: 19999
+
+# Do you want to change default admin password?
+aemChangeDefaultAdminPassword: true
+
+# AEM groups which would be created during provision proccess
+# aemGroups:
+#   -
+#     # AEM Group authorizableID
+#     id: 'test_group'
+#     # AEM Group Name
+#     name: 'Test group'
+#     # AEM Group description
+#     description: 'All test users'
+#     # AEM Group permissions
+#     permissions:
+#       - 'path:/,read:true'
+#       - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+#     # AEM Group parent group
+#     rootGroup: 'everyone'
+#   }
+aemGroups: []
+
+# AEM users which would be created during provision proccess
+## Don't forget to create user for Jenkins and add it into 'Administrators' build-in AEM group
+# aemUsers:
+#   -
+#     # AEM user path in crx
+#     category: 'test'
+#     # User ID
+#     id: 'test_user'
+#     # AEM Group description
+#     firstName: 'Test'
+#     # AEM Group permissions
+#     secondName: 'User'
+#     # AEM User password
+#     password: 'test_user_password'
+#     # AEM user primary group
+#     'group' : 'everyone'
+aemUsers: []

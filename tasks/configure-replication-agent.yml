@@ -1,0 +1,40 @@
+---
+# file: tasks/configure-replication.yml
+
+- name: "check if an agent for {{ publisher }} host created"
+  uri:
+    url: "{{ aemRESTLink }}/etc/replication/agents.author/{{ publisher|replace('.','-')|lower() }}.html"
+    method: GET
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    status_code: 200, 404, -1
+  register: checkRequest
+
+- name: "create agent for {{ publisher }} if dont exist"
+  uri:
+    url: "{{ aemRESTLink }}/bin/wcmcommand"
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: "cmd=createPage&charset=UTF-8&parentPath=/etc/replication/agents.author&title={{ publisher|replace('.','-')|lower() }}&label={{ publisher|replace('.','-')|lower() }}&template=/libs/cq/replication/templates/agent"
+  register: agentCreate
+  until: (agentCreate is succeeded)
+  retries: 100
+  delay: 5
+  when: checkRequest.status == 404
+
+- name: "check {{ publisher }} agent configuration"
+  uri:
+    url: "{{ aemRESTLink }}/etc/replication/agents.author/{{ publisher|replace('.','-')|lower() }}/jcr:content"
+    method: POST
+    user: '{{ aemAdminLogin }}'
+    password: '{{ aemAdminPassword }}'
+    force_basic_auth: yes
+    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aemInstancePort'] }}/bin/receive?sling:authRequestLogin=1&transportUser={{ hostvars[publisher]['aemAdminLogin'] }}&transportPassword={{ hostvars[publisher]['aemAdminPassword'] }}&retryDelay=60000&logLevel=info&serializationType=durbo&jcr:description=Replication agent for {{ publisher }} node (publish type)"
+  register: agentConfigure
+  until: (agentConfigure is succeeded)
+  retries: 100
+  delay: 5
+

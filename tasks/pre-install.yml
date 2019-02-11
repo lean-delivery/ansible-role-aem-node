@@ -1,0 +1,33 @@
+---
+# file: tasks/pre_install.yml
+
+- name: ensure that aem group is configured
+  group:
+    name: '{{ aemGroup }}'
+    gid: '{{ aemGroupID }}'
+
+- name: ensure that aem user is configured
+  user:
+    name: '{{ aemUser }}'
+    uid: '{{ aemUserID }}'
+    groups:
+      - java
+      - '{{ aemGroup }}'
+    append: yes
+    comment: 'AEM user'
+
+- name: ensure that root AEM directory is present
+  file:
+    path: '{{ aemRoot }}'
+    owner: '{{ aemUser }}'
+    group: '{{ aemUser }}'
+    mode: 0775
+    state: directory
+
+- name: ensure that directory for AEM home dir is present
+  file:
+    path: '{{ aemHome }}'
+    owner: '{{ aemUser }}'
+    group: '{{ aemUser }}'
+    mode: 0775
+    state: directory

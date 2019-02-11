@@ -1,0 +1,29 @@
+---
+# file: tasks/configure.yml
+
+- name: set new password if it was changed
+  set_fact:
+    aemAdminPassword: '{{ aemNewAdminPassword }}'
+  when: aemChangeDefaultAdminPassword
+
+- name: 'ensure that init {{ aemServiceName }} script is ok'
+  template:
+    src: aem.j2
+    dest: '/usr/bin/{{ aemServiceName }}'
+    mode: 0755
+  notify:
+  - stop aem
+  - start aem
+  - load aem
+- meta: flush_handlers
+
+- name: 'ensure that systemd {{ aemServiceName }} script is ok'
+  template:
+    src: aem.service.j2
+    dest: '/usr/lib/systemd/system/{{ aemServiceName }}.service'
+    mode: 0644
+  notify:
+  - stop aem
+  - start aem
+  - load aem
+- meta: flush_handlers
