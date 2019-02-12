@@ -7,7 +7,8 @@
 
 - name: 'check if authorizableId for {{ group.name }} presents'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.id }}%22%7D%5D%7D'
+    url: "http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json\
+?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.id }}%22%7D%5D%7D"
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
@@ -32,7 +33,8 @@
   when: createGroup
 - name: 'find path for {{ group.root_group }} group'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.root_group }}%22%7D%5D%7D'
+    url: "http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json\
+?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.root_group }}%22%7D%5D%7D"
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True

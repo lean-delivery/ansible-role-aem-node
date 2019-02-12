@@ -18,7 +18,7 @@
     file:
       path: '{{ aem_file }}'
       state: touch
-  when: aem_done.stat.exists == false
+  when: not aem_done.stat.exists
 
 - name: configuration
   include: configure.yml

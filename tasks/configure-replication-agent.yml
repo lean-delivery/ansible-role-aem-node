@@ -18,7 +18,8 @@
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
-    body: "cmd=createPage&charset=UTF-8&parentPath=/etc/replication/agents.author&title={{ publisher|replace('.','-')|lower() }}&label={{ publisher|replace('.','-')|lower() }}&template=/libs/cq/replication/templates/agent"
+    body: "cmd=createPage&charset=UTF-8&parentPath=/etc/replication/agents.author&title={{ publisher|replace('.','-')|lower() }}&label={{ publis\
+her|replace('.','-')|lower() }}&template=/libs/cq/replication/templates/agent"
   register: agentCreate
   until: (agentCreate is succeeded)
   retries: 100
@@ -32,7 +33,9 @@
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
-    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aem_instance_port'] }}/bin/receive?sling:authRequestLogin=1&transportUser={{ hostvars[publisher]['aem_admin_login'] }}&transportPassword={{ hostvars[publisher]['aem_admin_password'] }}&retryDelay=60000&logLevel=info&serializationType=durbo&jcr:description=Replication agent for {{ publisher }} node (publish type)"
+    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aem_instance_port'] }}/bin/recei\
+ve?sling:authRequestLogin=1&transportUser={{ hostvars[publisher]['aem_admin_login'] }}&transportPassword={{ hostvars[publisher]['aem_admin_password'] }}&r\
+etryDelay=60000&logLevel=info&serializationType=durbo&jcr:description=Replication agent for {{ publisher }} node (publish type)"
   register: agentConfigure
   until: (agentConfigure is succeeded)
   retries: 100

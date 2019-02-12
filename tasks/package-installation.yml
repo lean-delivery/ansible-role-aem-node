@@ -34,7 +34,8 @@
       group: '{{ aem_user }}'
       mode: 0640
   - name: 'send request to upload and install {{ aem_package }}'
-    shell: "curl -u {{ aem_admin_login }}:{{ aem_admin_password }} -F file=@'/tmp/{{ aem_package }}.zip' -F name='{{ aem_package }}' -F force=true -F install=true -F recursive=true {{ aem_rest_link }}/crx/packmgr/service.jsp"
+    shell: "curl -u {{ aem_admin_login }}:{{ aem_admin_password }} -F file=@'/tmp/{{ aem_package }}.zip' -F na\
+me='{{ aem_package }}' -F force=true -F install=true -F recursive=true {{ aem_rest_link }}/crx/packmgr/service.jsp"
     notify:
     - wait 5 minutes
     - load aem

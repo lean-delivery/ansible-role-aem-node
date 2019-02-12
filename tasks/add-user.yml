@@ -7,7 +7,8 @@
 
 - name: 'check if authorizableId for {{ user.id }} presents'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.id }}%22%7D%5D%7D'
+    url: "http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json\
+?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.id }}%22%7D%5D%7D"
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
@@ -26,13 +27,15 @@
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
-    body: 'intermediatePath=/home/users/{{ user.category }}/&createUser=&authorizableId={{ user.id }}&_charset_=utf-8&rep:password={{ user.password }}&./profile/givenName={{ user.first_name }}&./profile/familyName={{ user.second_name }}'
+    body: "intermediatePath=/home/users/{{ user.category }}/&createUser=&authorizableId={{ user.id }}&_charset_=utf-8&rep:password={{ user.password }}&./prof\
+ile/givenName={{ user.first_name }}&./profile/familyName={{ user.second_name }}"
     status_code: 201
   changed_when: True
   when: createUser
 - name: 'find group path for {{ user.group }} group'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.group }}%22%7D%5D%7D'
+    url: "http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?\
+query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.group }}%22%7D%5D%7D"
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
