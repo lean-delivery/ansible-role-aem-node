@@ -3,30 +3,30 @@
 
 - name: ensure that aem group is configured
   group:
-    name: '{{ aemGroup }}'
-    gid: '{{ aemGroupID }}'
+    name: '{{ aem_group }}'
+    gid: '{{ aem_group_id }}'
 
 - name: ensure that aem user is configured
   user:
-    name: '{{ aemUser }}'
-    uid: '{{ aemUserID }}'
+    name: '{{ aem_user }}'
+    uid: '{{ aem_user_id }}'
     groups:
-      - '{{ aemGroup }}'
-    append: yes
+      - '{{ aem_group }}'
+    append: True
     comment: 'AEM user'
 
 - name: ensure that root AEM directory is present
   file:
-    path: '{{ aemRoot }}'
-    owner: '{{ aemUser }}'
-    group: '{{ aemUser }}'
+    path: '{{ aem_root }}'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
     mode: 0775
     state: directory
 
 - name: ensure that directory for AEM home dir is present
   file:
-    path: '{{ aemHome }}'
-    owner: '{{ aemUser }}'
-    group: '{{ aemUser }}'
+    path: '{{ aem_home }}'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
     mode: 0775
     state: directory

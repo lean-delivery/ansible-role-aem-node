@@ -3,21 +3,21 @@
 
 - name: "check if an agent for {{ publisher }} host created"
   uri:
-    url: "{{ aemRESTLink }}/etc/replication/agents.author/{{ publisher|replace('.','-')|lower() }}.html"
+    url: "{{ aem_rest_link }}/etc/replication/agents.author/{{ publisher|replace('.','-')|lower() }}.html"
     method: GET
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
     status_code: 200, 404, -1
   register: checkRequest
 
 - name: "create agent for {{ publisher }} if dont exist"
   uri:
-    url: "{{ aemRESTLink }}/bin/wcmcommand"
+    url: "{{ aem_rest_link }}/bin/wcmcommand"
     method: POST
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
     body: "cmd=createPage&charset=UTF-8&parentPath=/etc/replication/agents.author&title={{ publisher|replace('.','-')|lower() }}&label={{ publisher|replace('.','-')|lower() }}&template=/libs/cq/replication/templates/agent"
   register: agentCreate
   until: (agentCreate is succeeded)
@@ -27,12 +27,12 @@
 
 - name: "check {{ publisher }} agent configuration"
   uri:
-    url: "{{ aemRESTLink }}/etc/replication/agents.author/{{ publisher|replace('.','-')|lower() }}/jcr:content"
+    url: "{{ aem_rest_link }}/etc/replication/agents.author/{{ publisher|replace('.','-')|lower() }}/jcr:content"
     method: POST
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
-    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aemInstancePort'] }}/bin/receive?sling:authRequestLogin=1&transportUser={{ hostvars[publisher]['aemAdminLogin'] }}&transportPassword={{ hostvars[publisher]['aemAdminPassword'] }}&retryDelay=60000&logLevel=info&serializationType=durbo&jcr:description=Replication agent for {{ publisher }} node (publish type)"
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
+    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aem_instance_port'] }}/bin/receive?sling:authRequestLogin=1&transportUser={{ hostvars[publisher]['aem_admin_login'] }}&transportPassword={{ hostvars[publisher]['aem_admin_password'] }}&retryDelay=60000&logLevel=info&serializationType=durbo&jcr:description=Replication agent for {{ publisher }} node (publish type)"
   register: agentConfigure
   until: (agentConfigure is succeeded)
   retries: 100

@@ -8,24 +8,24 @@
 
 - name: check if service was installed before
   stat:
-    path: '{{ aemFile }}'
+    path: '{{ aem_file }}'
   register: aem_done
 
 - block:
   - name: installation
-    include: '{{ tasksPath }}/install.yml'
+    include: '{{ tasks_path }}/install.yml'
   - name: save successfull installation in file
     file:
-      path: '{{ aemFile }}'
+      path: '{{ aem_file }}'
       state: touch
   when: aem_done.stat.exists == false
 
 - name: configuration
   include: configure.yml
 - name: package installation
-  include: '{{ tasksPath }}/package-installation.yml aemPackage={{ item }}'
-  with_items: '{{ aemPackages }}'
-  when: aemPackages|length > 0
+  include: '{{ tasks_path }}/package-installation.yml aem_package={{ item }}'
+  with_items: '{{ aem_packages }}'
+  when: aem_packages|length > 0
 
 # Configure replication if this is AEM Authoring instance
 - name: replication configuration
@@ -33,12 +33,12 @@
 
 # Create additional groups
 - name: aem groups creation
-  include: '{{ tasksPath }}/add-group.yml group={{ item }}'
-  with_items: '{{ aemGroups }}'
-  when: aemGroups|length > 0
+  include: '{{ tasks_path }}/add-group.yml group={{ item }}'
+  with_items: '{{ aem_groups }}'
+  when: aem_groups|length > 0
 
 # # Create additional users
 - name: aem users creation
-  include: '{{ tasksPath }}/add-user.yml user={{ item }}'
-  with_items: '{{ aemUsers }}'
-  when: aemUsers|length > 0
+  include: '{{ tasks_path }}/add-user.yml user={{ item }}'
+  with_items: '{{ aem_users }}'
+  when: aem_users|length > 0

@@ -2,15 +2,15 @@
 
 - name: stop aem
   service:
-    name: '{{ aemServiceName }}'
+    name: '{{ aem_service_name }}'
     state: stopped
-    daemon_reload: true
+    daemon_reload: True
   notify:
   - wait while stopping
 
 - name: wait while stopping
-  shell: "ps -u {{ aemUser }} | grep java -c"
-  ignore_errors: yes
+  shell: "ps -u {{ aem_user }} | grep java -c"
+  ignore_errors: True
   register: service_aem_status
   until: service_aem_status.stdout.find("0") != -1
   retries: 50
@@ -18,24 +18,24 @@
 
 - name: start aem
   service:
-    name: '{{ aemServiceName }}'
-    enabled: yes
+    name: '{{ aem_service_name }}'
+    enabled: True
     state: started
 
 - name: firstload aem
   uri:
-    url: '{{ aemRESTLink }}/{{ item.path }}'
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
+    url: '{{ aem_rest_link }}/{{ item.path }}'
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
     method: GET
-    return_content: yes
+    return_content: True
     status_code: 200
   register: aemLoad
   until: (item.content in aemLoad.content)
   retries: 100
   delay: 120
-  with_items: '{{ aemLoadHandler }}'
+  with_items: '{{ aem_load_handler }}'
 
 - name: wait 5 minutes
   pause:
@@ -43,15 +43,15 @@
 
 - name: load aem
   uri:
-    url: '{{ aemRESTLink }}/{{ item.path }}'
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
+    url: '{{ aem_rest_link }}/{{ item.path }}'
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
     method: GET
-    return_content: yes
+    return_content: True
     status_code: 200
   register: aemLoad
   until: (item.content in aemLoad.content)
   retries: 100
   delay: 60
-  with_items: '{{ aemLoadHandler }}'
+  with_items: '{{ aem_load_handler }}'

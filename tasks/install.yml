@@ -1,46 +1,46 @@
 ---
 # file: tasks/install.yml
 
-- name: "ensure that {{ cqFileName }} file is downloaded"
+- name: "ensure that {{ cq_file_name }} file is downloaded"
   get_url:
-    url: '{{ ftpServerLink }}/aem.jar'
-    dest: '{{ aemHome }}/{{ cqFileName }}.jar'
-    owner: '{{ aemUser }}'
-    group: '{{ aemUser }}'
+    url: '{{ ftp_server_link }}/aem.jar'
+    dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
     mode: 0640
 
 - name: ensure that AEM licence file is downloaded
   get_url:
-    url: '{{ ftpServerLink }}/license.properties'
-    dest: '{{ aemHome }}/license.properties'
-    owner: '{{ aemUser }}'
-    group: '{{ aemUser }}'
+    url: '{{ ftp_server_link }}/license.properties'
+    dest: '{{ aem_home }}/license.properties'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
     mode: 0640
 
 - name: extract AEM jar file if crx-quickstart folder doesn't exist
-  command: "java -jar {{ aemHome }}/{{ cqFileName }}.jar -unpack"
+  command: "java -jar {{ aem_home }}/{{ cq_file_name }}.jar -unpack"
   args:
-    creates: '{{ aemHome }}/crx-quickstart/bin'
-    chdir: '{{ aemHome }}'
+    creates: '{{ aem_home }}/crx-quickstart/bin'
+    chdir: '{{ aem_home }}'
 
 - name: ensure that all permissions for home aem dir is correct
   file:
-    path: '{{ aemHome }}/crx-quickstart'
+    path: '{{ aem_home }}/crx-quickstart'
     state: directory
-    owner: '{{ aemUser }}'
-    group: '{{ aemUser }}'
-    recurse: yes
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    recurse: True
 
 - name: ensure that subsys directory exists
   file:
     path: '/var/lock/subsys'
     state: directory
-    recurse: yes
+    recurse: True
 
 - name: creating init script for AEM instance
   template:
     src: aem.j2
-    dest: '/usr/bin/{{ aemServiceName }}'
+    dest: '/usr/bin/{{ aem_service_name }}'
     owner: root
     group: root
     mode: 0755
@@ -48,7 +48,7 @@
 - name: creating systemd script for AEM instance
   template:
     src: aem.service.j2
-    dest: '/usr/lib/systemd/system/{{ aemServiceName }}.service'
+    dest: '/usr/lib/systemd/system/{{ aem_service_name }}.service'
     owner: root
     group: root
     mode: 0644
@@ -56,16 +56,16 @@
 - name: fix start script for 5.5
   template:
     src: start5.5.j2
-    dest: '{{ aemHome }}/crx-quickstart/bin/start'
-    owner: '{{ aemUser }}'
-    group: '{{ aemUser }}'
+    dest: '{{ aem_home }}/crx-quickstart/bin/start'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
     mode: 0755
-  when: "aemVersion == '5.5' or aemVersion == 5.5"
+  when: "aem_version == '5.5' or aem_version == 5.5"
 
 - name: start and enable aem service
   service:
-    name: '{{ aemServiceName }}'
-    enabled: yes
+    name: '{{ aem_service_name }}'
+    enabled: True
     state: started
   notify:
   - firstload aem
@@ -74,37 +74,37 @@
 - block:
   - name: change user password (step 1)
     uri:
-      url: '{{ aemRESTLink }}/bin/querybuilder.json?path=/home/users&1_property=rep:principalName&1_property.value={{ aemAdminLogin }}&p.limit=-1'
+      url: '{{ aem_rest_link }}/bin/querybuilder.json?path=/home/users&1_property=rep:principalName&1_property.value={{ aem_admin_login }}&p.limit=-1'
       method: GET
-      user: '{{ aemAdminLogin }}'
-      password: '{{ aemAdminPassword }}'
-      force_basic_auth: yes
-      return_content: yes
+      user: '{{ aem_admin_login }}'
+      password: '{{ aem_admin_password }}'
+      force_basic_auth: True
+      return_content: True
       ignore_errors: True
     register: userCRXPath
   - name: change user password (step 2)
     uri:
-      url: '{{ aemRESTLink }}/crx/explorer/ui/setpassword.jsp'
+      url: '{{ aem_rest_link }}/crx/explorer/ui/setpassword.jsp'
       method: POST
-      user: '{{ aemAdminLogin }}'
-      password: '{{ aemAdminPassword }}'
-      force_basic_auth: yes
-      body: 'plain={{ aemNewAdminPassword }}&verify={{ aemNewAdminPassword }}&old={{ aemAdminPassword }}&Path={{ userCRXPath.json.hits[0].path }}'
+      user: '{{ aem_admin_login }}'
+      password: '{{ aem_admin_password }}'
+      force_basic_auth: True
+      body: 'plain={{ aem_new_admin_password }}&verify={{ aem_new_admin_password }}&old={{ aem_admin_password }}&Path={{ userCRXPath.json.hits[0].path }}'
       ignore_errors: True
   - name: set new password
     set_fact:
-      aemAdminPassword: '{{ aemNewAdminPassword }}'
-  when: aemChangeDefaultAdminPassword
+      aem_admin_password: '{{ aem_new_admin_password }}'
+  when: aem_change_default_admin_password
 
 - name: fix AEM bug with nosamplecontent
   uri:
-    url: '{{ aemRESTLink }}/apps/system/config/org.apache.sling.jcr.davex.impl.servlets.SlingDavExServlet'
+    url: '{{ aem_rest_link }}/apps/system/config/org.apache.sling.jcr.davex.impl.servlets.SlingDavExServlet'
     method: POST
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
     follow_redirects: safe
     body: 'jcr:primaryType=sling:OsgiConfig&alias=/crx/server&dav.create-absolute-uri=true&dav.create-absolute-uri@TypeHint=Boolean'
     status_code: 201, 200, 500
     ignore_errors: True
-  when: aemNoSampleContent
+  when: aem_no_sample_content

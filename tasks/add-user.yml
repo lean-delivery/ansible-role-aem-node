@@ -3,15 +3,15 @@
 
 - name: init variable for user creation
   set_fact:
-    createUser: false
+    createUser: False
 
 - name: 'check if authorizableId for {{ user.id }} presents'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.id }}%22%7D%5D%7D'
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
-    return_content: yes
+    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.id }}%22%7D%5D%7D'
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
+    return_content: True
   register: dirtyAuthQuery
 
 - name: set create user to True
@@ -21,32 +21,32 @@
 
 - name: 'create user {{ user.id }}'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/libs/granite/security/post/authorizables'
+    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/post/authorizables'
     method: POST
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
-    body: 'intermediatePath=/home/users/{{ user.category }}/&createUser=&authorizableId={{ user.id }}&_charset_=utf-8&rep:password={{ user.password }}&./profile/givenName={{ user.firstName }}&./profile/familyName={{ user.secondName }}'
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
+    body: 'intermediatePath=/home/users/{{ user.category }}/&createUser=&authorizableId={{ user.id }}&_charset_=utf-8&rep:password={{ user.password }}&./profile/givenName={{ user.first_name }}&./profile/familyName={{ user.second_name }}'
     status_code: 201
   changed_when: True
   when: createUser
 - name: 'find group path for {{ user.group }} group'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.group }}%22%7D%5D%7D'
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
-    return_content: yes
+    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ user.group }}%22%7D%5D%7D'
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
+    return_content: True
   register: dirtyGroupPath
 - name: 'find out group path for {{ user.group }} group in CRX'
   set_fact:
     groupPath: '{{ dirtyGroupPath.json.authorizables[0].home }}'
 - name: 'add {{ user.id }} in {{ user.group }} group'
   uri:
-    url: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}{{ groupPath }}.rw.html'
+    url: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}{{ groupPath }}.rw.html'
     method: POST
-    user: '{{ aemAdminLogin }}'
-    password: '{{ aemAdminPassword }}'
-    force_basic_auth: yes
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
+    force_basic_auth: True
     body: 'addMembers={{ user.id }}&_charset_=utf-8'
     status_code: 200

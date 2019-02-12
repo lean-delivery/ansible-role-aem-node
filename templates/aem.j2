@@ -1,20 +1,20 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides: aem-{{ aemInstanceType }}
+# Provides: aem-{{ aem_instance_type }}
 # Required-Start: $remote_fs $syslog
 # Required-Stop: $remote_fs $syslog
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 6
-# Short-Description: aem-{{ aemInstanceType }}
-# Description: Manages Adobe Experience Manager ({{ aemInstanceType }} Role)
+# Short-Description: aem-{{ aem_instance_type }}
+# Description: Manages Adobe Experience Manager ({{ aem_instance_type }} Role)
 # 
 ### END INIT INFO
 
 SCRIPT_NAME=`basename $0`
-AEM_ROOT={{ aemHome }}
-AEM_USER={{ aemUser}}
-export CQ_PORT='{{ aemInstancePort }}'
-export CQ_RUNMODE='{{ aemInstanceType }},{{ environmentType }}{% if aemNoSampleContent %},nosamplecontent{% endif %}{% if aemCustomModes != '' %},{{ aemCustomModes }}{% endif %}'
+AEM_ROOT={{ aem_home }}
+AEM_USER={{ aem_user}}
+export CQ_PORT='{{ aem_instance_port }}'
+export CQ_RUNMODE='{{ aem_instance_type }},{{ environment_type }}{% if aem_no_sample_content %},nosamplecontent{% endif %}{% if aem_custom_modes != '' %},{{ aem_custom_modes }}{% endif %}'
 export CQ_JVM_OPTS='-server -Xmx{{ ansible_memtotal_mb-1024 }}m -XX:MaxPermSize=256M -Djava.awt.headless=true'
 
 ########
@@ -40,7 +40,7 @@ su ${AEM_USER} ${STATUS}
 restart)
 su ${AEM_USER} ${STOP}
 echo -n "Wait until process is opened"
-while [ $(ps -u {{ aemUser }} | grep java -c) -ge 1 ]
+while [ $(ps -u {{ aem_user }} | grep java -c) -ge 1 ]
 do
 echo '.'
 done

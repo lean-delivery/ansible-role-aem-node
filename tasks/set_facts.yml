@@ -6,54 +6,54 @@
     msg: 'Variable {{ item }} should be defined!'
   when: item is undefined
   with_items:
-    - environmentType
-    - aemInstanceType
-    - aemInstancePort
-    - aemAdminLogin
-    - aemAdminPassword
+    - environment_type
+    - aem_instance_type
+    - aem_instance_port
+    - aem_admin_login
+    - aem_admin_password
 
 - name: variables initialization
   set_fact:
-    # AEM Home Dir: aemRoot = /opt/aem/author(publish)
-    aemHome: '{{ aemRoot }}/{{ aemInstanceType }}'
+    # AEM Home Dir: aem_root = /opt/aem/author(publish)
+    aem_home: '{{ aem_root }}/{{ aem_instance_type }}'
     # AEM service name
-    aemServiceName: 'aem-{{ aemInstanceType }}'
+    aem_service_name: 'aem-{{ aem_instance_type }}'
     # FTP server link to download
-    ftpServerLink: 'ftp://{{ ftpLogin }}:{{ ftpPassword }}@{{ ftpServer }}/aem-playbook/aem/{{ aemVersion }}'
+    ftp_server_link: 'ftp://{{ ftp_login }}:{{ ftp_password }}@{{ ftp_server }}/aem-playbook/aem/{{ aem_version }}'
     # Destination file name
-    cqFileName: 'cq-{{ aemInstanceType }}-p{{ aemInstancePort }}'
+    cq_file_name: 'cq-{{ aem_instance_type }}-p{{ aem_instance_port }}'
     # AEM REST Link
-    aemRESTLink: 'http://{{ inventory_hostname }}:{{ aemInstancePort }}'
+    aem_rest_link: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}'
 
 - name: variables initialization
   set_fact:
-    aemFile: '/opt/{{ aemServiceName }}.done'
-    tasksPath: '{{ role_path }}/tasks'
+    aem_file: '/opt/{{ aem_service_name }}.done'
+    tasks_path: '{{ role_path }}/tasks'
 
 - name: reinitialization of defaults as variables
   set_fact:
-    aemVersion: '{{ aemVersion }}'
-    aemPackages: '{{ aemPackages }}'
-    aemNoSampleContent: '{{ aemNoSampleContent }}'
-    aemCustomModes: '{{ aemCustomModes }}'
-    aemRoot: '{{ aemRoot }}'
-    aemUser: '{{ aemUser }}'
-    aemGroup: '{{ aemGroup }}'
-    aemUserID: '{{ aemUserID }}'
-    aemGroupID: '{{ aemGroupID }}'
-    aemChangeDefaultAdminPassword: '{{ aemChangeDefaultAdminPassword }}'
-    aemGroups: '{{ aemGroups }}'
-    aemUsers: '{{ aemUsers }}'
+    aem_version: '{{ aem_version }}'
+    aem_packages: '{{ aem_packages }}'
+    aem_no_sample_content: '{{ aem_no_sample_content }}'
+    aem_custom_modes: '{{ aem_custom_modes }}'
+    aem_root: '{{ aem_root }}'
+    aem_user: '{{ aem_user }}'
+    aem_group: '{{ aem_group }}'
+    aem_user_id: '{{ aem_user_id }}'
+    aem_group_id: '{{ aem_group_id }}'
+    aem_change_default_admin_password: '{{ aem_change_default_admin_password }}'
+    aem_groups: '{{ aem_groups }}'
+    aem_users: '{{ aem_users }}'
     # For replication agents
     publishers: []
     # For flush agents
     renders: []
-    dispatcherWRenders: []
-    baseAgentBody: "retryDelay=60000&logLevel=error&serializationType=flush"
+    dispatcher_w_renders: []
+    base_agent_body: "retryDelay=60000&logLevel=error&serializationType=flush"
 
 - name: prepare handlers content
   set_fact:
-    aemLoadHandler:
+    aem_load_handler:
       -
         path: 'damadmin'
         content: 'Assets'
@@ -65,7 +65,7 @@
         content: 'Experience'
 - name: prepare handlers content for 5.5
   set_fact:
-    aemLoadHandler:
+    aem_load_handler:
       -
         path: 'damadmin'
         content: 'damadmin.infinity'
@@ -75,4 +75,4 @@
       -
         path: 'system/console/bundles'
         content: '/system/console/productinfo'
-  when: "aemVersion == '5.5' or aemVersion == 5.5"
+  when: "aem_version == '5.5' or aem_version == 5.5"

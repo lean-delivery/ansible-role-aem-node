@@ -1,11 +1,11 @@
 [Unit]
-Description=Adobe Experience Manager ({{ aemInstanceType }} instance)
+Description=Adobe Experience Manager ({{ aem_instance_type }} instance)
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/{{ aemServiceName }} start
-ExecStop=/usr/bin/{{ aemServiceName }} stop
-ExecReload=/usr/bin/{{ aemServiceName }} restart
+ExecStart=/usr/bin/{{ aem_service_name }} start
+ExecStop=/usr/bin/{{ aem_service_name }} stop
+ExecReload=/usr/bin/{{ aem_service_name }} restart
 RemainAfterExit=yes
 
 [Install]
