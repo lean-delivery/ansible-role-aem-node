@@ -89,7 +89,8 @@
       user: '{{ aem_admin_login }}'
       password: '{{ aem_admin_password }}'
       force_basic_auth: True
-      body: 'plain={{ aem_new_admin_password }}&verify={{ aem_new_admin_password }}&old={{ aem_admin_password }}&Path={{ userCRXPath.json.hits[0].path }}'
+      body: "plain={{ aem_new_admin_password }}&verify={{ aem_new_admin_password }}&old={{ aem_admin_password }}&P\
+ath={{ userCRXPath.json.hits[0].path }}"
       ignore_errors: True
   - name: set new password
     set_fact:

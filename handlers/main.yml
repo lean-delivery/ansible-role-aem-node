@@ -1,3 +1,4 @@
+---
 # file: roles/aem_instance/handlers/main.yml
 
 - name: stop aem
