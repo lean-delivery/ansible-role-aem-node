@@ -3,8 +3,8 @@
 
 ## AEM SECTION ###
 
-# AEM version (6.0, 6.1 or 6.2)
-aem_version: '6.2'
+# AEM version (6.0, 6.1, 6.2, 6.3, 6.4)
+aem_version: '6.4'
 
 # List of additional AEM Packages to install
 aem_packages: []
@@ -66,3 +66,9 @@ aem_groups: []
 #     # AEM user primary group
 #     'group' : 'everyone'
 aem_users: []
+
+
+aem_garbage_collector: "UseG1GC"
+# UseParallelGC , UseSerialGC
+
+aem_perm_size: "512m"

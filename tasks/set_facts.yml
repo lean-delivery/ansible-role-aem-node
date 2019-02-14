@@ -51,6 +51,12 @@
     dispatcher_w_renders: []
     base_agent_body: "retryDelay=60000&logLevel=error&serializationType=flush"
 
+
+
+- name: setting jar file
+  set_fact:
+    aem_jar_name: 'crx-quickstart/app/cq-quickstart-{{ aem_version }}.0-standalone-quickstart.jar'
+
 - name: prepare handlers content
   set_fact:
     aem_load_handler:

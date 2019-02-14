@@ -6,17 +6,6 @@
     aem_admin_password: '{{ aem_new_admin_password }}'
   when: aem_change_default_admin_password
 
-- name: 'ensure that init {{ aem_service_name }} script is ok'
-  template:
-    src: aem.j2
-    dest: '/usr/bin/{{ aem_service_name }}'
-    mode: 0755
-  notify:
-  - stop aem
-  - start aem
-  - load aem
-- meta: flush_handlers
-
 - name: 'ensure that systemd {{ aem_service_name }} script is ok'
   template:
     src: aem.service.j2

@@ -37,14 +37,6 @@
     state: directory
     recurse: True
 
-- name: creating init script for AEM instance
-  template:
-    src: aem.j2
-    dest: '/usr/bin/{{ aem_service_name }}'
-    owner: root
-    group: root
-    mode: 0755
-
 - name: creating systemd script for AEM instance
   template:
     src: aem.service.j2

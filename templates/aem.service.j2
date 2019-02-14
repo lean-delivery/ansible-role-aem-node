@@ -1,12 +1,43 @@
 [Unit]
 Description=Adobe Experience Manager ({{ aem_instance_type }} instance)
+After=syslog.target
+After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/{{ aem_service_name }} start
-ExecStop=/usr/bin/{{ aem_service_name }} stop
-ExecReload=/usr/bin/{{ aem_service_name }} restart
-RemainAfterExit=yes
+
+WorkingDirectory={{ aem_home }}
+
+User={{ aem_user}}
+Group={{ aem_group}}
+
+LimitAS=infinity
+LimitRSS=infinity
+LimitCORE=infinity
+LimitNOFILE=infinity
+
+ExecStart=/usr/bin/java -server -Xms{{ (ansible_memtotal_mb * 0.7) |int|abs }}m -Xmx{{ (ansible_memtotal_mb * 0.7) |int|abs }}m -XX:PermSize={{ aem_perm_size }} \
+         -XX:+{{ aem_garbage_collector }} -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=20 -XX:ConcGCThreads=5 -XX:InitiatingHeapOccupancyPercent=70 \
+         -jar {{ aem_jar_name }} start -c crx-quickstart -i launchpad \
+         -p {{ aem_instance_port }} -Dsling.properties=conf/sling.properties \
+         -Dsling.run.modes={{ aem_instance_type }},{{ environment_type }}{% if aem_no_sample_content %},nosamplecontent{% endif %}{% if aem_custom_modes != '' %},{{ aem_custom_modes }}{% endif %} \
+         -Dcom.adobe.granite.crypto.file.disable=true \
+         -Djava.locale.providers=CLDR,JRE,SPI \
+         -Djava.awt.headless=true {% if aemSustemdTimezone is defined %}\
+         -Duser.timezone={{ aemSustemdTimezone }}{% endif %}{% if ds_storage is defined and ds_storage == "mongodb" %} \
+         -Doak.mongo.disableIndexHint=true \
+         -Doak.mongo.uri=mongodb://{% if mongo.login is defined %}{{ mongo.login }}:{{ mongo.password }}@{% endif %}{% for node in mongo[ replica_name ].nodes %}{{ node.name }}:{{ mongo[ replica_name ].port }}{%- if not loop.last -%},{%- endif -%}{%- endfor -%}/{{ mongo.db }}?replicaSet={{ replica_name }}{{ aemMongodbExtra }}{% endif %}{% if aemSSL is defined %} \
+         -Djava.net.ssl.trustStore={{ aemSSL.Store }}
+         -Djava.net.ssl.trustStorePassword={{ aemSSL.StorePassword }}{% endif %}
+
+OOMScoreAdjust=-100
+TimeoutSec=300
+Restart=always
+
+StandardOutput=syslog
+StandardError=syslog
+
+SyslogIdentifier=aem-{{ aem_instance_type }}
 
 [Install]
 WantedBy=multi-user.target
