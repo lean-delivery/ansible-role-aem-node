@@ -37,6 +37,14 @@
     state: directory
     recurse: True
 
+- name: creating systemd script for AEM jar file selector
+  template:
+    src: jarfile-selector.service.j2
+    dest: '/etc/systemd/system/jarfile-selector.service'
+    owner: root
+    group: root
+    mode: 0644
+
 - name: creating systemd script for AEM instance
   template:
     src: aem.service.j2
