@@ -29,4 +29,3 @@ Docker aem-node:
     - molecule test -s default
   tags:
     - aws
-
