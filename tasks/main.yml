@@ -30,6 +30,7 @@
 # Configure replication if this is AEM Authoring instance
 - name: replication configuration
   include: replication.yml
+  when: replication_enabled
 
 # Create additional groups
 - name: aem groups creation

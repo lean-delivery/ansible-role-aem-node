@@ -2,8 +2,8 @@
 Description=Adobe Experience Manager ({{ aem_instance_type }} instance)
 After=syslog.target
 After=network.target
-After=jarfile-selector.service
-Wants=jarfile-selector.service
+After=jarfile-selector-{{ aem_service_name }}.service
+Wants=jarfile-selector-{{ aem_service_name }}.service
 
 [Service]
 Type=simple

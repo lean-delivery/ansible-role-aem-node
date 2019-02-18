@@ -10,7 +10,7 @@
 - name: 'ensure that systemd AEM jar file selector script is ok'
   template:
     src: jarfile-selector.service.j2
-    dest: '/etc/systemd/system/jarfile-selector.service'
+    dest: '/etc/systemd/system/jarfile-selector-{{ aem_service_name }}.service'
     mode: 0644
 
 

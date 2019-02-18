@@ -20,6 +20,8 @@ aem_custom_modes: ''
 # Default AEM root path
 aem_root: /opt/aem
 
+aem_instance_port: 4502
+
 # Linux username and group which operates AEM
 aem_user: aem
 aem_group: aem
@@ -72,3 +74,5 @@ aem_garbage_collector: "UseG1GC"
 # UseParallelGC , UseSerialGC
 
 aem_perm_size: "512m"
+
+replication_enabled: False
