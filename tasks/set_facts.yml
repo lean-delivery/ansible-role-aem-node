@@ -18,8 +18,7 @@
     aem_home: '{{ aem_root }}/{{ aem_instance_type }}'
     # AEM service name
     aem_service_name: 'aem-{{ aem_instance_type }}'
-    # FTP server link to download
-    ftp_server_link: 'ftp://{{ ftp_login }}:{{ ftp_password }}@{{ ftp_server }}/aem-playbook/aem/{{ aem_version }}'
+
     # Destination file name
     cq_file_name: 'cq-{{ aem_instance_type }}-p{{ aem_instance_port }}'
     # AEM REST Link

@@ -1,5 +1,41 @@
 ---
-- name: Converge
+
+- name: java_install
   hosts: all
   roles:
+    - role: lean_delivery.java
+
+
+- name: author_install
+  hosts: aem_authors
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  roles:
     - role: ansible-role-aem-node
+      ansible_connection: ssh
+      ansible_user: vagrant
+      aem_instance_type: author
+      ftp_server_link: '{{ lookup('env','STORAGE_AWS') }}/aem/'
+
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_group: 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'test_user_password'
+        group: 'test_group'
+
+
+

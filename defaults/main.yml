@@ -14,6 +14,11 @@ aem_packages: []
 # True if you need "noSampleContent" run mode, or false - if you don't
 aem_no_sample_content: False
 
+
+#server link to download
+ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
+
+
 # Comma separated custom run modes
 aem_custom_modes: ''
 
@@ -21,6 +26,11 @@ aem_custom_modes: ''
 aem_root: /opt/aem
 
 aem_instance_port: 4502
+
+aem_admin_login: admin
+aem_admin_password: admin
+environment_type: dev_test
+
 
 # Linux username and group which operates AEM
 aem_user: aem
@@ -31,7 +41,7 @@ aem_user_id: 99999
 aem_group_id: 19999
 
 # Do you want to change default admin password?
-aem_change_default_admin_password: True
+aem_change_default_admin_password: False
 
 # AEM groups which would be created during provision proccess
 # aem_groups:

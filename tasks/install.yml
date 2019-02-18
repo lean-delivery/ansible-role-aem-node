@@ -3,7 +3,7 @@
 
 - name: "ensure that {{ cq_file_name }} file is downloaded"
   get_url:
-    url: '{{ ftp_server_link }}/aem.jar'
+    url: '{{ ftp_server_link }}/{{ aem_version }}/aem.jar'
     dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
@@ -11,7 +11,7 @@
 
 - name: ensure that AEM licence file is downloaded
   get_url:
-    url: '{{ ftp_server_link }}/license.properties'
+    url: '{{ ftp_server_link }}//licenses/{{ aem_version }}/license.properties'
     dest: '{{ aem_home }}/license.properties'
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
