@@ -11,7 +11,7 @@
 
 - name: ensure that AEM licence file is downloaded
   get_url:
-    url: '{{ ftp_server_link }}//licenses/{{ aem_version }}/license.properties'
+    url: '{{ ftp_server_link }}/licenses/{{ aem_version }}/license.properties'
     dest: '{{ aem_home }}/license.properties'
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
