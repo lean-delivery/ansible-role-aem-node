@@ -18,7 +18,7 @@
 - name: 'ensure that systemd {{ aem_service_name }} script is ok'
   template:
     src: aem.service.j2
-    dest: '/usr/lib/systemd/system/{{ aem_service_name }}.service'
+    dest: '/etc/systemd/system/{{ aem_service_name }}.service'
     mode: 0644
   notify:
   - stop aem

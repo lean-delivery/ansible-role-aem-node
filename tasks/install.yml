@@ -48,7 +48,7 @@
 - name: creating systemd script for AEM instance
   template:
     src: aem.service.j2
-    dest: '/usr/lib/systemd/system/{{ aem_service_name }}.service'
+    dest: '/etc/systemd/system/{{ aem_service_name }}.service'
     owner: root
     group: root
     mode: 0644
