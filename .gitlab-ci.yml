@@ -30,29 +30,3 @@ Docker aem-node:
   tags:
     - aws
 
-AWS aem-node:
-  variables:
-    AWS_REGION: us-east-1
-  stage: deployment test
-  script:
-    - molecule test -s cloud-aws-direct
-  tags:
-    - aws
-
-# AWS Windows aem-node:
-#   variables:
-#     AWS_REGION: us-east-1
-#   stage: deployment test
-#   script:
-#     - molecule test -s cloud-aws-windows
-#   tags:
-#     - aws
-
-EPC aem-node:
-  variables:
-    EPC_REGION: EPAM-BY2
-  stage: deployment test
-  script:
-    - molecule test -s cloud-epc-delegated
-  tags:
-    - delegated
