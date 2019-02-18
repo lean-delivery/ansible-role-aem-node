@@ -14,8 +14,6 @@
 
   roles:
     - role: ansible-role-aem-node
-      ansible_connection: ssh
-      ansible_user: vagrant
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem/"
 
