@@ -27,11 +27,11 @@
     loop: "{{ groups['aem_publishers'] }}"
 
   - name: configure publish agents
-    include_tasks: '{{ tasks_path }}/configure-replication-agent.yml publisher={{ item }}'
+    include: '{{ tasks_path }}/configure-replication-agent.yml publisher={{ item }}'
     loop: "{{ publishers }}"
 
   - name: remove default agents
-    include_tasks: '{{ tasks_path }}/remove-replication-agent.yml agent={{ item }}'
+    include: '{{ tasks_path }}/remove-replication-agent.yml agent={{ item }}'
     loop: "{{ groups['aem_publishers'] }}"
     when: item not in publishers
 
@@ -58,7 +58,7 @@
     when: hostvars[item]['render'] is undefined and hostvars[item]['inventory_hostname'] == inventory_hostname
 
   - name: configure flush replication
-    include_tasks: '{{ tasks_path }}/configure-flush-agent.yml host={{ item }}'
+    include: '{{ tasks_path }}/configure-flush-agent.yml host={{ item }}'
     loop: "{{ renders }}"
 
   when: "groups['aem_dispatchers'] is defined"
