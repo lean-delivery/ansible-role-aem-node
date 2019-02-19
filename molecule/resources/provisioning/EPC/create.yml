@@ -23,7 +23,7 @@
         wait_timeout: "{{ item.wait_timeout | default(1200) }}"
         state: run
       register: server
-      with_items: "{{ molecule_yml.platforms }}"
+      loop: "{{ molecule_yml.platforms }}"
       async: 7200
       poll: 0
 
@@ -34,7 +34,7 @@
       until: epc_jobs.finished
       retries: 300
       delay: 20
-      with_items: "{{ server.results }}"
+      loop: "{{ server.results }}"
 
     # Mandatory configuration for Molecule to function.
 
@@ -64,7 +64,7 @@
           ssh_keyset: "{{ item.sshKeySet }}"
           state: "{{ item.state }}"
           region: "{{ item.zone }}"
-      with_items: "{{ epc_jobs.results }}"
+      loop: "{{ epc_jobs.results }}"
       register: instance_config_dict
       when: server.changed | bool
 
@@ -88,4 +88,4 @@
         search_regex: SSH
         delay: 10
         timeout: 320
-      with_items: "{{ lookup('file', molecule_instance_config) | molecule_from_yaml }}"
+      loop: "{{ lookup('file', molecule_instance_config) | molecule_from_yaml }}"

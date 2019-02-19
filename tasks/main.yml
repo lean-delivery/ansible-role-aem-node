@@ -2,9 +2,9 @@
 # file: tasks/main.yml
 
 - name: set facts
-  include: set_facts.yml
+  include_tasks: set_facts.yml
 - name: pre installation
-  include: pre-install.yml
+  include_tasks: pre-install.yml
 
 - name: check if service was installed before
   stat:
@@ -13,7 +13,7 @@
 
 - block:
   - name: installation
-    include: '{{ tasks_path }}/install.yml'
+    include_tasks: '{{ tasks_path }}/install.yml'
   - name: save successfull installation in file
     file:
       path: '{{ aem_file }}'
@@ -21,25 +21,25 @@
   when: not aem_done.stat.exists
 
 - name: configuration
-  include: configure.yml
+  include_tasks: configure.yml
 - name: package installation
-  include: '{{ tasks_path }}/package-installation.yml aem_package={{ item }}'
-  with_items: '{{ aem_packages }}'
+  include: '{{ tasks_path }}/package-installation.yml  aem_package={{ item }}'
+  loop: '{{ aem_packages }}'
   when: aem_packages|length > 0
 
 # Configure replication if this is AEM Authoring instance
 - name: replication configuration
-  include: replication.yml
+  include_tasks: replication.yml
   when: replication_enabled
 
 # Create additional groups
 - name: aem groups creation
   include: '{{ tasks_path }}/add-group.yml group={{ item }}'
-  with_items: '{{ aem_groups }}'
+  loop: '{{ aem_groups }}'
   when: aem_groups|length > 0
 
 # # Create additional users
 - name: aem users creation
   include: '{{ tasks_path }}/add-user.yml user={{ item }}'
-  with_items: '{{ aem_users }}'
+  loop: '{{ aem_users }}'
   when: aem_users|length > 0

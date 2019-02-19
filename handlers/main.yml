@@ -37,7 +37,7 @@
   until: (item.content in aemLoad.content)
   retries: 100
   delay: 10
-  with_items: '{{ aem_load_handler }}'
+  loop: '{{ aem_load_handler }}'
 
 - name: wait 5 minutes
   pause:
@@ -56,4 +56,4 @@
   until: (item.content in aemLoad.content)
   retries: 100
   delay: 60
-  with_items: '{{ aem_load_handler }}'
+  loop: '{{ aem_load_handler }}'

@@ -5,7 +5,7 @@
   fail:
     msg: 'Variable {{ item }} should be defined!'
   when: item is undefined
-  with_items:
+  loop:
     - environment_type
     - aem_instance_type
     - aem_instance_port

@@ -65,7 +65,7 @@
     body: 'authorizableId={{ group.id }}&_charset_=utf-8&changelog={{ permission }}'
     status_code: 200
   ignore_errors: True
-  with_items: '{{ group.permissions }}'
+  loop: '{{ group.permissions }}'
   loop_control:
     loop_var: permission
   when: group.permissions|length > 0
