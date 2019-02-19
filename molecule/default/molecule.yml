@@ -10,11 +10,20 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-docker-centos7-aem-node
-    image: leandelivery/docker-systemd:centos7
+  - name: test-docker-ubuntu1804-ansible-role-gitlab-runner
+    image: leandelivery/docker-systemd:ubuntu-18.04
     privileged: True
+    security_opts:
+      - seccomp=unconfined
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      - /tmp
+      - /run
+    capabilities:
+      - SYS_ADMIN
     groups:
-      - rhel_family
+      - debian_family
       - aem_authors
 provisioner:
   name: ansible

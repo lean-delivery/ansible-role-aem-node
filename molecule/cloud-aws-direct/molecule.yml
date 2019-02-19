@@ -24,7 +24,20 @@ platforms:
     groups:
       - rhel_family
       - aem_authors
-
+  - name: test-aws-ubuntu18-aem-node
+    image: ami-012fd5eb46f56731f
+    instance_type: m5.large
+    region: us-east-1
+    vpc_subnet_id: subnet-05a2ef2b767afec50
+    assign_public_ip: False
+    security_group_name:
+      - default
+    spot_price: 0.04
+    wait_timeout: 1800
+    ssh_user: ubuntu
+    groups:
+      - debian_family
+      - aem_authors
 provisioner:
   name: ansible
   log: False
