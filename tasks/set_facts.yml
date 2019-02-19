@@ -23,6 +23,8 @@
     cq_file_name: 'cq-{{ aem_instance_type }}-p{{ aem_instance_port }}'
     # AEM REST Link
     aem_rest_link: 'http://{{ inventory_hostname }}:{{ aem_instance_port }}'
+    aem_load_test_link: 'http://localhost:{{ aem_instance_port }}'
+
 
 - name: variables initialization
   set_fact:
