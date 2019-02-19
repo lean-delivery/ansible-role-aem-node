@@ -23,7 +23,7 @@ platforms:
     ssh_user: centos
     groups:
       - rhel_family
-      - aem_authors
+      - aem_publishers
   - name: test-aws-ubuntu18-aem-node
     image: ami-012fd5eb46f56731f
     instance_type: m5.large
@@ -37,7 +37,7 @@ platforms:
     ssh_user: ubuntu
     groups:
       - debian_family
-      - aem_authors
+      - aem_publishers
 provisioner:
   name: ansible
   log: False
@@ -50,7 +50,7 @@ provisioner:
   env:
     ANSIBLE_LIBRARY: ${ANSIBLE_LIBRARY}
 scenario:
-  name: cloud-aws-direct
+  name: cloud-aws-direct-publisher
 verifier:
   name: testinfra
   options:

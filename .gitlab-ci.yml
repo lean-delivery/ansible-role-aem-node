@@ -23,12 +23,21 @@ Ansible lint:
   tags:
     - aws
 
-AWS aem-node:
+AWS aem-node-author:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-direct
+    - molecule test -s cloud-aws-direct-author
+  tags:
+    - aws
+
+AWS aem-node-publisher:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-publisher
   tags:
     - aws
 

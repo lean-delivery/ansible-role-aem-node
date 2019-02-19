@@ -22,7 +22,6 @@ ExecStart=/usr/bin/java -server -Xms{{ (ansible_memtotal_mb * 0.7) |int|abs }}m 
          -p {{ aem_instance_port }} -Dsling.properties=conf/sling.properties \
          -Dsling.run.modes={{ aem_instance_type }},{{ environment_type }}{% if aem_no_sample_content %},nosamplecontent{% endif %}{% if aem_custom_modes != '' %},{{ aem_custom_modes }}{% endif %} \
          -Dcom.adobe.granite.crypto.file.disable=true \
-         -Djava.locale.providers=CLDR,JRE,SPI \
          -Djava.awt.headless=true {% if aemSustemdTimezone is defined %}\
          -Duser.timezone={{ aemSustemdTimezone }}{% endif %}{% if ds_storage is defined and ds_storage == "mongodb" %} \
          -Doak.mongo.disableIndexHint=true \
