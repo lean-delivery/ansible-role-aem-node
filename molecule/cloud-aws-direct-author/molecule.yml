@@ -10,7 +10,7 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-aws-centos7-aem-node
+  - name: test-aws-centos7-aem-node-author
     image: ami-9887c6e7
     instance_type: m5.large
     region: us-east-1
@@ -24,7 +24,7 @@ platforms:
     groups:
       - rhel_family
       - aem_authors
-  - name: test-aws-ubuntu18-aem-node
+  - name: test-aws-ubuntu18-aem-node-author
     image: ami-012fd5eb46f56731f
     instance_type: m5.large
     region: us-east-1
