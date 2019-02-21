@@ -8,6 +8,7 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     mode: 0640
+  become: True
 
 - name: ensure that AEM licence file is downloaded
   get_url:
@@ -16,12 +17,14 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     mode: 0640
+  become: True
 
 - name: extract AEM jar file if crx-quickstart folder doesn't exist
   command: "java -jar {{ aem_home }}/{{ cq_file_name }}.jar -unpack"
   args:
     creates: '{{ aem_home }}/crx-quickstart/bin'
     chdir: '{{ aem_home }}'
+  become: True
 
 - name: ensure that all permissions for home aem dir is correct
   file:
@@ -30,12 +33,14 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     recurse: True
+  become: True
 
 - name: ensure that subsys directory exists
   file:
     path: '/var/lock/subsys'
     state: directory
     recurse: True
+  become: True
 
 - name: creating systemd script for AEM jar file selector
   template:
@@ -44,6 +49,7 @@
     owner: root
     group: root
     mode: 0644
+  become: True
 
 - name: creating systemd script for AEM instance
   template:
@@ -52,6 +58,7 @@
     owner: root
     group: root
     mode: 0644
+  become: True
 
 - name: fix start script for 5.5
   template:
@@ -61,6 +68,7 @@
     group: '{{ aem_user }}'
     mode: 0755
   when: "aem_version == '5.5' or aem_version == 5.5"
+  become: True
 
 - name: start and enable aem service
   service:
@@ -69,6 +77,7 @@
     state: started
   notify:
   - firstload aem
+  become: True
 - meta: flush_handlers
 
 - block:

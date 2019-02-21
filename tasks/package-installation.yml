@@ -48,3 +48,4 @@ me='{{ aem_package }}' -F force=true -F install=true -F recursive=true {{ aem_re
       path: '/tmp/{{ aem_package }}.zip'
       state: absent
   when: packageInstall
+  become: True

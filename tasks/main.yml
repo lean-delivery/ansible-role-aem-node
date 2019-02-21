@@ -3,6 +3,7 @@
 
 - name: set facts
   include_tasks: set_facts.yml
+
 - name: pre installation
   include_tasks: pre-install.yml
 
@@ -14,14 +15,17 @@
 - block:
   - name: installation
     include_tasks: '{{ tasks_path }}/install.yml'
+
   - name: save successfull installation in file
     file:
       path: '{{ aem_file }}'
       state: touch
+    become: True
   when: not aem_done.stat.exists
 
 - name: configuration
   include_tasks: configure.yml
+
 - name: package installation
   include: '{{ tasks_path }}/package-installation.yml  aem_package={{ item }}'
   loop: '{{ aem_packages }}'

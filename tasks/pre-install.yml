@@ -5,6 +5,7 @@
   group:
     name: '{{ aem_group }}'
     gid: '{{ aem_group_id }}'
+  become: True
 
 - name: ensure that aem user is configured
   user:
@@ -14,6 +15,7 @@
       - '{{ aem_group }}'
     append: True
     comment: 'AEM user'
+  become: True
 
 - name: ensure that root AEM directory is present
   file:
@@ -22,6 +24,7 @@
     group: '{{ aem_user }}'
     mode: 0775
     state: directory
+  become: True
 
 - name: ensure that directory for AEM home dir is present
   file:
@@ -30,3 +33,4 @@
     group: '{{ aem_user }}'
     mode: 0775
     state: directory
+  become: True

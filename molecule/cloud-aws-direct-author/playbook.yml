@@ -8,9 +8,6 @@
 
 - name: author_install
   hosts: aem_authors
-  become: yes
-  become_user: root
-  become_method: sudo
 
   roles:
     - role: ansible-role-aem-node

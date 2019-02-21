@@ -8,13 +8,12 @@
 
 - name: author_install
   hosts: aem_authors
-  become: yes
-  become_user: root
-  become_method: sudo
 
   roles:
     - role: ansible-role-aem-node
       aem_instance_type: author
+      aem_change_default_admin_password: True
+      aem_new_admin_password: "testtest"
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
 
       aem_groups:
