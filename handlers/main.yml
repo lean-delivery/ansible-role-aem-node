@@ -25,8 +25,8 @@
 
 - name: firstload aem
   uri:
-#    url: '{{ aem_rest_link }}/{{ item.path }}'
-    url: '{{ aem_load_test_link }}/{{ item.path }}'
+    url: '{{ aem_rest_link }}/{{ item.path }}'
+#    url: '{{ aem_load_test_link }}/{{ item.path }}'
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
