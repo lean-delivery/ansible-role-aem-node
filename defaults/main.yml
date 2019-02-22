@@ -21,6 +21,8 @@ web_server_http_port: 80
 #server link to download
 ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
 
+aem_instance_type: "author"
+
 
 # Comma separated custom run modes
 aem_custom_modes: ''
