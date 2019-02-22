@@ -38,9 +38,9 @@ replace('.','-')|lower() }}&title={{ hostvars[host]['inventory_hostname']|replac
 
 - name: rewrite base_agent_body
   set_fact:
-    base_agent_body: "{{ base_agent_body }}&transportUri=http://{{ hostvars[host]['inventory_hostname'] }}:{{web_server_port}}/dispatcher/invalidate\
-.cache&retryDelay=60000&logLevel=error&serializationType=flush&jcr:description=Dispatcher flush agent for {{ hostvars[host]['inventory_hostname']\
- }} node (flush type)"
+    base_agent_body: "{{ base_agent_body }}&transportUri=http://{{ hostvars[host]['inventory_hostname'] }}:{{ web_server_port }}/dispa\
+tcher/invalidate.cache&retryDelay=60000&logLevel=error&serializationType=flush&jcr:description=Dispatcher flush agen\
+t for {{ hostvars[host]['inventory_hostname']  }} node (flush type)"
 
 - name: set agent body for author instance
   set_fact:
