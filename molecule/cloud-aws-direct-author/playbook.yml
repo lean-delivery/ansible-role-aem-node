@@ -11,6 +11,7 @@
 
   roles:
     - role: ansible-role-aem-node
+      replication_enabled: True
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
 

@@ -26,19 +26,19 @@ replace('.','-')|lower() }}&title={{ hostvars[host]['inventory_hostname']|replac
   delay: 5
   when: checkRequest.status == 404
 
-- name: prepare to rewrite base_agent_body if webServerSSL is true
+- name: prepare to rewrite base_agent_body if web_server_ssl is true
   set_fact:
-    webServerPort: "{{ hostvars[host]['webServerHTTPsPort'] }}"
-  when: hostvars[host]['webServerSSL']
+    web_server_port: "{{ web_server_https_port }}"
+  when: web_server_ssl
 
-- name: prepare to rewrite base_agent_body if webServerSSL is false
+- name: prepare to rewrite base_agent_body if web_server_ssl is false
   set_fact:
-    webServerPort: "{{ hostvars[host]['webServerHTTPPort'] }}"
-  when: not hostvars[host]['webServerSSL']
+    web_server_port: "{{ web_server_http_port }}"
+  when: not web_server_ssl
 
 - name: rewrite base_agent_body
   set_fact:
-    base_agent_body: "{{ base_agent_body }}&transportUri=http://{{ hostvars[host]['inventory_hostname'] }}:{{ webServerPort }}/dispatcher/invalidate\
+    base_agent_body: "{{ base_agent_body }}&transportUri=http://{{ hostvars[host]['inventory_hostname'] }}:{{web_server_port}}/dispatcher/invalidate\
 .cache&retryDelay=60000&logLevel=error&serializationType=flush&jcr:description=Dispatcher flush agent for {{ hostvars[host]['inventory_hostname']\
  }} node (flush type)"
 

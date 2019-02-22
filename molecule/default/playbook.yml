@@ -12,6 +12,7 @@
   roles:
     - role: ansible-role-aem-node
       aem_instance_type: author
+      replication_enabled: True
       aem_change_default_admin_password: True
       aem_new_admin_password: "testtest"
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"

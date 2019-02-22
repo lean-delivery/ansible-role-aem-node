@@ -25,6 +25,8 @@ platforms:
     groups:
       - debian_family
       - aem_publishers
+      - aem_dispatchers
+      - aem_authors
 provisioner:
   name: ansible
   log: True

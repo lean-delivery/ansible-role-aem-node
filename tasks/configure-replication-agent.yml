@@ -33,8 +33,8 @@ her|replace('.','-')|lower() }}&template=/libs/cq/replication/templates/agent"
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     force_basic_auth: True
-    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aem_instance_port'] }}/bin/recei\
-ve?sling:authRequestLogin=1&transportUser={{ hostvars[publisher]['aem_admin_login'] }}&transportPassword={{ hostvars[publisher]['aem_admin_password']\
+    body: "enabled=true&transportUri=http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ aem_instance_port }}/bin/recei\
+ve?sling:authRequestLogin=1&transportUser={{ aem_admin_login }}&transportPassword={{ aem_admin_password\
  }}&retryDelay=60000&logLevel=info&serializationType=durbo&jcr:description=Replication agent for {{ publisher }} node (publish type)"
   register: agentConfigure
   until: (agentConfigure is succeeded)

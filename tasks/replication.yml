@@ -23,7 +23,7 @@
   - name: 'find publishers in {{ environment_type }}'
     set_fact:
       publishers: "{{ publishers + [ item ] }}"
-    when: hostvars[item]['environment_type'] == environment_type
+#    when: hostvars[item]['environment_type'] == environment_type
     loop: "{{ groups['aem_publishers'] }}"
 
   - name: configure publish agents
