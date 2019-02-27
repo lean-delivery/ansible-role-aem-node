@@ -22,7 +22,7 @@ Requirements
      - 18.04
 
 
-Role Variables
+Role Variables : default
 --------------
 
 
@@ -33,7 +33,7 @@ List of additional AEM Packages to install
 - `aem_packages`: []
 
 True if you need "noSampleContent" run mode, or false - if you don't
-- aem_no_sample_content: False
+- `aem_no_sample_content`: False
 
 dispatcher role support
 - `web_server_ssl`: False
