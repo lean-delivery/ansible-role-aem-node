@@ -124,6 +124,19 @@ Do you need replication configuration for author-> publisher dispatcher?
 - `replication_enabled`: False
 
 
+Example reporitory structure
+----------------
+
+Structuere for AEM 6.4 and 6.3 
+```
+./aem/6.3
+./aem/6.4
+./aem/6.3/aem.jar
+./aem/6.4/aem.jar
+./aem/licenses/6.3/license.properties
+./aem/licenses/6.4/license.properties
+```
+
 Example Inventory
 ----------------
  [aem_authors]
