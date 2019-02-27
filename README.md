@@ -7,7 +7,19 @@ aem-node role
 ![Ansible](https://img.shields.io/ansible/role/d/role_id.svg)
 ![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2Frole_id%2F&query=$.min_ansible_version)
 
-A brief description of the role goes here.
+AEM as a service role for Adobe Experience Manager installation and configuration.
+This role installs AEM (Authoring and Publishing roles) instance on RHEL/Ubuntu-based systems.
+
+This role:
+- installs AEM (6.0, 6.1, 6.2, 6.3 6.4 versions for choosing, 6.4 by default ) and configures it as a systemd Linux service
+- can change default admin password
+- can install any predefined AEM packages (such as hotfixes\service packs)
+- configures replication agent on author for publishing if it is not a standalone environment
+- supports multiple publishing instances for one authoring
+- can create aem groups with predefined permissions
+- can create aem user accounts
+
+
 
 Requirements
 ------------
@@ -124,10 +136,10 @@ Do you need replication configuration for author-> publisher dispatcher?
 - `replication_enabled`: False
 
 
-Example reporitory structure
+Example repository structure
 ----------------
 
-Structuere for AEM 6.4 and 6.3 
+Structure for AEM 6.4 and 6.3 
 ```
 ./aem/6.3
 ./aem/6.4
