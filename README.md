@@ -19,59 +19,61 @@ Requirements
    - RHEL
      - 7
    - Ubuntu
+     - 18.04
 
 
 Role Variables
 --------------
 
-# configuration for jenkins
 
 AEM version (6.0, 6.1, 6.2, 6.3, 6.4)
-- aem_version: '6.4'
+- `aem_version`: '6.4'
 
 List of additional AEM Packages to install
-- aem_packages: []
+- `aem_packages`: []
 
 True if you need "noSampleContent" run mode, or false - if you don't
 - aem_no_sample_content: False
 
 dispatcher role support
-- web_server_ssl: False
-- web_server_https_port: 443
-- web_server_http_port: 80
+- `web_server_ssl`: False
+- `web_server_https_port`: 443
+- `web_server_http_port`: 80
 
 Server link to download
-- ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
+- `ftp_server_link`: 'ftp://ftp:ftp@ftp.com/aem/'
 
 AEM type author or publisher
-- aem_instance_type: "author"
+- `aem_instance_type`: "author"
 
- Comma separated custom run modes
-- aem_custom_modes: ''
+Comma separated custom run modes
+- `aem_custom_modes`: ''
 
 Default AEM root path
-- aem_root: /opt/aem
+- `aem_root`: /opt/aem
 
 Default AEM port
-- aem_instance_port: 4502
+- `aem_instance_port`: 4502
 
 Default AEM admin user  login password
-- aem_admin_login: admin
-- aem_admin_password: admin
+- `aem_admin_login`: admin
+- `aem_admin_password`: admin
 
 Default AEM environment type (dev test uat etc.)
-- environment_type: dev_test
+- `environment_type`: dev_test
 
 Linux username and group which operates AEM
-- aem_user: aem
-- aem_group: aem
-- aem_user_id: 99999
-- aem_group_id: 19999
+- `aem_user`: aem
+- `aem_group`: aem
+- `aem_user_id`: 99999
+- `aem_group_id`: 19999
 
 Do you want to change default admin password?
-- aem_change_default_admin_password: False
+- `aem_change_default_admin_password`: False
 
- AEM groups which would be created during provision proccess
+AEM groups which would be created during provision proccess
+
+```yml
  aem_groups:
    -
      # AEM Group authorizableID
@@ -86,10 +88,14 @@ Do you want to change default admin password?
        - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
      # AEM Group parent group
      root_group: 'everyone'
-- aem_groups: []
+```
+
+- `aem_groups`: []
 
 AEM users which would be created during provision proccess
 For CI/CD role Don't forget to create user for Jenkins and add it into 'Administrators' build-in AEM group
+
+```yml
  aem_users:
    -
      # AEM user path in crx
@@ -104,16 +110,18 @@ For CI/CD role Don't forget to create user for Jenkins and add it into 'Administ
      password: 'test_user_password'
      # AEM user primary group
      'group' : 'everyone'
+```
 
-- aem_users: []
+
+- `aem_users`: []
 
 AEM systemd configuration: Java garbage collectors "UseG1GC",  UseParallelGC , UseSerialGC
 
-- aem_garbage_collector: "UseG1GC"
-- aem_perm_size: "512m"
+- `aem_garbage_collector`: "UseG1GC"
+- `aem_perm_size`: "512m"
 
 Do you need replication configuration for author-> publisher dispatcher? 
-- replication_enabled: False
+- `replication_enabled`: False
 
 
 Example Inventory
