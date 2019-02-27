@@ -7,7 +7,7 @@ aem-node role
 ![Ansible](https://img.shields.io/ansible/role/d/role_id.svg)
 ![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2Frole_id%2F&query=$.min_ansible_version)
 
-AEM as a service role for Adobe Experience Manager installation and configuration.
+Role for Adobe Experience Manager installation and configuration.
 This role installs AEM (Authoring and Publishing roles) instance on RHEL/Ubuntu-based systems.
 
 This role:
