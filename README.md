@@ -11,26 +11,120 @@ A brief description of the role goes here.
 
 Requirements
 ------------
+ - Minimal Version of the ansible for installation: 2.5
+ - **Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java)
+ - **Supported OS**:
+   - CentOS
+     - 7
+   - RHEL
+     - 7
+   - Ubuntu
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+# configuration for jenkins
 
-Dependencies
-------------
+AEM version (6.0, 6.1, 6.2, 6.3, 6.4)
+- aem_version: '6.4'
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+List of additional AEM Packages to install
+- aem_packages: []
+
+True if you need "noSampleContent" run mode, or false - if you don't
+- aem_no_sample_content: False
+
+dispatcher role support
+- web_server_ssl: False
+- web_server_https_port: 443
+- web_server_http_port: 80
+
+Server link to download
+- ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
+
+AEM type author or publisher
+- aem_instance_type: "author"
+
+ Comma separated custom run modes
+- aem_custom_modes: ''
+
+Default AEM root path
+- aem_root: /opt/aem
+
+Default AEM port
+- aem_instance_port: 4502
+
+Default AEM admin user  login password
+- aem_admin_login: admin
+- aem_admin_password: admin
+
+Default AEM environment type (dev test uat etc.)
+- environment_type: dev_test
+
+Linux username and group which operates AEM
+- aem_user: aem
+- aem_group: aem
+- aem_user_id: 99999
+- aem_group_id: 19999
+
+Do you want to change default admin password?
+- aem_change_default_admin_password: False
+
+ AEM groups which would be created during provision proccess
+ aem_groups:
+   -
+     # AEM Group authorizableID
+     id: 'test_group'
+     # AEM Group Name
+     name: 'Test group'
+     # AEM Group description
+     description: 'All test users'
+     # AEM Group permissions
+     permissions:
+       - 'path:/,read:true'
+       - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+     # AEM Group parent group
+     root_group: 'everyone'
+- aem_groups: []
+
+AEM users which would be created during provision proccess
+For CI/CD role Don't forget to create user for Jenkins and add it into 'Administrators' build-in AEM group
+ aem_users:
+   -
+     # AEM user path in crx
+     category: 'test'
+     # User ID
+     id: 'test_user'
+     # AEM Group description
+     first_name: 'Test'
+     # AEM Group permissions
+     second_name: 'User'
+     # AEM User password
+     password: 'test_user_password'
+     # AEM user primary group
+     'group' : 'everyone'
+
+- aem_users: []
+
+AEM systemd configuration: Java garbage collectors "UseG1GC",  UseParallelGC , UseSerialGC
+
+- aem_garbage_collector: "UseG1GC"
+- aem_perm_size: "512m"
+
+Do you need replication configuration for author-> publisher dispatcher? 
+- replication_enabled: False
+
+
+Example Inventory
+----------------
+ [aem_authors]
+ author.example.com
+
+ [aem_publishers]
+ publisher.example.com
+
+
 
 Example Playbook
 ----------------
@@ -38,9 +132,44 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables
 passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: aem-node, x: 42 }
+```yml
+---
+
+- name: java_install
+  hosts: all
+  roles:
+    - role: lean_delivery.java
+
+
+- name: author_install
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      replication_enabled: True
+      aem_instance_type: author
+      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_group: 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'test_user_password'
+        group: 'test_group'
+
+```
+
 
 License
 -------
