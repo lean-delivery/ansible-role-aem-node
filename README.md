@@ -136,10 +136,10 @@ Do you need replication configuration for author-> publisher dispatcher?
 - `replication_enabled`: False
 
 
-Example repository structure
+Example file repository structure
 ----------------
 
-Structure for AEM 6.4 and 6.3 
+Structure for AEM 6.4 and 6.3 :
 ```
 ./aem/6.3
 ./aem/6.4
@@ -151,19 +151,18 @@ Structure for AEM 6.4 and 6.3
 
 Example Inventory
 ----------------
+```
  [aem_authors]
  author.example.com
 
  [aem_publishers]
  publisher.example.com
 
-
+```
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
 
 ```yml
 ---
