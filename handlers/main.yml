@@ -6,6 +6,7 @@
     name: '{{ aem_service_name }}'
     state: stopped
     daemon_reload: True
+  become: True
   notify:
   - wait while stopping
 
@@ -16,12 +17,14 @@
   until: service_aem_status.stdout.find("0") != -1
   retries: 50
   delay: 10
+  become: True
 
 - name: start aem
   service:
     name: '{{ aem_service_name }}'
     enabled: True
     state: started
+  become: True
 
 - name: firstload aem
   uri:
