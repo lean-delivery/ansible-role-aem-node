@@ -78,29 +78,18 @@
   notify:
   - firstload aem
   become: True
+
 - meta: flush_handlers
 
 - block:
-  - name: change user password (step 1)
-    uri:
-      url: '{{ aem_rest_link }}/bin/querybuilder.json?path=/home/users&1_property=rep:principalName&1_property.value={{ aem_admin_login }}&p.limit=-1'
-      method: GET
-      user: '{{ aem_admin_login }}'
-      password: '{{ aem_admin_password }}'
-      force_basic_auth: True
-      return_content: True
-      ignore_errors: True
-    register: userCRXPath
-  - name: change user password (step 2)
-    uri:
-      url: '{{ aem_rest_link }}/crx/explorer/ui/setpassword.jsp'
-      method: POST
-      user: '{{ aem_admin_login }}'
-      password: '{{ aem_admin_password }}'
-      force_basic_auth: True
-      body: "plain={{ aem_new_admin_password }}&verify={{ aem_new_admin_password }}&old={{ aem_admin_password }}&P\
-ath={{ userCRXPath.json.hits[0].path }}"
-      ignore_errors: True
+  - name: change user password
+    aem_password:
+      id: '{{ aem_admin_login }}'
+      old_password: '{{ aem_admin_password }}'
+      new_password: '{{ aem_new_admin_password }}'
+      host: "http://localhost"
+      port: 4502
+
   - name: set new password
     set_fact:
       aem_admin_password: '{{ aem_new_admin_password }}'

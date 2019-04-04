@@ -1,67 +1,54 @@
 ---
 # file: tasks/configure-replication.yml
 
-- name: "check if an agent for {{ hostvars[host]['inventory_hostname'] }} host created"
-  uri:
-    url: "{{ aem_rest_link }}/etc/replication/agents.{{ aem_instance_type }}/{{ hostvars[host]['inventory_hostname']|replace('.','-')|lower() }}.html"
-    method: GET
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    status_code: 200, 404, -1
-  register: checkRequest
-
-- name: "create agent for {{ hostvars[host]['inventory_hostname'] }} if dont exist"
-  uri:
-    url: "{{ aem_rest_link }}/bin/wcmcommand"
-    method: POST
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    body: "cmd=createPage&charset=UTF-8&parentPath=/etc/replication/agents.{{ aem_instance_type }}&label={{ hostvars[host]['inventory_hostname']|\
-replace('.','-')|lower() }}&title={{ hostvars[host]['inventory_hostname']|replace('.','-')|lower() }}&template=/libs/cq/replication/templates/agent"
-  register: agentCreate
-  until: (agentCreate is succeeded)
-  retries: 100
-  delay: 5
-  when: checkRequest.status == 404
-
-- name: prepare to rewrite base_agent_body if web_server_ssl is true
+- name: set web_server_port when web_server_ssl is true
   set_fact:
     web_server_port: "{{ web_server_https_port }}"
   when: web_server_ssl
 
-- name: prepare to rewrite base_agent_body if web_server_ssl is false
+- name: set web_server_port when web_server_ssl is false
   set_fact:
     web_server_port: "{{ web_server_http_port }}"
   when: not web_server_ssl
 
-- name: rewrite base_agent_body
-  set_fact:
-    base_agent_body: "{{ base_agent_body }}&transportUri=http://{{ hostvars[host]['inventory_hostname'] }}:{{ web_server_port }}/dispa\
-tcher/invalidate.cache&retryDelay=60000&logLevel=error&serializationType=flush&jcr:description=Dispatcher flush agen\
-t for {{ hostvars[host]['inventory_hostname']  }} node (flush type)"
-
-- name: set agent body for author instance
-  set_fact:
-    agent_body: "{{ base_agent_body }}&enabled=false"
+- name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (flush type)"
+  aem_agent:
+    name: "{{ hostvars[host]['inventory_hostname']|replace('.','-')|lower() }}-dispatcher"
+    state: disabled
+    title: 'replication agent for publish instance'
+    folder: 'agents.{{ aem_instance_type }}'
+    transport_uri: "http://{{ hostvars[host]['inventory_hostname'] }}:\
+                    {{ web_server_port }}/dispatcher/invalidate.cache"
+    transport_user: "{{ aem_admin_login }}"
+    transport_password: "{{ aem_admin_password }}"
+    log_level: error
+    triggers: 'on_receive,no_versioning'
+    serialization_type: flush
+    description: "Dispatcher flush agent for {{ hostvars[host]['inventory_hostname']  }} node (flush type)"
+    admin_user: '{{ aem_admin_login }}'
+    admin_password: '{{ aem_admin_password }}'
+    retry_delay: 60000
+    host: "http://localhost"
+    port: 4502
   when: aem_instance_type == 'author'
 
-- name: set agent body for publish instance
-  set_fact:
-    agent_body: "{{ base_agent_body }}&enabled=true"
+- name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (flush type)"
+  aem_agent:
+    name: "{{ hostvars[host]['inventory_hostname']|replace('.','-')|lower() }}-dispatcher"
+    state: enabled
+    title: 'replication agent for publish instance'
+    folder: 'agents.{{ aem_instance_type }}'
+    transport_uri: "http://{{ hostvars[host]['inventory_hostname'] }}:\
+                    {{ web_server_port }}/dispatcher/invalidate.cache"
+    transport_user: "{{ aem_admin_login }}"
+    transport_password: "{{ aem_admin_password }}"
+    log_level: error
+    triggers: 'on_receive,no_versioning'
+    serialization_type: flush
+    description: "Dispatcher flush agent for {{ hostvars[host]['inventory_hostname']  }} node (flush type)"
+    admin_user: '{{ aem_admin_login }}'
+    admin_password: '{{ aem_admin_password }}'
+    retry_delay: 60000
+    host: "http://localhost"
+    port: 4502
   when: aem_instance_type == 'publish'
-
-- name: "check {{ hostvars[host]['inventory_hostname'] }} agent configuration"
-  uri:
-    url: "{{ aem_rest_link }}/etc/replication/agents.{{ aem_instance_type }}/{{ hostvars[host]['inventory_hostname']|repl\
-ace('.','-')|lower() }}/jcr:content"
-    method: POST
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    body: '{{ agent_body }}'
-  register: agentConfigure
-  until: (agentConfigure is succeeded)
-  retries: 100
-  delay: 5

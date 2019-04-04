@@ -42,7 +42,7 @@
   loop: '{{ aem_groups }}'
   when: aem_groups|length > 0
 
-# # Create additional users
+ # Create additional users
 - name: aem users creation
   include: '{{ tasks_path }}/add-user.yml user={{ item }}'
   loop: '{{ aem_users }}'

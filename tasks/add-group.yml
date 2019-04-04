@@ -1,71 +1,14 @@
 ---
 # file: tasks/add-group.yml
 
-- name: init variable for group creation
-  set_fact:
-    createGroup: False
-
-- name: 'check if authorizableId for {{ group.name }} presents'
-  uri:
-    url: "http://localhost:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json\
-?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.id }}%22%7D%5D%7D"
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    return_content: True
-  register: dirtyAuthQuery
-
-- name: set create group to True
-  set_fact:
-    createGroup: True
-  when: dirtyAuthQuery.json.total == 0
-
 - name: 'add a new {{ group.name }} group'
-  uri:
-    url: 'http://localhost:{{ aem_instance_port }}/libs/granite/security/post/authorizables'
-    method: POST
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    body: 'createGroup=&authorizableId={{ group.id }}&./profile/givenName={{ group.name }}&./profile/aboutMe={{ group.description }}&_charset_=utf-8'
-    status_code: 201
-  changed_when: True
-  when: createGroup
-
-- name: 'find path for {{ group.root_group }} group'
-  uri:
-    url: "http://localhost:{{ aem_instance_port }}/libs/granite/security/search/authorizables.json\
-?query=%7B%22condition%22%3A%5B%7B%22named%22%3A%22{{ group.root_group }}%22%7D%5D%7D"
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    return_content: True
-  register: dirtyGroupPath
-- name: write down new group path in crx
-  set_fact:
-    groupPath: '{{ dirtyGroupPath.json.authorizables[0].home }}'
-
-- name: 'add {{ group.name }} in {{ group.root_group }} group'
-  uri:
-    url: 'http://localhost:{{ aem_instance_port }}{{ groupPath }}.rw.html'
-    method: POST
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    body: 'addMembers={{ group.id }}&_charset_=utf-8'
-    status_code: 200
-
-- name: 'configure ACL for the {{ group.name }} group'
-  uri:
-    url: 'http://localhost:{{ aem_instance_port }}/.cqactions.html'
-    method: POST
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    body: 'authorizableId={{ group.id }}&_charset_=utf-8&changelog={{ permission }}'
-    status_code: 200
-  ignore_errors: True
-  loop: '{{ group.permissions }}'
-  loop_control:
-    loop_var: permission
-  when: group.permissions|length > 0
+  aem_group:
+    id: '{{ group.id }}'
+    name: '{{ group.name }}'
+    host: '{{ group.host | default("http://localhost") }}'
+    port: '{{ group.port | default("4502") }}'
+    admin_user: '{{ aem_admin_login }}'
+    admin_password: '{{ aem_admin_password }}'
+    permissions: '{{ group.permissions | default(None) }}'
+    root_groups: '{{ group.root_groups | default(None) }}'
+    state: present
