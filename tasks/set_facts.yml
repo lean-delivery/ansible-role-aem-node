@@ -18,7 +18,6 @@
     aem_home: '{{ aem_root }}/{{ aem_instance_type }}'
     # AEM service name
     aem_service_name: 'aem-{{ aem_instance_type }}'
-
     # Destination file name
     cq_file_name: 'cq-{{ aem_instance_type }}-p{{ aem_instance_port }}'
     # AEM REST Link
@@ -63,16 +62,3 @@
       -
         path: 'system/console/bundles'
         content: 'Experience'
-- name: prepare handlers content for 5.5
-  set_fact:
-    aem_load_handler:
-      -
-        path: 'damadmin'
-        content: 'damadmin.infinity'
-      -
-        path: 'miscadmin'
-        content: 'Tools'
-      -
-        path: 'system/console/bundles'
-        content: '/system/console/productinfo'
-  when: "aem_version == '5.5' or aem_version == 5.5"

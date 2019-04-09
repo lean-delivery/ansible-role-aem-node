@@ -99,7 +99,8 @@ AEM groups which would be created during provision proccess
        - 'path:/,read:true'
        - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
      # AEM Group parent group
-     root_group: 'everyone'
+     root_groups: 
+       - 'everyone'
 ```
 
 - `aem_groups`: []

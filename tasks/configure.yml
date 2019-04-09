@@ -7,14 +7,6 @@
   when: aem_change_default_admin_password
 
 
-- name: 'ensure that systemd AEM jar file selector script is ok'
-  template:
-    src: jarfile-selector.service.j2
-    dest: '/etc/systemd/system/jarfile-selector-{{ aem_service_name }}.service'
-    mode: 0644
-  become: True
-
-
 - name: 'ensure that systemd {{ aem_service_name }} script is ok'
   template:
     src: aem.service.j2

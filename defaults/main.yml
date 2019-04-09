@@ -91,3 +91,6 @@ aem_garbage_collector: "UseG1GC"
 aem_perm_size: "512m"
 
 replication_enabled: False
+
+Xms_size: "{{ (ansible_memtotal_mb * 0.7) |int|abs }}"
+Xmx_size: "{{ (ansible_memtotal_mb * 0.7) |int|abs }}"

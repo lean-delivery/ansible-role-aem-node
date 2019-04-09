@@ -42,14 +42,21 @@
     recurse: True
   become: True
 
-- name: creating systemd script for AEM jar file selector
-  template:
-    src: jarfile-selector.service.j2
-    dest: '/etc/systemd/system/jarfile-selector-{{ aem_service_name }}.service'
-    owner: root
-    group: root
-    mode: 0644
+- name: find jarfile
+  find:
+    paths: "{{ aem_home }}/crx-quickstart/app/"
+    patterns: '*.jar'
+  register: jarfile
+
+- name: creating file with jarfile
+  copy:
+    dest: "{{ aem_home }}/aem_jar_file"
+    content: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
   become: True
+
+- name: debug
+  debug:
+    msg: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
 
 - name: creating systemd script for AEM instance
   template:
@@ -58,16 +65,6 @@
     owner: root
     group: root
     mode: 0644
-  become: True
-
-- name: fix start script for 5.5
-  template:
-    src: start5.5.j2
-    dest: '{{ aem_home }}/crx-quickstart/bin/start'
-    owner: '{{ aem_user }}'
-    group: '{{ aem_user }}'
-    mode: 0755
-  when: "aem_version == '5.5' or aem_version == 5.5"
   become: True
 
 - name: start and enable aem service

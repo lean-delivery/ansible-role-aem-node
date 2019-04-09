@@ -2,8 +2,6 @@
 Description=Adobe Experience Manager ({{ aem_instance_type }} instance)
 After=syslog.target
 After=network.target
-After=jarfile-selector-{{ aem_service_name }}.service
-Wants=jarfile-selector-{{ aem_service_name }}.service
 
 [Service]
 Type=simple
@@ -16,7 +14,7 @@ LimitCORE=infinity
 LimitNOFILE=infinity
 EnvironmentFile={{ aem_home }}/aem_jar_file
 
-ExecStart=/usr/bin/java -server -Xms{{ (ansible_memtotal_mb * 0.7) |int|abs }}m -Xmx{{ (ansible_memtotal_mb * 0.7) |int|abs }}m -XX:PermSize={{ aem_perm_size }} \
+ExecStart=/usr/bin/java -server -Xms{{ Xms_size }}m -Xmx{{ Xmx_size }}m -XX:PermSize={{ aem_perm_size }} \
          -XX:+{{ aem_garbage_collector }} -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=20 -XX:ConcGCThreads=5 -XX:InitiatingHeapOccupancyPercent=70 \
          -jar ${JARFILE} start -c crx-quickstart -i launchpad \
          -p {{ aem_instance_port }} -Dsling.properties=conf/sling.properties \
