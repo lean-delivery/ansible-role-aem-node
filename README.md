@@ -191,7 +191,8 @@ Example Playbook
         permissions:
           - 'path:/,read:true'
           - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
-        root_group: 'everyone'
+        root_groups:
+          - 'everyone'
       aem_users:
        -
         category: 'test'
