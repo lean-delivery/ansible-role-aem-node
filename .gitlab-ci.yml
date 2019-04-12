@@ -10,7 +10,7 @@ before_script:
   - molecule --version
   - ansible-lint --version
   - git clone https://github.com/lean-delivery/ansible-molecule-drivers.git molecule/resources/provisioning
-  - git clone -b develop https://github.com/lean-delivery/ansible-modules-aem library
+  - git clone https://github.com/lean-delivery/ansible-modules-aem library
   - find library/ -not -name 'aem*.py' -delete
 
 variables:
