@@ -29,6 +29,5 @@
 - block:
   - name: configure flush agents
     include: '{{ tasks_path }}/configure-flush-agent.yml host={{ item }}'
-    loop: "{{ renders }}"
-
-  when: "renders|length > 0"
+    loop: "{{ dispatchers }}"
+  when: "dispatchers|length > 0"

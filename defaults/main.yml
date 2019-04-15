@@ -12,7 +12,7 @@ aem_packages: []
 #list of publishers for replication agents configuration
 publishers: []
 #list of dispatchers for flush agents configuration
-renders: []
+dispatchers: []
 
 # INFO: AEM Run mode by default: <aem_instance_type - e.g. "author">,<env type - e.g. "dev">
 

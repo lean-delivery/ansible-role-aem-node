@@ -43,11 +43,6 @@
     aem_change_default_admin_password: '{{ aem_change_default_admin_password }}'
     aem_groups: '{{ aem_groups }}'
     aem_users: '{{ aem_users }}'
-    # For replication agents
-    publishers: []
-    # For flush agents
-    renders: []
-    dispatcher_w_renders: []
     base_agent_body: "retryDelay=60000&logLevel=error&serializationType=flush"
 
 - name: prepare handlers content

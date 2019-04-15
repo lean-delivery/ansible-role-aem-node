@@ -71,7 +71,7 @@ list of publishers for replication agents configuration
 - `publishers`: []
 
 list of dispatchers for flush agents configuration
-- `renders`: []
+- `dispatchers`: []
 
 Default AEM admin user  login password
 - `aem_admin_login`: admin
