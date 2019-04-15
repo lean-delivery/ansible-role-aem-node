@@ -3,7 +3,7 @@ aem-node role
 [![License](https://img.shields.io/badge/license-Apache-green.svg?style=flat)](https://raw.githubusercontent.com/lean-delivery/ansible-role-aem-node/master/LICENSE)
 [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-aem-node.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-aem-node)
 [![Build Status](https://gitlab.com/lean-delivery/ansible-role-aem-node/badges/master/build.svg)](https://gitlab.com/lean-delivery/ansible-role-aem-node)
-[![Galaxy](https://img.shields.io/badge/galaxy-lean__delivery.aem-node-blue.svg)](https://galaxy.ansible.com/lean_delivery/aem_node)
+[![Galaxy](https://img.shields.io/badge/galaxy-lean__delivery.aem_node-blue.svg)](https://galaxy.ansible.com/lean_delivery/aem_node)
 ![Ansible](https://img.shields.io/ansible/role/d/role_id.svg)
 ![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2Frole_id%2F&query=$.min_ansible_version)
 
