@@ -6,7 +6,21 @@ galaxy_info:
   company: EPAM Systems
   issue_tracker_url: https://github.com/lean-delivery/ansible-role-aem-node/issues
   license: Apache
-  min_ansible_version: 2.5
-  platforms: [{name: [EL], versions: [7]}]
-  galaxy_tags: [development, system]
+  min_ansible_version: 2.7
+  platforms:
+    - name: "Ubuntu"
+      versions:
+        - "bionic"
+    - name: "EL"
+      versions:
+        - "7"
+
+  galaxy_tags:
+    - "development"
+    - "system"
+    - "aem"
+    - "author"
+    - "publisher"
+    - "node"
+
 dependencies: []
