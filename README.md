@@ -24,7 +24,10 @@ This role:
 Requirements
 ------------
  - Minimal Version of the ansible for installation: 2.5
+ - Please 
  - **Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java)
+ - Ansible Modules:
+    - LDI AEM modules https://github.com/lean-delivery/ansible-modules-aem
  - **Supported OS**:
    - CentOS
      - 7
