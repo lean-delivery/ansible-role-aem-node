@@ -164,6 +164,10 @@ Example Inventory
 
  [aem_publishers]
  publisher.example.com
+ 
+ [publisher_dispatchers]
+ dispatcher1.example.com
+ dispatcher2.example.com
 
 ```
 
@@ -180,6 +184,34 @@ Example Playbook
     - role: lean_delivery.java
 
 
+- name: publisher_install
+  hosts: aem_publisher
+
+  roles:
+    - role: ansible-role-aem-node
+      replication_enabled: True
+      aem_instance_type: publisher
+      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      dispatchers: "{{ groups['publisher_dispatchers'] }}"
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'test_user_password'
+        group: 'test_group'
+
 - name: author_install
   hosts: aem_authors
 
@@ -188,7 +220,7 @@ Example Playbook
       replication_enabled: True
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
-
+      publishers: "{{ groups['aem_publishers'] }}"
       aem_groups:
        -
         id: 'test_group'
