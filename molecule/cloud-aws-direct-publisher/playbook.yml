@@ -14,7 +14,7 @@
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_change_default_admin_password: True
       aem_new_admin_password: "testtest_123@S"
-      renders: "{{ groups['publisher_dispatchers'] }}"
+      dispatchers: "{{ groups['publisher_dispatchers'] }}"
       aem_groups:
        -
         id: 'test_group'
