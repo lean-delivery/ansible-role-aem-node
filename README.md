@@ -114,10 +114,11 @@ Role Variables : default
        - 'everyone'
 ```
 
-- `aem_groups`: []
+- `aem_groups`
+  default: `[]`
 
-AEM users which would be created during provision proccess
-For CI/CD role Don't forget to create user for Jenkins and add it into 'Administrators' build-in AEM group
+### AEM users which would be created during provision proccess
+## For CI/CD role Don't forget to create user for Jenkins and add it into 'Administrators' build-in AEM group
 
 ```yml
  aem_users:
@@ -137,15 +138,18 @@ For CI/CD role Don't forget to create user for Jenkins and add it into 'Administ
 ```
 
 
-- `aem_users`: []
+- `aem_users`
+  default: `[]`
 
-AEM systemd configuration: Java garbage collectors "UseG1GC",  UseParallelGC , UseSerialGC
+### AEM systemd configuration: Java garbage collectors "UseG1GC",  UseParallelGC , UseSerialGC
 
-- `aem_garbage_collector`: "UseG1GC"
-- `aem_perm_size`: "512m"
+- `aem_garbage_collector`   
+  default: `UseG1GC`
+- `aem_perm_size`   
+  default: `512m`
 
-Do you need replication configuration for author-> publisher dispatcher? 
-- `replication_enabled`: False
+- `replication_enabled` - Enable replication configuration for author-> publisher dispatcher   
+  default: `False`
 
 
 Example file repository structure
