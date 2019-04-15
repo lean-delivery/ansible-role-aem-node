@@ -25,6 +25,8 @@ platforms:
       - rhel_family
       - aem_publishers
       - aem_dispatchers
+      - publisher_dispatchers
+
   - name: test-aws-ubuntu18-aem-node-publisher
     image: ami-012fd5eb46f56731f
     instance_type: m5.large
@@ -40,7 +42,7 @@ platforms:
       - debian_family
       - aem_publishers
       - aem_dispatchers
-      - aem_authors
+      - publisher_dispatchers
 provisioner:
   name: ansible
   log: False

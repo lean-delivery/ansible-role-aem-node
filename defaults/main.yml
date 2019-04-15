@@ -9,6 +9,11 @@ aem_version: '6.4'
 # List of additional AEM Packages to install
 aem_packages: []
 
+#list of publishers for replication agents configuration
+publishers: []
+#list of dispatchers for flush agents configuration
+renders: []
+
 # INFO: AEM Run mode by default: <aem_instance_type - e.g. "author">,<env type - e.g. "dev">
 
 # True if you need "noSampleContent" run mode, or false - if you don't
@@ -47,6 +52,8 @@ aem_group_id: 19999
 
 # Do you want to change default admin password?
 aem_change_default_admin_password: False
+
+
 
 # AEM groups which would be created during provision proccess
 # aem_groups:

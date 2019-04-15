@@ -67,6 +67,12 @@ Default AEM root path
 Default AEM port
 - `aem_instance_port`: 4502
 
+list of publishers for replication agents configuration
+- `publishers`: []
+
+list of dispatchers for flush agents configuration
+- `renders`: []
+
 Default AEM admin user  login password
 - `aem_admin_login`: admin
 - `aem_admin_password`: admin

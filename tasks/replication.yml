@@ -20,45 +20,15 @@
 
 - block:
 
-  - name: 'find publishers in {{ environment_type }}'
-    set_fact:
-      publishers: "{{ publishers + [ item ] }}"
-#    when: hostvars[item]['environment_type'] == environment_type
-    loop: "{{ groups['aem_publishers'] }}"
-
   - name: configure publish agents
     include: '{{ tasks_path }}/configure-replication-agent.yml publisher={{ item }}'
     loop: "{{ publishers }}"
 
-  - name: remove default agents
-    include: '{{ tasks_path }}/remove-replication-agent.yml agent={{ item }}'
-    loop: "{{ groups['aem_publishers'] }}"
-    when: item not in publishers
-
-  when: "aem_instance_type == 'author' and groups['aem_publishers'] is defined"
+  when: "aem_instance_type == 'author' and publishers|length > 0"
 
 - block:
-
-  - name: find dispatchers with defined render variable
-    set_fact:
-      dispatcher_w_renders: "{{ dispatcher_w_renders + [ item ] }}"
-    loop: "{{ groups['aem_dispatchers'] }}"
-    when: hostvars[item]['render'] is defined
-
-  - name: find dispatchers with defined render variable which are connected with this AEM instance
-    set_fact:
-      renders: "{{ renders + [ item ] }}"
-    loop: "{{ dispatcher_w_renders }}"
-    when: inventory_hostname in hostvars[item]['render'].split(',') and dispatcher_w_renders|length>0
-
-  - name: find dispatchers with undefined render variable
-    set_fact:
-      renders: "{{ renders + [ item ] }}"
-    loop: "{{ groups['aem_dispatchers'] }}"
-    when: hostvars[item]['render'] is undefined and hostvars[item]['inventory_hostname'] == inventory_hostname
-
-  - name: configure flush replication
+  - name: configure flush agents
     include: '{{ tasks_path }}/configure-flush-agent.yml host={{ item }}'
     loop: "{{ renders }}"
 
-  when: "groups['aem_dispatchers'] is defined"
+  when: "renders|length > 0"
