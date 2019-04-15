@@ -5,10 +5,8 @@
   roles:
     - role: lean_delivery.java
 
-
 - name: publisher_install
   hosts: aem_publishers
-
   roles:
     - role: ansible-role-aem-node
       replication_enabled: True
@@ -35,6 +33,3 @@
         second_name: 'User'
         password: "testtest_123@S"
         group: 'test_group'
-
-
-

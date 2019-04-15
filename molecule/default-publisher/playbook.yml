@@ -5,10 +5,8 @@
   roles:
     - role: lean_delivery.java
 
-
 - name: publisher_install
   hosts: aem_publishers
-
   roles:
     - role: ansible-role-aem-node
       aem_instance_type: publish
@@ -33,6 +31,3 @@
         second_name: 'User'
         password: 'test_user_password'
         group: 'test_group'
-
-
-
