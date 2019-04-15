@@ -156,7 +156,7 @@ Example file repository structure
 ----------------
 
 Structure for AEM 6.4 and 6.3 :
-```
+```yml
 ./aem/6.3
 ./aem/6.4
 ./aem/6.3/aem.jar
