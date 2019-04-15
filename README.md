@@ -37,59 +37,64 @@ Requirements
 Role Variables : default
 --------------
 
+- `aem_version` - Version of AEM node wich to install (6.0, 6.1, 6.2, 6.3, 6.4)   
+  default: `6.4`
 
-AEM version (6.0, 6.1, 6.2, 6.3, 6.4)
-- `aem_version`: '6.4'
+- `aem_packages` - List of additional AEM Packages to install
+  default: `[]`
 
-List of additional AEM Packages to install
-- `aem_packages`: []
+- `aem_no_sample_content` - True if you need "noSampleContent" run mode, or false - if you don't
+  default: `False`
 
-True if you need "noSampleContent" run mode, or false - if you don't
-- `aem_no_sample_content`: False
+- `web_server_ssl` - Enable or disable ssl support   
+  default: `False`
+- `web_server_https_port` - Https port for listening   
+  default: `443`
+- `web_server_http_port` - Http port for litening   
+  default: `80`
 
-dispatcher role support
-- `web_server_ssl`: False
-- `web_server_https_port`: 443
-- `web_server_http_port`: 80
+- `ftp_server_link` - Server link to download installation packages   
+  defult: `ftp://ftp:ftp@ftp.com/aem/`
 
-Server link to download
-- `ftp_server_link`: 'ftp://ftp:ftp@ftp.com/aem/'
+- `aem_instance_type` - AEM type (author or publisher)   
+  default: `author`
 
-AEM type author or publisher
-- `aem_instance_type`: "author"
+- `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others   
+  default: ``
 
-Comma separated custom run modes
-- `aem_custom_modes`: ''
+- `aem_root` - Default AEM root path   
+  default: `/opt/aem`
 
-Default AEM root path
-- `aem_root`: /opt/aem
+- `aem_instance_port` - Default AEM port   
+  default: `4502`
 
-Default AEM port
-- `aem_instance_port`: 4502
+- `publishers` - List of publishers for replication agents configuration   
+  default: `[]`
 
-list of publishers for replication agents configuration
-- `publishers`: []
+- `dispatchers` - List of dispatchers for flush agents configuration   
+  default: `[]`
 
-list of dispatchers for flush agents configuration
-- `dispatchers`: []
+- `aem_admin_login` - Default AEM admin user login   
+  default: `admin`
+- `aem_admin_password` - Default AEM admin user password   
+  default: `admin`
 
-Default AEM admin user  login password
-- `aem_admin_login`: admin
-- `aem_admin_password`: admin
+- `environment_type` - AEM environment type (dev test uat etc.)   
+  default: `dev_test`
 
-Default AEM environment type (dev test uat etc.)
-- `environment_type`: dev_test
+- `aem_user` - Linux username which operates AEM   
+  default: `aem`
+- `aem_group` - Linux usergroup which operates AEM   
+  default: `aem`
+- `aem_user_id` - Linux user's uid   
+  default: `99999`
+- `aem_group_id` - Linux usergoup's gid   
+  default: `19999`
 
-Linux username and group which operates AEM
-- `aem_user`: aem
-- `aem_group`: aem
-- `aem_user_id`: 99999
-- `aem_group_id`: 19999
+- `aem_change_default_admin_password` - Change or not default admin password   
+  default: `False`
 
-Do you want to change default admin password?
-- `aem_change_default_admin_password`: False
-
-AEM groups which would be created during provision proccess
+### AEM groups which would be created during provision proccess
 
 ```yml
  aem_groups:
@@ -164,10 +169,6 @@ Example Inventory
 
  [aem_publishers]
  publisher.example.com
- 
- [publisher_dispatchers]
- dispatcher1.example.com
- dispatcher2.example.com
 
 ```
 
@@ -184,34 +185,6 @@ Example Playbook
     - role: lean_delivery.java
 
 
-- name: publisher_install
-  hosts: aem_publisher
-
-  roles:
-    - role: ansible-role-aem-node
-      replication_enabled: True
-      aem_instance_type: publisher
-      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
-      dispatchers: "{{ groups['publisher_dispatchers'] }}"
-      aem_groups:
-       -
-        id: 'test_group'
-        name: 'Test'
-        description: 'All test users'
-        permissions:
-          - 'path:/,read:true'
-          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
-        root_groups:
-          - 'everyone'
-      aem_users:
-       -
-        category: 'test'
-        id: 'test_user'
-        first_name: 'Test'
-        second_name: 'User'
-        password: 'test_user_password'
-        group: 'test_group'
-
 - name: author_install
   hosts: aem_authors
 
@@ -220,7 +193,7 @@ Example Playbook
       replication_enabled: True
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
-      publishers: "{{ groups['aem_publishers'] }}"
+
       aem_groups:
        -
         id: 'test_group'
