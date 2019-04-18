@@ -4,8 +4,8 @@ aem-node role
 [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-aem-node.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-aem-node)
 [![Build Status](https://gitlab.com/lean-delivery/ansible-role-aem-node/badges/master/build.svg)](https://gitlab.com/lean-delivery/ansible-role-aem-node)
 [![Galaxy](https://img.shields.io/badge/galaxy-lean__delivery.aem_node-blue.svg)](https://galaxy.ansible.com/lean_delivery/aem_node)
-![Ansible](https://img.shields.io/ansible/role/d/role_id.svg)
-![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2Frole_id%2F&query=$.min_ansible_version)
+![Ansible](https://img.shields.io/ansible/role/d/39641.svg)
+![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F39641%2F&query=$.min_ansible_version)
 
 Role for Adobe Experience Manager installation and configuration.
 This role installs AEM (Authoring and Publishing roles) instance on RHEL/Ubuntu-based systems.
