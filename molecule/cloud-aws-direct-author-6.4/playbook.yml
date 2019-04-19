@@ -1,0 +1,37 @@
+---
+
+- name: java_install
+  hosts: all
+  roles:
+    - role: lean_delivery.java
+      transport: web
+      transport_web: "{{ lookup('env','STORAGE_AWS') }}/oracle-java/jdk-8u212-linux-x64.tar.gz"
+
+- name: author_install
+  hosts: aem_authors
+  roles:
+    - role: ansible-role-aem-node
+      replication_enabled: True
+      aem_instance_type: author
+      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      aem_change_default_admin_password: True
+      aem_new_admin_password: "testtest_123@S"
+      publishers: "{{ groups['aem_publishers'] }}"
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'testtest_123i@S'
+        group: 'test_group'
