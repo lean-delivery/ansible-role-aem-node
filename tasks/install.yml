@@ -1,7 +1,7 @@
 ---
 # file: tasks/install.yml
 
-- name: "ensure that {{ cq_file_name }} file is downloaded"
+- name: 'ensure that {{ cq_file_name }} file is downloaded'
   get_url:
     url: '{{ ftp_server_link }}/{{ aem_version }}/aem.jar'
     dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
@@ -20,7 +20,7 @@
   become: True
 
 - name: extract AEM jar file if crx-quickstart folder doesn't exist
-  command: "java -jar {{ aem_home }}/{{ cq_file_name }}.jar -unpack"
+  command: 'java -jar {{ aem_home }}/{{ cq_file_name }}.jar -unpack'
   args:
     creates: '{{ aem_home }}/crx-quickstart/bin'
     chdir: '{{ aem_home }}'
@@ -44,13 +44,13 @@
 
 - name: find jarfile
   find:
-    paths: "{{ aem_home }}/crx-quickstart/app/"
+    paths: '{{ aem_home }}/crx-quickstart/app/'
     patterns: '*.jar'
   register: jarfile
 
 - name: creating file with jarfile
   copy:
-    dest: "{{ aem_home }}/aem_jar_file"
+    dest: '{{ aem_home }}/aem_jar_file'
     content: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
   become: True
 
@@ -79,13 +79,13 @@
 - meta: flush_handlers
 
 - block:
-  - name: change user password
+  - name: change admin password
     aem_password:
       id: '{{ aem_admin_login }}'
       old_password: '{{ aem_admin_password }}'
       new_password: '{{ aem_new_admin_password }}'
-      host: "http://localhost"
-      port: 4502
+      host: 'http://localhost'
+      port: '{{ aem_instance_port }}'
 
   - name: set new password
     set_fact:

@@ -9,7 +9,7 @@
     password: '{{ user.password }}'
     groups: '{{ user.group }}'
     host: "http://localhost"
-    port: 4502
+    port: "{{ aem_instance_port }}"
     admin_user: '{{ aem_admin_login }}'
     admin_password: '{{ aem_admin_password }}'
     state: present

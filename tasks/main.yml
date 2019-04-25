@@ -31,7 +31,12 @@
   loop: '{{ aem_packages }}'
   when: aem_packages|length > 0
 
-# Configure replication if this is AEM Authoring instance
+# Configure enable ssl and install ssl cert/key
+- name: replication configuration
+  include_tasks: activate-ssl-port.yml
+  when: aem_ssl_enable
+
+# Configure flush/replication agents
 - name: replication configuration
   include_tasks: replication.yml
   when: replication_enabled

@@ -1,15 +1,15 @@
 ---
 # file: tasks/configure-replication.yml
 
-- name: set web_server_port when web_server_ssl is true
+- name: set dispatcher_port when dispatcher_ssl is true
   set_fact:
-    web_server_port: "{{ web_server_https_port }}"
-  when: web_server_ssl
+    dispatcher_port: "{{ dispatcher_https_port }}"
+  when: dispatcher_ssl
 
-- name: set web_server_port when web_server_ssl is false
+- name: set dispatcher_port when dispatcher_ssl is false
   set_fact:
-    web_server_port: "{{ web_server_http_port }}"
-  when: not web_server_ssl
+    dispatcher_port: "{{ dispatcher_http_port }}"
+  when: not dispatcher_ssl
 
 - name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (flush type)"
   aem_agent:
@@ -18,7 +18,7 @@
     title: 'replication agent for publish instance'
     folder: 'agents.{{ aem_instance_type }}'
     transport_uri: "http://{{ hostvars[host]['inventory_hostname'] }}:\
-                    {{ web_server_port }}/dispatcher/invalidate.cache"
+                    {{ dispatcher_port }}/dispatcher/invalidate.cache"
     transport_user: "{{ aem_admin_login }}"
     transport_password: "{{ aem_admin_password }}"
     log_level: error
@@ -29,7 +29,7 @@
     admin_password: '{{ aem_admin_password }}'
     retry_delay: 60000
     host: "http://localhost"
-    port: 4502
+    port: "{{ aem_instance_port }}"
   when: aem_instance_type == 'author'
 
 - name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (flush type)"
@@ -39,7 +39,7 @@
     title: 'replication agent for publish instance'
     folder: 'agents.{{ aem_instance_type }}'
     transport_uri: "http://{{ hostvars[host]['inventory_hostname'] }}:\
-                    {{ web_server_port }}/dispatcher/invalidate.cache"
+                    {{ dispatcher_port }}/dispatcher/invalidate.cache"
     transport_user: "{{ aem_admin_login }}"
     transport_password: "{{ aem_admin_password }}"
     log_level: error
@@ -50,5 +50,5 @@
     admin_password: '{{ aem_admin_password }}'
     retry_delay: 60000
     host: "http://localhost"
-    port: 4502
+    port: "{{ aem_instance_port }}"
   when: aem_instance_type == 'publish'

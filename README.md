@@ -11,7 +11,7 @@ Role for Adobe Experience Manager installation and configuration.
 This role installs AEM (Authoring and Publishing roles) instance on RHEL/Ubuntu-based systems.
 
 This role:
-- installs AEM (6.0, 6.1, 6.2, 6.3 6.4 versions for choosing, 6.4 by default ) and configures it as a systemd Linux service
+- installs AEM (6.3 6.4 versions for choosing, 6.4 by default ) and configures it as a systemd Linux service
 - can change default admin password
 - can install any predefined AEM packages (such as hotfixes\service packs)
 - configures replication agent on author for publishing if it is not a standalone environment
@@ -40,7 +40,7 @@ Requirements
 Role Variables : default
 --------------
 
-- `aem_version` - Version of AEM node wich to install (6.0, 6.1, 6.2, 6.3, 6.4)   
+- `aem_version` - Version of AEM node wich to install (6.3, 6.4)   
   default: `6.4`
 
 - `aem_packages` - List of additional AEM Packages to install
@@ -49,11 +49,11 @@ Role Variables : default
 - `aem_no_sample_content` - True if you need "noSampleContent" run mode, or false - if you don't
   default: `False`
 
-- `web_server_ssl` - Enable or disable ssl support   
+- `dispatcher_ssl` - configure flush agent on ssl dispatcher port   
   default: `False`
-- `web_server_https_port` - Https port for listening   
+- `dispatcher_https_port` - Https port for listening   
   default: `443`
-- `web_server_http_port` - Http port for litening   
+- `dispatcher_http_port` - Http port for litening   
   default: `80`
 
 - `ftp_server_link` - Server link to download installation packages   

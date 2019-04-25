@@ -7,11 +7,22 @@
       transport: web
       transport_web: "{{ lookup('env','STORAGE_AWS') }}/oracle-java/jdk-8u212-linux-x64.tar.gz"
 
+- name: crt perparation
+  hosts: aem_authors
+  become: True
+  roles:
+    - role: jdauphant.ssl-certs
+      ssl_certs_common_name: localhost
+      ssl_certs_cert_path: "/etc/ssl/{{ ssl_certs_common_name }}/{{ ssl_certs_common_name }}.crt"
+      ssl_certs_path_owner: "root"
+      ssl_certs_path_group: "root"
 
 - name: author_install
   hosts: aem_authors
   roles:
     - role: ansible-role-aem-node
+      aem_ssl_enable: True
+      aem_ssl_dir: /etc/ssl/localhost/
       replication_enabled: True
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"

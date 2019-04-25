@@ -19,4 +19,4 @@
     admin_password: '{{ aem_admin_password }}'
     retry_delay: 60000
     host: "http://localhost"
-    port: 4502
+    port: "{{ aem_instance_port }}"
