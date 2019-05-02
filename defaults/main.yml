@@ -19,6 +19,7 @@ dispatchers: []
 # True if you need "noSampleContent" run mode, or false - if you don't
 aem_no_sample_content: False
 
+publisher_ssl: False
 
 dispatcher_ssl: False
 dispatcher_https_port: 443
@@ -27,8 +28,7 @@ dispatcher_http_port: 80
 #server link to download
 ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
 
-aem_instance_type: "author"
-
+aem_instance_type: 'author'
 
 # Comma separated custom run modes
 aem_custom_modes: ''
@@ -41,7 +41,6 @@ aem_instance_port: 4502
 aem_admin_login: admin
 aem_admin_password: admin
 environment_type: dev_test
-
 
 #variables for  ssl activation
 aem_ssl_enable: False
@@ -64,8 +63,6 @@ aem_group_id: 19999
 
 # Do you want to change default admin password?
 aem_change_default_admin_password: False
-
-
 
 # AEM groups which would be created during provision proccess
 # aem_groups:
@@ -102,14 +99,31 @@ aem_groups: []
 #     # AEM user primary group
 #     'group' : 'everyone'
 aem_users: []
+aem_garbage_collector: 'UseG1GC'
 
-
-aem_garbage_collector: "UseG1GC"
 # UseParallelGC , UseSerialGC
-
-aem_perm_size: "512m"
-
+aem_perm_size: '512m'
 replication_enabled: False
+Xms_size: '{{ (ansible_memtotal_mb * 0.7) |int|abs }}'
+Xmx_size: '{{ (ansible_memtotal_mb * 0.7) |int|abs }}'
 
-Xms_size: "{{ (ansible_memtotal_mb * 0.7) |int|abs }}"
-Xmx_size: "{{ (ansible_memtotal_mb * 0.7) |int|abs }}"
+# AEM Home Dir: aem_root = /opt/aem/author(publish)
+aem_home: '{{ aem_root }}/{{ aem_instance_type }}'
+# AEM service name
+aem_service_name: 'aem-{{ aem_instance_type }}'
+# Destination file name
+cq_file_name: 'cq-{{ aem_instance_type }}-p{{ aem_instance_port }}'
+# AEM REST Link
+aem_rest_link: 'http://localhost:{{ aem_instance_port }}'
+aem_file: '/opt/{{ aem_service_name }}.done'
+tasks_path: '{{ role_path }}/tasks'
+aem_load_handler:
+  -
+    path: 'damadmin'
+    content: 'Assets'
+  -
+    path: 'miscadmin'
+    content: 'Tools'
+  -
+    path: 'system/console/bundles'
+    content: 'Experience'

@@ -1,22 +1,31 @@
 ---
-# file: tasks/configure-replication.yml
+- name: Set port when ssl is true
+  set_fact:
+    aem_port: "{{ hostvars[publisher]['aem_instance_ssl_port'] | default(aem_instance_ssl_port) }}"
+    publisher_protocol: https
+  when: publisher_ssl
 
-- name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (publish type)"
+- name: Set port when ssl is false
+  set_fact:
+    aem_port: "{{ hostvars[publisher]['aem_instance_port'] | default(aem_instance_port) }}"
+    publisher_protocol: http
+  when: not publisher_ssl
+
+- name: Create/update publisher replication agent on author node
   aem_agent:
     name: "{{ publisher|replace('.','-')|lower() }}-publisher"
     state: present
     title: "{{ publisher|replace('.','-')|lower() }}"
     folder: 'agents.author'
     template: "/libs/cq/replication/templates/agent"
-    transport_uri: "http://{{ hostvars[publisher]['inventory_hostname'] }}:{{ hostvars[publisher]['aem_instance_port']\
-                    | default(aem_instance_port) }}/bin/receive?sling:authRequestLogin=1"
-    transport_user: "{{ aem_admin_login }}"
-    transport_password: "{{ aem_admin_password }}"
+    transport_uri: "{{ publisher_protocol }}://{{ hostvars[publisher]['inventory_hostname'] }}:{{ aem_port }}/bin/receive?sling:authRequestLogin=1"
+    transport_user: '{{ aem_admin_login }}'
+    transport_password: '{{ aem_admin_password }}'
     log_level: error
     serialization_type: durbo
     description: "Replication agent for {{ publisher }} node (publish type)"
     admin_user: '{{ aem_admin_login }}'
     admin_password: '{{ aem_admin_password }}'
     retry_delay: 60000
-    host: "http://localhost"
-    port: "{{ aem_instance_port }}"
+    host: 'http://localhost'
+    port: '{{ aem_instance_port }}'

@@ -34,6 +34,7 @@ Requirements
    - RHEL
      - 7
    - Ubuntu
+     - 16.04
      - 18.04
 
 
@@ -73,10 +74,32 @@ Role Variables : default
 
 - `publishers` - List of publishers for replication agents configuration   
   default: `[]`
+- `publisher_ssl` -  Enable ssl for replication agents
+  default: `False` 
 
 - `dispatchers` - List of dispatchers for flush agents configuration   
   default: `[]`
+- `dispatcher_ssl` - Enable ssl for flush agents
+  default: `False`
+- `dispatcher_https_port` - Ssl port for flush agents
+  default: `443`
+- `dispatcher_http_port` - http port for flush agents
+  default: `80`
 
+- `aem_ssl_enable` - Enable and configure  SSl on aem node
+  default: `False`
+- `aem_instance_ssl_port` Set AEM node ssl port
+  default: `8443`
+- `aem_ssl_dir:`  - crt and key dir for AEM ssl configuration
+  default: `'{{aem_root}}/ssl'` 
+- `aem_ssl_hostname` hostname for AEM ssl configuration
+  default: `localhost`
+- `ssl_key_full_path` - full path to the ssl file
+  default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.key'`
+- `ssl_crt_full_path`- full path to the ssl file
+  default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.crt'`
+- `ssl_der_full_path` - full path to the ssl file
+  default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.der'`
 - `aem_admin_login` - Default AEM admin user login   
   default: `admin`
 - `aem_admin_password` - Default AEM admin user password   

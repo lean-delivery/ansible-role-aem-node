@@ -21,6 +21,7 @@
   hosts: aem_publishers
   roles:
     - role: ansible-role-aem-node
+      dispatcher_ssl: True
       aem_ssl_enable: True
       aem_ssl_dir: /etc/ssl/localhost/
       replication_enabled: True

@@ -1,21 +1,21 @@
 ---
 # file: tasks/activate-ssl-port.yml
 
-- name: "SSL Health Check"
+- name: 'SSL Health Check'
   uri:
-    url: "http://localhost:{{ aem_instance_port }}/libs/granite/security/post/sslSetup.html"
+    url: 'http://localhost:{{ aem_instance_port }}/libs/granite/security/post/sslSetup.html'
     method: GET
-    user: "{{ aem_admin_login }}"
-    password: "{{ aem_admin_password }}"
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
     force_basic_auth: True
     status_code: 200, 500
   register: sslenabled
 
 - block:
-    - name: "Converting to der"
-      command: "openssl pkcs8 -topk8 -inform PEM -outform DER -in {{ ssl_key_full_path }} -out {{ ssl_der_full_path }} -nocrypt"
+    - name: 'Converting to der'
+      command: 'openssl pkcs8 -topk8 -inform PEM -outform DER -in {{ ssl_key_full_path }} -out {{ ssl_der_full_path }} -nocrypt'
 
-    - name: "Enabling SSL"
+    - name: 'Enabling SSL'
       command: 'curl -u {{ aem_admin_login }}:{{ aem_admin_password }} \
                -F "_charset_=UTF-8" \
                -F keystorePassword="{{ keystore_password }}" \
@@ -34,10 +34,10 @@
 
 - name: Check that you can connect (GET) to a https page
   uri:
-    url: "https://localhost:{{ aem_instance_ssl_port }}/libs/granite/security/post/sslSetup.html"
+    url: 'https://localhost:{{ aem_instance_ssl_port }}/libs/granite/security/post/sslSetup.html'
     method: GET
-    user: "{{ aem_admin_login }}"
-    password: "{{ aem_admin_password }}"
+    user: '{{ aem_admin_login }}'
+    password: '{{ aem_admin_password }}'
     validate_certs: False
     force_basic_auth: True
     status_code: 200
