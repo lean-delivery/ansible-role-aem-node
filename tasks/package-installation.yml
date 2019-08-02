@@ -22,7 +22,7 @@
 
 - name: 'make a decision to not install {{ aem_package }}'
   set_fact:
-    packageInstall: False
+    packageInstall: false
   when: aem_package in packageList.content
 
 - block:

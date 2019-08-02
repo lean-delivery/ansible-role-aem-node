@@ -17,11 +17,11 @@ dispatchers: []
 # INFO: AEM Run mode by default: <aem_instance_type - e.g. "author">,<env type - e.g. "dev">
 
 # true if you need "noSampleContent" run mode, or false - if you don't
-aem_no_sample_content: False
+aem_no_sample_content: false
 
-publisher_ssl: False
+publisher_ssl: false
 
-dispatcher_ssl: False
+dispatcher_ssl: false
 dispatcher_https_port: 443
 dispatcher_http_port: 80
 
@@ -43,7 +43,7 @@ aem_admin_password: admin
 environment_type: dev_test
 
 #variables for  ssl activation
-aem_ssl_enable: False
+aem_ssl_enable: false
 aem_instance_ssl_port: 8443
 aem_ssl_dir: '{{aem_root}}/ssl'
 keystore_password: qwe123
@@ -62,7 +62,7 @@ aem_user_id: 99999
 aem_group_id: 19999
 
 # Do you want to change default admin password?
-aem_change_default_admin_password: False
+aem_change_default_admin_password: false
 
 # AEM groups which would be created during provision proccess
 # aem_groups:
@@ -103,7 +103,7 @@ aem_garbage_collector: 'UseG1GC'
 
 # UseParallelGC , UseSerialGC
 aem_perm_size: '512m'
-replication_enabled: False
+replication_enabled: false
 Xms_size: '{{ (ansible_memtotal_mb * 0.7) |int|abs }}'
 Xmx_size: '{{ (ansible_memtotal_mb * 0.7) |int|abs }}'
 

@@ -28,7 +28,7 @@
                -F "httpsHostname={{ aem_ssl_hostname }}" \
                "http://localhost:{{ aem_instance_port }}/libs/granite/security/post/sslSetup.html"'
       args:
-        warn: False
+        warn: false
   become: true
   when: sslenabled.status == 500
 
@@ -38,7 +38,7 @@
     method: GET
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    validate_certs: False
+    validate_certs: false
     force_basic_auth: true
     status_code: 200
   register: sslcheck
