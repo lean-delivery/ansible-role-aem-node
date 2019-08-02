@@ -6,11 +6,11 @@
     - name: Workaround for Ubuntu/Debian images
       raw: |
         apt-get update
-      become: True
+      become: true
       changed_when: False
     - name: Install python for Ansible
       raw: test -e /usr/bin/python || (apt install -y python-minimal python-zipstream)
-      become: True
+      become: true
       changed_when: False
 
 - name: Prepare RHEL
@@ -19,5 +19,5 @@
   tasks:
     - name: Install python for Ansible
       raw: test -e /usr/bin/python || (yum install -y python2 python-simplejson)
-      become: True
+      become: true
       changed_when: False

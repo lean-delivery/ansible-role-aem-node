@@ -5,7 +5,7 @@
   group:
     name: '{{ aem_group }}'
     gid: '{{ aem_group_id }}'
-  become: True
+  become: true
 
 - name: ensure that aem user is configured
   user:
@@ -13,9 +13,9 @@
     uid: '{{ aem_user_id }}'
     groups:
       - '{{ aem_group }}'
-    append: True
+    append: true
     comment: 'AEM user'
-  become: True
+  become: true
 
 - name: ensure that root AEM directory is present
   file:
@@ -24,7 +24,7 @@
     group: '{{ aem_user }}'
     mode: 0775
     state: directory
-  become: True
+  become: true
 
 - name: ensure that directory for AEM home dir is present
   file:
@@ -33,17 +33,17 @@
     group: '{{ aem_user }}'
     mode: 0775
     state: directory
-  become: True
+  become: true
 
 - name: install pip to Debian OS family
   apt:
     name: python-pip
-    update_cache: True
+    update_cache: true
   when: ansible_facts['os_family'] == "Debian"
   retries: 3
   register: result
   until: result is success
-  become: True
+  become: true
 
 - name: install python requests
   pip:
@@ -52,4 +52,4 @@
   retries: 3
   register: result
   until: result is success
-  become: True
+  become: true

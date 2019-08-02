@@ -9,7 +9,7 @@
 
 - name: crt perparation
   hosts: aem_authors
-  become: True
+  become: true
   roles:
     - role: jdauphant.ssl-certs
       ssl_certs_common_name: localhost
@@ -21,12 +21,12 @@
   hosts: aem_authors
   roles:
     - role: ansible-role-aem-node
-      aem_ssl_enable: True
+      aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
-      replication_enabled: True
+      replication_enabled: true
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
-      aem_change_default_admin_password: True
+      aem_change_default_admin_password: true
       aem_new_admin_password: "testtest_123@S"
       publishers: "{{ groups['aem_publishers'] }}"
       aem_version: '6.3'

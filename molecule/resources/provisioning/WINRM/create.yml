@@ -9,8 +9,8 @@
     molecule_file: "{{ lookup('env', 'MOLECULE_FILE') }}"
     molecule_instance_config: "{{ lookup('env','MOLECULE_INSTANCE_CONFIG') }}"
     molecule_yml: "{{ lookup('file', molecule_file) | from_yaml }}"
-    ansible_user: "{{ lookup('env', 'WINRM_ADMIN_ACC') | default('molecule', True) }}"
-    ansible_password: "{{ lookup('env', 'WINRM_ADMIN_PWD') | default('M0leCule123!', True) }}"
+    ansible_user: "{{ lookup('env', 'WINRM_ADMIN_ACC') | default('molecule', true) }}"
+    ansible_password: "{{ lookup('env', 'WINRM_ADMIN_PWD') | default('M0leCule123!', true) }}"
     ec2_user_data: "{{ lookup('template', './windows') }}"
     winrm_port: 5986
 
@@ -24,7 +24,7 @@
         instance_type: '{{ item.instance_type }}'
         group: '{{ item.aws_sec_group }}'
         assign_public_ip: '{{ item.assign_public_ip | default(True) }}'
-        wait: True
+        wait: true
         wait_timeout: '{{ item.wait_timeout | default(600) }}'
         instance_tags:
           instance: '{{ item.name }}'
@@ -54,7 +54,7 @@
       set_fact:
         instance_conf_dict: {
           instance: '{{ item.instances[0].tags.instance }}',
-          address: '{{ item.instances[0].public_ip | default(item.instances[0].private_ip, True) }}',
+          address: '{{ item.instances[0].public_ip | default(item.instances[0].private_ip, true) }}',
           user: '{{ ansible_user }}',
           port: '{{ winrm_port }}' }
       loop: '{{ instance_create.results }}'

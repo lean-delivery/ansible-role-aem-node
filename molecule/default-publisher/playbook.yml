@@ -10,7 +10,7 @@
   roles:
     - role: ansible-role-aem-node
       aem_instance_type: publish
-      replication_enabled: True
+      replication_enabled: true
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_instance_port: 4505
       aem_groups:

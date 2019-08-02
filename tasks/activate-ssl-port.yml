@@ -7,7 +7,7 @@
     method: GET
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    force_basic_auth: True
+    force_basic_auth: true
     status_code: 200, 500
   register: sslenabled
 
@@ -29,7 +29,7 @@
                "http://localhost:{{ aem_instance_port }}/libs/granite/security/post/sslSetup.html"'
       args:
         warn: False
-  become: True
+  become: true
   when: sslenabled.status == 500
 
 - name: Check that you can connect (GET) to a https page
@@ -39,7 +39,7 @@
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
     validate_certs: False
-    force_basic_auth: True
+    force_basic_auth: true
     status_code: 200
   register: sslcheck
   until: sslcheck is succeeded

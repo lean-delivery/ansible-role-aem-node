@@ -6,13 +6,13 @@
     url: '{{ aem_rest_link }}/crx/packmgr/service.jsp?cmd=ls'
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    force_basic_auth: True
-    return_content: True
+    force_basic_auth: true
+    return_content: true
   register: packageList
 
 - name: 'make a decision to install {{ aem_package }}'
   set_fact:
-    packageInstall: True
+    packageInstall: true
   when: aem_package not in packageList.content
   notify:
   - stop aem
@@ -39,7 +39,7 @@ me='{{ aem_package }}' -F force=true -F install=true -F recursive=true {{ aem_re
     notify:
     - wait 5 minutes
     - load aem
-    changed_when: True
+    changed_when: true
     tags:
       - skip_ansible_lint
   - meta: flush_handlers
@@ -48,4 +48,4 @@ me='{{ aem_package }}' -F force=true -F install=true -F recursive=true {{ aem_re
       path: '/tmp/{{ aem_package }}.zip'
       state: absent
   when: packageInstall
-  become: True
+  become: true

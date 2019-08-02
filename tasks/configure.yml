@@ -12,7 +12,7 @@
     src: aem.service.j2
     dest: '/etc/systemd/system/{{ aem_service_name }}.service'
     mode: 0644
-  become: True
+  become: true
   notify:
   - stop aem
   - start aem

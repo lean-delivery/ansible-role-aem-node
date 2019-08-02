@@ -8,7 +8,7 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     mode: 0640
-  become: True
+  become: true
 
 - name: ensure that AEM licence file is downloaded
   get_url:
@@ -17,14 +17,14 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     mode: 0640
-  become: True
+  become: true
 
 - name: extract AEM jar file if crx-quickstart folder doesn't exist
   command: 'java -jar {{ aem_home }}/{{ cq_file_name }}.jar -unpack'
   args:
     creates: '{{ aem_home }}/crx-quickstart/bin'
     chdir: '{{ aem_home }}'
-  become: True
+  become: true
 
 - name: ensure that all permissions for home aem dir is correct
   file:
@@ -32,15 +32,15 @@
     state: directory
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
-    recurse: True
-  become: True
+    recurse: true
+  become: true
 
 - name: ensure that subsys directory exists
   file:
     path: '/var/lock/subsys'
     state: directory
-    recurse: True
-  become: True
+    recurse: true
+  become: true
 
 - name: find jarfile
   find:
@@ -52,7 +52,7 @@
   copy:
     dest: '{{ aem_home }}/aem_jar_file'
     content: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
-  become: True
+  become: true
 
 - name: debug
   debug:
@@ -65,16 +65,16 @@
     owner: root
     group: root
     mode: 0644
-  become: True
+  become: true
 
 - name: start and enable aem service
   service:
     name: '{{ aem_service_name }}'
-    enabled: True
+    enabled: true
     state: started
   notify:
   - firstload aem
-  become: True
+  become: true
 
 - meta: flush_handlers
 
@@ -98,9 +98,9 @@
     method: POST
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    force_basic_auth: True
+    force_basic_auth: true
     follow_redirects: safe
     body: 'jcr:primaryType=sling:OsgiConfig&alias=/crx/server&dav.create-absolute-uri=true&dav.create-absolute-uri@TypeHint=Boolean'
     status_code: 201, 200, 500
-    ignore_errors: True
+    ignore_errors: true
   when: aem_no_sample_content

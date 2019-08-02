@@ -47,7 +47,7 @@ Role Variables : default
 - `aem_packages` - List of additional AEM Packages to install
   default: `[]`
 
-- `aem_no_sample_content` - True if you need "noSampleContent" run mode, or false - if you don't
+- `aem_no_sample_content` - true if you need "noSampleContent" run mode, or false - if you don't
   default: `False`
 
 - `dispatcher_ssl` - configure flush agent on ssl dispatcher port   
@@ -222,7 +222,7 @@ Example Playbook
   hosts: aem_publisher
   roles:
     - role: ansible-role-aem-node
-      replication_enabled: True
+      replication_enabled: true
       aem_instance_type: publisher
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
       dispatchers: "{{ groups['publisher_dispatchers'] }}"
@@ -251,7 +251,7 @@ Example Playbook
 
   roles:
     - role: ansible-role-aem-node
-      replication_enabled: True
+      replication_enabled: true
       aem_instance_type: author
       ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
       publishers: "{{ groups['aem_publishers'] }}"
