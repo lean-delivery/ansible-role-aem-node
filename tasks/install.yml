@@ -91,16 +91,3 @@
     set_fact:
       aem_admin_password: '{{ aem_new_admin_password }}'
   when: aem_change_default_admin_password
-
-- name: fix AEM bug with nosamplecontent
-  uri:
-    url: '{{ aem_rest_link }}/apps/system/config/org.apache.sling.jcr.davex.impl.servlets.SlingDavExServlet'
-    method: POST
-    user: '{{ aem_admin_login }}'
-    password: '{{ aem_admin_password }}'
-    force_basic_auth: true
-    follow_redirects: safe
-    body: 'jcr:primaryType=sling:OsgiConfig&alias=/crx/server&dav.create-absolute-uri=true&dav.create-absolute-uri@TypeHint=Boolean'
-    status_code: 201, 200, 500
-    ignore_errors: true
-  when: aem_no_sample_content

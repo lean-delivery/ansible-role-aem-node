@@ -15,12 +15,7 @@ publishers: []
 dispatchers: []
 
 # INFO: AEM Run mode by default: <aem_instance_type - e.g. "author">,<env type - e.g. "dev">
-
-# true if you need "noSampleContent" run mode, or false - if you don't
-aem_no_sample_content: false
-
 publisher_ssl: false
-
 dispatcher_ssl: false
 dispatcher_https_port: 443
 dispatcher_http_port: 80

@@ -20,7 +20,6 @@ This role:
 - can create aem user accounts
 
 
-
 Requirements
 ------------
  - Minimal Version of the ansible for installation: 2.5
@@ -41,43 +40,40 @@ Requirements
 Role Variables : default
 --------------
 
-- `aem_version` - Version of AEM node wich to install (6.3, 6.4)   
+- `aem_version` - Version of AEM node wich to install (6.3, 6.4)  
   default: `6.4`
 
 - `aem_packages` - List of additional AEM Packages to install
   default: `[]`
 
-- `aem_no_sample_content` - true if you need "noSampleContent" run mode, or false - if you don't
+- `dispatcher_ssl` - configure flush agent on ssl dispatcher port  
   default: `False`
-
-- `dispatcher_ssl` - configure flush agent on ssl dispatcher port   
-  default: `False`
-- `dispatcher_https_port` - Https port for listening   
+- `dispatcher_https_port` - Https port for listening  
   default: `443`
-- `dispatcher_http_port` - Http port for litening   
+- `dispatcher_http_port` - Http port for litening  
   default: `80`
 
-- `ftp_server_link` - Server link to download installation packages   
+- `ftp_server_link` - Server link to download installation packages  
   defult: `ftp://ftp:ftp@ftp.com/aem/`
 
-- `aem_instance_type` - AEM type (author or publisher)   
+- `aem_instance_type` - AEM type (author or publisher)  
   default: `author`
 
-- `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others   
+- `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others  
   default: ``
 
-- `aem_root` - Default AEM root path   
+- `aem_root` - Default AEM root path  
   default: `/opt/aem`
 
-- `aem_instance_port` - Default AEM port   
+- `aem_instance_port` - Default AEM port  
   default: `4502`
 
-- `publishers` - List of publishers for replication agents configuration   
+- `publishers` - List of publishers for replication agents configuration  
   default: `[]`
 - `publisher_ssl` -  Enable ssl for replication agents
   default: `False` 
 
-- `dispatchers` - List of dispatchers for flush agents configuration   
+- `dispatchers` - List of dispatchers for flush agents configuration  
   default: `[]`
 - `dispatcher_ssl` - Enable ssl for flush agents
   default: `False`
@@ -100,24 +96,24 @@ Role Variables : default
   default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.crt'`
 - `ssl_der_full_path` - full path to the ssl file
   default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.der'`
-- `aem_admin_login` - Default AEM admin user login   
+- `aem_admin_login` - Default AEM admin user login  
   default: `admin`
-- `aem_admin_password` - Default AEM admin user password   
+- `aem_admin_password` - Default AEM admin user password  
   default: `admin`
 
-- `environment_type` - AEM environment type (dev test uat etc.)   
+- `environment_type` - AEM environment type (dev test uat etc.)  
   default: `dev_test`
 
-- `aem_user` - Linux username which operates AEM   
+- `aem_user` - Linux username which operates AEM  
   default: `aem`
-- `aem_group` - Linux usergroup which operates AEM   
+- `aem_group` - Linux usergroup which operates AEM  
   default: `aem`
-- `aem_user_id` - Linux user's uid   
+- `aem_user_id` - Linux user's uid  
   default: `99999`
-- `aem_group_id` - Linux usergoup's gid   
+- `aem_group_id` - Linux usergoup's gid  
   default: `19999`
 
-- `aem_change_default_admin_password` - Change or not default admin password   
+- `aem_change_default_admin_password` - Change or not default admin password  
   default: `False`
 
 ### AEM groups which would be created during provision proccess
