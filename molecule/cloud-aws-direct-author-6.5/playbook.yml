@@ -7,7 +7,7 @@
       java_package: jdk
       java_major_version: 11
       transport: web
-      transport_web: "{{ lookup('env','STORAGE_AWS') }}/oracle-java/jdk-11.0.3_linux-x64_bin.tar.gz"
+      transport_web: "{{ lookup('env','STORAGE_AWS') }}/oracle-java/jdk-11.0.2_linux-x64_bin.tar.gz"
 
 - name: crt perparation
   hosts: aem_authors
