@@ -1,0 +1,53 @@
+---
+- name: java_install
+  hosts: all
+  roles:
+    - role: lean_delivery.java
+      java_distribution: oracle_java
+      java_package: jdk
+      java_major_version: 11
+      transport: web
+      transport_web: "{{ lookup('env','STORAGE_AWS') }}/oracle-java/jdk-11.0.3_linux-x64_bin.tar.gz"
+
+- name: crt perparation
+  hosts: aem_publishers
+  become: true
+  roles:
+    - role: jdauphant.ssl-certs
+      ssl_certs_common_name: localhost
+      ssl_certs_cert_path: "/etc/ssl/{{ ssl_certs_common_name }}/{{ ssl_certs_common_name }}.crt"
+      ssl_certs_path_owner: "root"
+      ssl_certs_path_group: "root"
+
+- name: publisher_install
+  hosts: aem_publishers
+  roles:
+    - role: ansible-role-aem-node
+      dispatcher_ssl: true
+      aem_ssl_enable: true
+      aem_ssl_dir: /etc/ssl/localhost/
+      replication_enabled: true
+      aem_instance_type: publish
+      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      aem_change_default_admin_password: true
+      aem_new_admin_password: "testtest_123@S"
+      dispatchers: "{{ groups['publisher_dispatchers'] }}"
+      aem_version: '6.5'
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: "testtest_123@S"
+        group: 'test_group'
