@@ -2,7 +2,7 @@
 - name: 'ensure that {{ cq_file_name }} file is downloaded (s3 transport)'
   aws_s3:
     bucket: 'aemartifacts'
-    object: '6.5/aem.jar'
+    object: '/6.5/aem.jar'
     dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
     aws_access_key: '{{ transport_s3_aws_access_key }}'
     aws_secret_key: '{{ transport_s3_aws_secret_key }}'
