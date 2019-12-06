@@ -11,6 +11,7 @@
     ignore_nonexistent_bucket: true
   retries: 5
   delay: 2
+  become: true
 
 - name: 'protecting aem jar file'
   file:
