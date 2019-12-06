@@ -1,8 +1,8 @@
 ---
 - name: 'ensure that {{ cq_file_name }} file is downloaded (s3 transport)'
   aws_s3:
-    bucket: 'aemartifacts'
-    object: '/6.5/aem.jar'
+    bucket: '{{ transport_s3_bucket }}'
+    object: '{{ aem_transport_s3_path }}'
     dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
     aws_access_key: '{{ transport_s3_aws_access_key }}'
     aws_secret_key: '{{ transport_s3_aws_secret_key }}'
@@ -19,6 +19,7 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     mode: '0640'
+  become: true
 
 - name: 'ensure that AEM licence file is downloaded (s3 transport)'
   aws_s3:
@@ -32,6 +33,7 @@
     ignore_nonexistent_bucket: true
   retries: 5
   delay: 2
+  become: true
 
 - name: 'protecting license file'
   file:
@@ -39,3 +41,4 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     mode: '0640'
+  become: true
