@@ -53,7 +53,7 @@ Role Variables : default
 - `dispatcher_http_port` - Http port for litening  
   default: `80`
 
-- `ftp_server_link` - Server link to download installation packages  
+- `web_transport_common_url` - Server link to download installation packages  
   defult: `ftp://ftp:ftp@ftp.com/aem/`
 
 - `aem_instance_type` - AEM type (author or publisher)  
@@ -220,7 +220,7 @@ Example Playbook
     - role: ansible-role-aem-node
       replication_enabled: true
       aem_instance_type: publisher
-      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       dispatchers: "{{ groups['publisher_dispatchers'] }}"
       aem_groups:
        -
@@ -249,7 +249,7 @@ Example Playbook
     - role: ansible-role-aem-node
       replication_enabled: true
       aem_instance_type: author
-      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       publishers: "{{ groups['aem_publishers'] }}"
       aem_groups:
        -

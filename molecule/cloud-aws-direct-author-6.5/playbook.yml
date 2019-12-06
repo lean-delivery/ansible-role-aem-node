@@ -23,12 +23,13 @@
   hosts: aem_authors
   roles:
     - role: ansible-role-aem-node
+      download_transport: s3
       publisher_ssl: true
       aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
       replication_enabled: true
       aem_instance_type: author
-      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_change_default_admin_password: true
       aem_new_admin_password: "testtest_123@S"
       publishers: "{{ groups['aem_publishers'] }}"

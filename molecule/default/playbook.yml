@@ -13,7 +13,7 @@
       replication_enabled: true
       aem_change_default_admin_password: true
       aem_new_admin_password: "testtest"
-      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_groups:
        -
         id: 'test_group'

@@ -1,0 +1,20 @@
+---
+# file: tasks/install.yml
+
+- name: 'ensure that {{ cq_file_name }} file is downloaded (web transport)'
+  get_url:
+    url: '{{ full_aem_web_transport_link }}'
+    dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0640
+  become: true
+
+- name: ensure that AEM licence file is downloaded (web transport)
+  get_url:
+    url: '{{ full_license_web_transport_link }}'
+    dest: '{{ aem_home }}/license.properties'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0640
+  become: true

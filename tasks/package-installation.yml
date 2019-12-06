@@ -28,7 +28,7 @@
 - block:
   - name: 'ensure that {{ aem_package }} package is downloaded'
     get_url:
-      url: '{{ ftp_server_link }}/packages/{{ aem_package }}.zip'
+      url: '{{ web_transport_common_url }}/packages/{{ aem_package }}.zip'
       dest: '/tmp/{{ aem_package }}.zip'
       owner: '{{ aem_user }}'
       group: '{{ aem_user }}'

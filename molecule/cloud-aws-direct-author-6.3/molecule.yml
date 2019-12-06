@@ -11,6 +11,7 @@ lint:
     config-file: .yamllint
 platforms:
   - name: test-aws-centos7-aem-node-author-6.3
+    profile_name: epmldi-instance-profile
     image: ami-9887c6e7
     instance_type: m5.large
     region: us-east-1

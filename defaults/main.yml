@@ -21,7 +21,16 @@ dispatcher_https_port: 443
 dispatcher_http_port: 80
 
 #server link to download
-ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
+web_transport_common_url: 'ftp://ftp:ftp@ftp.com'
+full_aem_web_transport_link: '{{ web_transport_common_url }}/{{ aem_version }}/aem.jar'
+full_license_web_transport_link: '{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties'
+
+# web or s3
+download_transport: web
+
+transport_s3_bucket: aemartifacts
+aem_transport_s3_path: '{{ aem_version }}/aem.jar'
+license_transport_s3_path: '/licenses/{{ aem_version }}/license.properties'
 
 aem_instance_type: 'author'
 
