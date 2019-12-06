@@ -4,6 +4,8 @@
     bucket: '{{ transport_s3_bucket }}'
     object: '{{ aem_transport_s3_path }}'
     dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
+    aws_access_key: '{{ transport_s3_aws_access_key }}'
+    aws_secret_key: '{{ transport_s3_aws_secret_key }}'
     mode: get
     overwrite: different
     ignore_nonexistent_bucket: true
@@ -22,6 +24,8 @@
     bucket: '{{ transport_s3_bucket }}'
     object: '{{ license_transport_s3_path }}'
     dest: '{{ aem_home }}/license.properties'
+    aws_access_key: '{{ transport_s3_aws_access_key }}'
+    aws_secret_key: '{{ transport_s3_aws_secret_key }}'
     mode: get
     overwrite: different
     ignore_nonexistent_bucket: true

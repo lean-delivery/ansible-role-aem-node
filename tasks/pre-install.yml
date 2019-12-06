@@ -48,7 +48,7 @@
 - name: install pip to redhat OS family
   package:
     name: python-pip
-  when: ansible_facts['os_family'] == "Redhat"
+  when: ansible_facts['os_family'] == "RedHat"
   retries: 3
   register: result
   until: result is success
