@@ -10,27 +10,28 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-aws-centos7-aem-node-publisher-6.5
-    profile_name: epmldi-instance-profile
-    image: ami-9887c6e7
-    instance_type: m5.large
-    region: us-east-1
-    vpc_subnet_id: subnet-05a2ef2b767afec50
-    assign_public_ip: false
-    spot_price: 0.04
-    security_group_name:
-      - default
-    wait_timeout: 1800
-    ssh_user: centos
-    groups:
-      - rhel_family
-      - aem_publishers
-      - aem_dispatchers
-      - publisher_dispatchers
+  # - name: test-aws-centos7-aem-node-publisher-6.5
+  #   profile_name: epmldi-instance-profile
+  #   image: ami-9887c6e7
+  #   instance_type: m5.large
+  #   region: us-east-1
+  #   vpc_subnet_id: subnet-05a2ef2b767afec50
+  #   assign_public_ip: false
+  #   spot_price: 0.04
+  #   security_group_name:
+  #     - default
+  #   wait_timeout: 1800
+  #   ssh_user: centos
+  #   groups:
+  #     - rhel_family
+  #     - aem_publishers
+  #     - aem_dispatchers
+  #     - publisher_dispatchers
 
   - name: test-aws-ubuntu16-aem-node-publisher-6.5
     image: ami-09677e0a6b14905b0
     instance_type: m5.large
+    profile_name: epmldi-instance-profile
     region: us-east-1
     vpc_subnet_id: subnet-05a2ef2b767afec50
     assign_public_ip: false
@@ -48,6 +49,7 @@ platforms:
   - name: test-aws-ubuntu18-aem-node-publisher-6.5
     image: ami-012fd5eb46f56731f
     instance_type: m5.large
+    profile_name: epmldi-instance-profile
     region: us-east-1
     vpc_subnet_id: subnet-05a2ef2b767afec50
     assign_public_ip: false
