@@ -56,7 +56,7 @@ Role Variables : default
 - `web_transport_common_url` - Server link to download installation packages  
   defult: `ftp://ftp:ftp@ftp.com/aem/`
 
-- `aem_instance_type` - AEM type (author or publisher)  
+- `aem_instance_type` - AEM type (author or publish)  
   default: `author`
 
 - `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others  
