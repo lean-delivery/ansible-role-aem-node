@@ -1,11 +1,11 @@
 ---
 
-- name: java_install
+- name: Install java
   hosts: all
   roles:
     - role: lean_delivery.java
 
-- name: publisher_install
+- name: Install publisher
   hosts: aem_publishers
   roles:
     - role: ansible-role-aem-node

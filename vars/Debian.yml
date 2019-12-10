@@ -1,0 +1,6 @@
+---
+default_pip_executable: pip3
+default_python_executable: python3
+
+requirements:
+  - '{{ python_executable | default("python3") }}-pip'

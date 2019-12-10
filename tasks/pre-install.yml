@@ -35,39 +35,18 @@
     state: directory
   become: true
 
-- name: install pip to Debian OS family
-  apt:
-    name: python3-pip
-    update_cache: true
-  when: ansible_facts['os_family'] == "Debian"
-  retries: 3
-  register: result
-  until: result is success
-  become: true
-
-- name: install pip to redhat OS family
-  package:
-    name: python-pip
-  when: ansible_facts['os_family'] == "RedHat"
-  retries: 3
-  register: result
-  until: result is success
-  become: true
-
-
-- name: install python requests
-  pip:
-    name: requests
- #   executable: pip2
-#  when: ansible_facts['os_family'] == "Debian"
-  retries: 3
-  register: result
-  until: result is success
-  become: true
+- name: Configure system
+  include_tasks: '{{ platform }}'
+  with_first_found:
+    - 'system/{{ ansible_os_family }}.yml'
+    - system/not-supported.yml
+  loop_control:
+    loop_var: platform
 
 - name: install python boto3
   pip:
     name: boto3
+    executable: '{{ pip_executable }}'
   when: download_transport == "s3"
   retries: 3
   register: result

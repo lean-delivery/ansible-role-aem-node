@@ -1,0 +1,26 @@
+---
+- name: Verify AEM author service
+  hosts: aem_authors
+  tasks:
+  - name: Check AEM author service status
+    service:
+      name: 'aem-author'
+    check_mode: true
+    register: aem_status
+
+  - name: Assest AEM service status
+    assert:
+      that: "'running' == aem_status.status.SubState"
+
+- name: Verify AEM author service
+  hosts: publisher_dispatchers
+  tasks:
+  - name: Check AEM author service status
+    service:
+      name: 'aem-publish'
+    check_mode: true
+    register: aem_status
+
+  - name: Assest AEM service status
+    assert:
+      that: "'running' == aem_status.status.SubState"

@@ -1,0 +1,24 @@
+---
+- name: Add universe repository for Ubuntu
+  apt_repository:
+    repo: 'deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe'
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+  become: true
+
+- name: Install python-pip
+  package:
+    name: '{{ requirements }}'
+  retries: 3
+  register: result
+  until: result is success
+  become: true
+
+- name: Install Python requests
+  pip:
+    name: requests
+    state: present
+    executable: '{{ pip_executable }}'
+  register: pip_result
+  until: pip_result is succeeded
+  become: true

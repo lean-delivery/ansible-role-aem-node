@@ -1,5 +1,9 @@
 ---
 # Run all tests
+default:
+  image:
+    name: leandelivery/docker-ansible-ci:ansible-2.8
+
 stages:
   - lint
   - deployment test
@@ -7,8 +11,8 @@ stages:
 before_script:
   - rm -rf molecule/resources/provisioning
   - ansible --version
-  - molecule --version
   - ansible-lint --version
+  - molecule --version
   - git clone https://github.com/lean-delivery/ansible-molecule-drivers.git molecule/resources/provisioning
   - git clone -b develop https://github.com/lean-delivery/ansible-modules-aem library
   - find library/ -not -name 'aem*.py' -delete
@@ -16,20 +20,21 @@ before_script:
 variables:
   GET_SOURCES_ATTEMPTS: "5"
 
-Ansible lint:
+Lint:
   stage: lint
   before_script:
     - git clone -b develop https://github.com/lean-delivery/ansible-modules-aem library
     - find library/ -not -name 'aem*.py' -delete
     - git clone https://github.com/lean-delivery/ansible-lint-rules.git ~/ansible-lint-rules
   script:
+    - yamllint . -c .yamllint
     - ansible-lint . -c .ansible-lint
   after_script:
     - rm -rf ~/ansible-lint-rules
   tags:
     - aws
 
-.AWS aem-node-author-6.3:
+AWS aem-node-author-6.3:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -38,7 +43,7 @@ Ansible lint:
   tags:
     - aws
 
-.AWS aem-node-publisher-6.3:
+AWS aem-node-publisher-6.3:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -47,7 +52,7 @@ Ansible lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.4:
+AWS aem-node-author-6.4:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -56,7 +61,7 @@ Ansible lint:
   tags:
     - aws
 
-.AWS aem-node-publisher-6.4:
+AWS aem-node-publisher-6.4:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test

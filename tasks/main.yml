@@ -1,6 +1,9 @@
 ---
 # file: tasks/main.yml
 
+- name: incule variables
+  include_vars: '{{ ansible_os_family }}.yml'
+
 - name: pre installation
   include_tasks: pre-install.yml
 

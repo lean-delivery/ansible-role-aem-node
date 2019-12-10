@@ -1,28 +1,9 @@
 ---
-- name: java_install
-  hosts: all
-  roles:
-    - role: lean_delivery.java
-      java_distribution: oracle_java
-      java_package: jdk
-      java_major_version: 8
-      transport: web
-      transport_web: "{{ lookup('env','STORAGE_AWS') }}/oracle-java/jdk-8u212-linux-x64.tar.gz"
-
-- name: crt perparation
-  hosts: aem_publishers
-  become: true
-  roles:
-    - role: jdauphant.ssl-certs
-      ssl_certs_common_name: localhost
-      ssl_certs_cert_path: "/etc/ssl/{{ ssl_certs_common_name }}/{{ ssl_certs_common_name }}.crt"
-      ssl_certs_path_owner: "root"
-      ssl_certs_path_group: "root"
-
-- name: publisher_install
+- name: Install publisher
   hosts: aem_publishers
   roles:
     - role: ansible-role-aem-node
+      download_transport: s3
       dispatcher_ssl: true
       aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
@@ -32,6 +13,7 @@
       aem_change_default_admin_password: true
       aem_new_admin_password: "testtest_123@S"
       dispatchers: "{{ groups['publisher_dispatchers'] }}"
+      aem_version: '6.4'
       aem_groups:
        -
         id: 'test_group'

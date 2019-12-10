@@ -3,7 +3,7 @@
 
 ## AEM SECTION ###
 
-# AEM version (6.3, 6.4)
+# AEM version (6.3, 6.4, 6.5)
 aem_version: '6.4'
 
 # List of additional AEM Packages to install
@@ -133,3 +133,6 @@ aem_load_handler:
   -
     path: 'system/console/bundles'
     content: 'Experience'
+
+pip_executable: '{{ default_pip_executable }}'
+python_executable: '{{ default_python_executable }}'
