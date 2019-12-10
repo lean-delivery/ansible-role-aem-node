@@ -169,9 +169,21 @@ Role Variables : default
   default: `UseG1GC`
 - `aem_perm_size`   
   default: `512m`
+- `Xmx_size` -  specifies the maximum memory allocation pool for a Java virtual machine (JVM)
+  default: `'{{ (ansible_memtotal_mb * 0.7) |int|abs }}'`
+- `Xms_size` - specifies the initial memory allocation pool.
+  default: `'{{ (ansible_memtotal_mb * 0.7) |int|abs }}'`
+
+Your JVM will be started with Xms amount of memory and will be able to use a maximum of Xmx amount of memory. 
+For example, starting a JVM like below will start it with 256 MB of memory and will allow the process to use up to 2048 MB of memory
+with: 
+`Xms_size: 256m`
+`Xmx_size: 2048m`
+
 
 - `replication_enabled` - Enable replication configuration for author-> publisher dispatcher   
   default: `False`
+
 
 
 Example file repository structure
