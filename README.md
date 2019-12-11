@@ -232,7 +232,7 @@ Example Playbook
     - role: lean_delivery.java
 
 - name: publisher_install
-  hosts: aem_publisher
+  hosts: aem_publishers
   roles:
     - role: ansible-role-aem-node
       replication_enabled: true
