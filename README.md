@@ -11,7 +11,7 @@ Role for Adobe Experience Manager installation and configuration.
 This role installs AEM (Authoring and Publishing roles) instance on RHEL/Ubuntu-based systems.
 
 This role:
-- installs AEM (6.3 6.4 versions for choosing, 6.4 by default ) and configures it as a systemd Linux service
+- installs AEM (6.3 6.4 6.5 versions for choosing, 6.4 by default ) and configures it as a systemd Linux service
 - can change default admin password
 - can install any predefined AEM packages (such as hotfixes\service packs)
 - configures replication agent on author for publishing if it is not a standalone environment
@@ -23,7 +23,6 @@ This role:
 Requirements
 ------------
  - Minimal Version of the ansible for installation: 2.5
- - Please 
  - **Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java)
  - Ansible Modules:
     - LDI AEM modules https://github.com/lean-delivery/ansible-modules-aem
@@ -40,7 +39,7 @@ Requirements
 Role Variables : default
 --------------
 
-- `aem_version` - Version of AEM node wich to install (6.3, 6.4)  
+- `aem_version` - Version of AEM node wich to install (6.3, 6.4, 6.5)  
   default: `6.4`
 
 - `aem_packages` - List of additional AEM Packages to install
