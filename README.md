@@ -54,9 +54,9 @@ Role Variables : default
   default: `80`
 - `download_transport` - web or s3
   defult: `web`
-- `full_aem_web_transport_link` - web or s3
+- `full_aem_web_transport_link` - link for aem file
   defult: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
-- `full_license_web_transport_link` - web or s3
+- `full_license_web_transport_link` - link for aem license file
   defult: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
 - `transport_s3_bucket` - s3 bucket
   defult: `aemartifacts`
