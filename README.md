@@ -52,51 +52,36 @@ Role Variables : default
   default: `443`
 - `dispatcher_http_port` - Http port for litening  
   default: `80`
-
 - `download_transport` - web or s3
   defult: `web`
-
 - `full_aem_web_transport_link` - web or s3
   defult: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
-
 - `full_license_web_transport_link` - web or s3
   defult: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
-
 - `transport_s3_bucket` - s3 bucket
   defult: `aemartifacts`
-
 - `aem_transport_s3_path` - aem file s3 path 
   defult: `/{{ aem_version }}/aem.jar`
-
 - `license_transport_s3_path` - aem license file s3 path
   defult: `/licenses/{{ aem_version }}/license.properties`
-
 - `transport_s3_aws_access_key` - access_key
   defult: `{{ lookup('env','AWS_ACCESS_KEY') }}`
-
 - `transport_s3_aws_secret_key` - secret_key
   defult: `{{ lookup('env','AWS_SECRET_KEY') }}`
-
 - `web_transport_common_url` - Server link to download installation packages  
   defult: `ftp://ftp:ftp@ftp.com/aem/`
-
 - `aem_instance_type` - AEM type (author or publish)  
   default: `author`
-
 - `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others  
   default: ``
-
 - `aem_root` - Default AEM root path  
   default: `/opt/aem`
-
 - `aem_instance_port` - Default AEM port  
   default: `4502`
-
 - `publishers` - List of publishers for replication agents configuration  
   default: `[]`
 - `publisher_ssl` -  Enable ssl for replication agents
   default: `False` 
-
 - `dispatchers` - List of dispatchers for flush agents configuration  
   default: `[]`
 - `dispatcher_ssl` - Enable ssl for flush agents
@@ -105,7 +90,6 @@ Role Variables : default
   default: `443`
 - `dispatcher_http_port` - http port for flush agents
   default: `80`
-
 - `aem_ssl_enable` - Enable and configure  SSl on aem node
   default: `False`
 - `aem_instance_ssl_port` Set AEM node ssl port
@@ -124,10 +108,8 @@ Role Variables : default
   default: `admin`
 - `aem_admin_password` - Default AEM admin user password  
   default: `admin`
-
 - `environment_type` - AEM environment type (dev test uat etc.)  
   default: `dev_test`
-
 - `aem_user` - Linux username which operates AEM  
   default: `aem`
 - `aem_group` - Linux usergroup which operates AEM  
