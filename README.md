@@ -53,6 +53,30 @@ Role Variables : default
 - `dispatcher_http_port` - Http port for litening  
   default: `80`
 
+- `download_transport` - web or s3
+  defult: `web`
+
+- `full_aem_web_transport_link` - web or s3
+  defult: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
+
+- `full_license_web_transport_link` - web or s3
+  defult: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
+
+- `transport_s3_bucket` - s3 bucket
+  defult: `aemartifacts`
+
+- `aem_transport_s3_path` - aem file s3 path 
+  defult: `/{{ aem_version }}/aem.jar`
+
+- `license_transport_s3_path` - aem license file s3 path
+  defult: `/licenses/{{ aem_version }}/license.properties`
+
+- `transport_s3_aws_access_key` - access_key
+  defult: `{{ lookup('env','AWS_ACCESS_KEY') }}`
+
+- `transport_s3_aws_secret_key` - secret_key
+  defult: `{{ lookup('env','AWS_SECRET_KEY') }}`
+
 - `web_transport_common_url` - Server link to download installation packages  
   defult: `ftp://ftp:ftp@ftp.com/aem/`
 
@@ -177,8 +201,8 @@ Role Variables : default
 Your JVM will be started with Xms amount of memory and will be able to use a maximum of Xmx amount of memory. 
 For example, starting a JVM like below will start it with 256 MB of memory and will allow the process to use up to 2048 MB of memory
 with: 
-`Xms_size: 256m`
-`Xmx_size: 2048m`
+`Xms_size: 256`
+`Xmx_size: 2048`
 
 
 - `replication_enabled` - Enable replication configuration for author-> publisher dispatcher   
