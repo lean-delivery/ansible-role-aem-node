@@ -21,7 +21,7 @@ dispatcher_https_port: 443
 dispatcher_http_port: 80
 
 #server link to download
-web_transport_common_url: 'ftp://ftp:ftp@ftp.com'
+web_transport_common_url: 'ftp://ftp:ftp@ftp.com/aem'
 full_aem_web_transport_link: '{{ web_transport_common_url }}/{{ aem_version }}/aem.jar'
 full_license_web_transport_link: '{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties'
 

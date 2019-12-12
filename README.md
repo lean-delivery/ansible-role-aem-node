@@ -23,7 +23,8 @@ This role:
 Requirements
 ------------
  - Minimal Version of the ansible for installation: 2.5
- - **Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java)
+ - **Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java) for AEM 6.3, 6.4
+ - **Java 11** for AEM 6.5
  - Ansible Modules:
     - LDI AEM modules https://github.com/lean-delivery/ansible-modules-aem
  - **Supported OS**:
@@ -39,86 +40,83 @@ Requirements
 Role Variables : default
 --------------
 
-- `aem_version` - Version of AEM node wich to install (6.3, 6.4, 6.5)  
+- `aem_version` - Version of AEM node wich to install (6.3, 6.4, 6.5)\
   default: `6.4`
-
-- `aem_packages` - List of additional AEM Packages to install
+- `aem_packages` - List of additional AEM Packages to install\
   default: `[]`
-
-- `dispatcher_ssl` - configure flush agent on ssl dispatcher port  
+- `dispatcher_ssl` - configure flush agent on ssl dispatcher port\
   default: `False`
-- `dispatcher_https_port` - Https port for listening  
+- `dispatcher_https_port` - Https port for listening\
   default: `443`
-- `dispatcher_http_port` - Http port for litening  
+- `dispatcher_http_port` - Http port for litening\
   default: `80`
-- `download_transport` - web or s3
-  defult: `web`
-- `full_aem_web_transport_link` - link for aem file
-  defult: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
-- `full_license_web_transport_link` - link for aem license file
-  defult: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
-- `transport_s3_bucket` - s3 bucket
-  defult: `aemartifacts`
-- `aem_transport_s3_path` - aem file s3 path 
-  defult: `/{{ aem_version }}/aem.jar`
-- `license_transport_s3_path` - aem license file s3 path
-  defult: `/licenses/{{ aem_version }}/license.properties`
-- `transport_s3_aws_access_key` - access_key
-  defult: `{{ lookup('env','AWS_ACCESS_KEY') }}`
-- `transport_s3_aws_secret_key` - secret_key
-  defult: `{{ lookup('env','AWS_SECRET_KEY') }}`
-- `web_transport_common_url` - Server link to download installation packages  
-  defult: `ftp://ftp:ftp@ftp.com/aem/`
-- `aem_instance_type` - AEM type (author or publish)  
+- `download_transport` - web or s3\
+  default: `web`
+- `full_aem_web_transport_link` - link for aem file\
+  default: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
+- `full_license_web_transport_link` - link for aem license file\
+  default: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
+- `transport_s3_bucket` - s3 bucket\
+  default: `aemartifacts`
+- `aem_transport_s3_path` - aem file s3 path\
+  default: `/{{ aem_version }}/aem.jar`
+- `license_transport_s3_path` - aem license file s3 path\
+  default: `/licenses/{{ aem_version }}/license.properties`
+- `transport_s3_aws_access_key` - access_key\
+  default: `{{ lookup('env','AWS_ACCESS_KEY') }}`
+- `transport_s3_aws_secret_key` - secret_key\
+  default: `{{ lookup('env','AWS_SECRET_KEY') }}`
+- `web_transport_common_url` - Server link to download installation packages\
+  default: `ftp://ftp:ftp@ftp.com/aem`
+- `aem_instance_type` - AEM type (author or publish)\
   default: `author`
-- `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others  
+- `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others\
   default: ``
-- `aem_root` - Default AEM root path  
+- `aem_root` - Default AEM root path\
   default: `/opt/aem`
-- `aem_instance_port` - Default AEM port  
+- `aem_instance_port` - Default AEM port\
   default: `4502`
-- `publishers` - List of publishers for replication agents configuration  
+- `publishers` - List of publishers for replication agents configuration\
   default: `[]`
-- `publisher_ssl` -  Enable ssl for replication agents
+- `publisher_ssl` -  Enable ssl for replication agents\
   default: `False` 
-- `dispatchers` - List of dispatchers for flush agents configuration  
+- `dispatchers` - List of dispatchers for flush agents configuration\
   default: `[]`
-- `dispatcher_ssl` - Enable ssl for flush agents
+- `dispatcher_ssl` - Enable ssl for flush agents\
   default: `False`
-- `dispatcher_https_port` - Ssl port for flush agents
+- `dispatcher_https_port` - ssl port for flush agents\
   default: `443`
-- `dispatcher_http_port` - http port for flush agents
+- `dispatcher_http_port` - http port for flush agents\
   default: `80`
-- `aem_ssl_enable` - Enable and configure  SSl on aem node
+- `aem_ssl_enable` - Enable and configure  ssl on aem node\
   default: `False`
-- `aem_instance_ssl_port` Set AEM node ssl port
+- `aem_instance_ssl_port` Set AEM node ssl port\
   default: `8443`
-- `aem_ssl_dir:`  - crt and key dir for AEM ssl configuration
+- `aem_ssl_dir:`  - crt and key dir for AEM ssl configuration\
   default: `'{{aem_root}}/ssl'` 
-- `aem_ssl_hostname` hostname for AEM ssl configuration
+- `aem_ssl_hostname` hostname for AEM ssl configuration\
   default: `localhost`
-- `ssl_key_full_path` - full path to the ssl file
+- `ssl_key_full_path` - full path to the ssl file\
   default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.key'`
-- `ssl_crt_full_path`- full path to the ssl file
+- `ssl_crt_full_path`- full path to the ssl file\
   default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.crt'`
-- `ssl_der_full_path` - full path to the ssl file
+- `ssl_der_full_path` - full path to the ssl file\
   default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.der'`
-- `aem_admin_login` - Default AEM admin user login  
+- `aem_admin_login` - Default AEM admin user login\
   default: `admin`
-- `aem_admin_password` - Default AEM admin user password  
+- `aem_admin_password` - Default AEM admin user password\
   default: `admin`
-- `environment_type` - AEM environment type (dev test uat etc.)  
+- `environment_type` - AEM environment type (dev test uat etc.)\
   default: `dev_test`
-- `aem_user` - Linux username which operates AEM  
+- `aem_user` - Linux username which operates AEM\
   default: `aem`
-- `aem_group` - Linux usergroup which operates AEM  
+- `aem_group` - Linux usergroup which operates AEM\
   default: `aem`
-- `aem_user_id` - Linux user's uid  
+- `aem_user_id` - Linux user's uid\
   default: `99999`
-- `aem_group_id` - Linux usergoup's gid  
+- `aem_group_id` - Linux usergoup's gid\
   default: `19999`
-
-- `aem_change_default_admin_password` - Change or not default admin password  
+- `aem_change_default_admin_password` - Change or not default admin password\
   default: `False`
 
 ### AEM groups which would be created during provision proccess
@@ -191,7 +189,7 @@ with:
 
 
 
-Example file repository structure
+Example installation file repository structure
 ----------------
 
 Structure for AEM 6.4 and 6.3 :
@@ -221,7 +219,7 @@ Example Inventory
 
 Example Playbook
 ----------------
-
+Don't forget to preinstall LDI AEM modules.
 
 ```yml
 ---
@@ -230,6 +228,8 @@ Example Playbook
   hosts: all
   roles:
     - role: lean_delivery.java
+      transport: repositories
+      java_major_version: 8
 
 - name: publisher_install
   hosts: aem_publishers
@@ -237,7 +237,7 @@ Example Playbook
     - role: ansible-role-aem-node
       replication_enabled: true
       aem_instance_type: publisher
-      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: ftp://ftp:ftp@aem.example.com/aem
       dispatchers: "{{ groups['publisher_dispatchers'] }}"
       aem_groups:
        -
@@ -266,7 +266,7 @@ Example Playbook
     - role: ansible-role-aem-node
       replication_enabled: true
       aem_instance_type: author
-      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: ftp://ftp:ftp@aem.example.com/aem
       publishers: "{{ groups['aem_publishers'] }}"
       aem_groups:
        -
