@@ -236,7 +236,7 @@ Don't forget to preinstall LDI AEM modules.
   roles:
     - role: ansible-role-aem-node
       replication_enabled: true
-      aem_instance_type: publisher
+      aem_instance_type: publish
       web_transport_common_url: ftp://ftp:ftp@aem.example.com/aem
       dispatchers: "{{ groups['publisher_dispatchers'] }}"
       aem_groups:
@@ -255,7 +255,7 @@ Don't forget to preinstall LDI AEM modules.
         id: 'test_user'
         first_name: 'Test'
         second_name: 'User'
-        password: 'test_user_password'
+        password: 'Test_user_password1'
         group: 'test_group'
 
 
@@ -284,7 +284,7 @@ Don't forget to preinstall LDI AEM modules.
         id: 'test_user'
         first_name: 'Test'
         second_name: 'User'
-        password: 'test_user_password'
+        password: 'Test_user_password1'
         group: 'test_group'
 
 ```
