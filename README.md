@@ -22,7 +22,7 @@ This role:
 
 Requirements
 ------------
- - Minimal Version of the ansible for installation: 2.5
+ - Minimal Version of the ansible for installation: 2.7
  - **Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java) for AEM 6.3, 6.4
  - **Java 11** for AEM 6.5
  - Ansible Modules:
@@ -48,23 +48,23 @@ Role Variables : default
   default: `False`
 - `dispatcher_https_port` - Https port for listening\
   default: `443`
-- `dispatcher_http_port` - Http port for litening\
+- `dispatcher_http_port` - Http port for listening\
   default: `80`
 - `download_transport` - web or s3\
   default: `web`
-- `full_aem_web_transport_link` - link for aem file\
+- `full_aem_web_transport_link` - link for aem installation file\
   default: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
 - `full_license_web_transport_link` - link for aem license file\
   default: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
 - `transport_s3_bucket` - s3 bucket\
   default: `aemartifacts`
-- `aem_transport_s3_path` - aem file s3 path\
+- `aem_transport_s3_path` - aem installation file s3 path\
   default: `/{{ aem_version }}/aem.jar`
 - `license_transport_s3_path` - aem license file s3 path\
   default: `/licenses/{{ aem_version }}/license.properties`
-- `transport_s3_aws_access_key` - access_key\
+- `transport_s3_aws_access_key` - access key\
   default: `{{ lookup('env','AWS_ACCESS_KEY') }}`
-- `transport_s3_aws_secret_key` - secret_key\
+- `transport_s3_aws_secret_key` - secret key\
   default: `{{ lookup('env','AWS_SECRET_KEY') }}`
 - `web_transport_common_url` - Server link to download installation packages\
   default: `ftp://ftp:ftp@ftp.com/aem`
@@ -78,7 +78,7 @@ Role Variables : default
   default: `4502`
 - `publishers` - List of publishers for replication agents configuration\
   default: `[]`
-- `publisher_ssl` -  Enable ssl for replication agents\
+- `publisher_ssl` - Enable ssl for replication agents\
   default: `False` 
 - `dispatchers` - List of dispatchers for flush agents configuration\
   default: `[]`
@@ -90,11 +90,11 @@ Role Variables : default
   default: `80`
 - `aem_ssl_enable` - Enable and configure  ssl on aem node\
   default: `False`
-- `aem_instance_ssl_port` Set AEM node ssl port\
+- `aem_instance_ssl_port` - Set AEM node ssl port\
   default: `8443`
-- `aem_ssl_dir:`  - crt and key dir for AEM ssl configuration\
+- `aem_ssl_dir:` - crt and key dir for AEM ssl configuration\
   default: `'{{aem_root}}/ssl'` 
-- `aem_ssl_hostname` hostname for AEM ssl configuration\
+- `aem_ssl_hostname` - hostname for AEM ssl configuration\
   default: `localhost`
 - `ssl_key_full_path` - full path to the ssl file\
   default: `'{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.key'`
@@ -139,7 +139,7 @@ Role Variables : default
        - 'everyone'
 ```
 
-- `aem_groups`
+- `aem_groups`\
   default: `[]`
 
 ### AEM users which would be created during provision proccess
@@ -163,18 +163,18 @@ Role Variables : default
 ```
 
 
-- `aem_users`
+- `aem_users`\
   default: `[]`
 
 ### AEM systemd configuration: Java garbage collectors "UseG1GC",  UseParallelGC , UseSerialGC
 
-- `aem_garbage_collector`   
+- `aem_garbage_collector`\
   default: `UseG1GC`
-- `aem_perm_size`   
+- `aem_perm_size`\
   default: `512m`
-- `Xmx_size` -  specifies the maximum memory allocation pool for a Java virtual machine (JVM)
+- `Xmx_size` -  specifies the maximum memory allocation pool for a Java virtual machine (JVM)\
   default: `'{{ (ansible_memtotal_mb * 0.7) |int|abs }}'`
-- `Xms_size` - specifies the initial memory allocation pool.
+- `Xms_size` - specifies the initial memory allocation pool.\
   default: `'{{ (ansible_memtotal_mb * 0.7) |int|abs }}'`
 
 Your JVM will be started with Xms amount of memory and will be able to use a maximum of Xmx amount of memory. 
@@ -184,7 +184,7 @@ with:
 `Xmx_size: 2048`
 
 
-- `replication_enabled` - Enable replication configuration for author-> publisher dispatcher   
+- `replication_enabled` - Enable replication configuration for author-> publisher dispatcher\
   default: `False`
 
 
