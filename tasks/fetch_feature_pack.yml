@@ -1,0 +1,22 @@
+---
+# file: tasks/fetch_feature_pack.yml
+
+# todo: add feature to download feature pack list at once, not only data store feature pack
+- name: download data store feature pack
+    block:
+      - name: fetch checksum file
+        uri:
+          url: '{{ data_store_feature_pack_md5_link }}'
+          return_content: true
+        register: feature_pack_checksum
+        retries: 3
+        delay: 2
+
+        - name: Download Amazon S3 Data Store feature pack
+          get_url:
+            url: '{{ data_store_feature_pack_link }}'
+            dest: '{{ tmpdir }}'
+            checksum: 'md5:{{ feature_pack_checksum.content }}'
+          register: data_store_file_downloaded
+          retries: 3
+          delay: 2

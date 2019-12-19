@@ -119,6 +119,17 @@ Role Variables : default
 - `aem_change_default_admin_password` - Change or not default admin password\
   default: `False`
 
+Data stores configuration:
+- `install_data_store_s3` - Configure Amazon S3 Data Store
+  default: `False`
+- `data_store_feature_pack_link` - S3 Datastore Connector link to download from Adobe Repository
+  default: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
+              /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
+- `s3_data_store_bucket` - The bucket name
+- `s3_data_store_region` - The bucket region
+- `s3_data_store_acces_key` - The AWS access key
+- `s3_data_store_secret_key` - The AWS secret access key
+  
 ### AEM groups which would be created during provision proccess
 
 ```yml

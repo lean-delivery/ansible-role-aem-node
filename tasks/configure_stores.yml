@@ -1,0 +1,56 @@
+---
+# file: tasks/configure_stores.yml
+
+- name: Configure data store
+  block:
+    - name: download data store feature pack
+      include_tasks: 'fetch_feature_pack.yml'
+
+    - set_fact:
+        aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
+        temp_dir: '{{ tmpdir }}/{{ (data_store_file_downloaded.dest | basename | splitext)[0] }}'
+
+    - name: create a folder crx-quickstart/install in the installation directory
+      file:
+        path: '{{ aem_install_dir }}'
+        state: directory
+        owner: '{{ aem_user }}'
+        group: '{{ aem_user }}'
+
+    - name: ensure temporary directory exists
+        file:
+          path: '{{ temp_dir }}'
+          state: directory
+
+    - name: extract the contents of the feature pack zip file to a temporary folder
+      unarchive:
+        src: '{{ data_store_file_downloaded.dest }}'
+        dest: '{{ temp_dir }}'
+        remote_src: yes
+
+    - name: copy jars to AEM install folder
+      copy:
+        src: '{{ temp_dir }}/jcr_root/libs/system/install/'
+        dest: '{{ aem_install_dir }}/'
+        remote_src: true
+        owner: '{{ aem_user }}'
+        group: '{{ aem_user }}'
+
+    - name: copy config files to AEM install folder
+      copy:
+        src: '{{ temp_dir }}/jcr_root/libs/system/config/'
+        dest: '{{ aem_install_dir }}/'
+        remote_src: true
+        owner: '{{ aem_user }}'
+        group: '{{ aem_user }}'
+
+    - name: creating PID for configuration Amazon S3 Data Store
+      template:
+        src: s3datastore.config.j2
+        dest: '{{ s3_connector_pid_file }}'
+        owner: '{{ aem_user }}'
+        group: '{{ aem_user }}'
+        mode: 0660
+      become: true
+  when: install_data_store_s3
+

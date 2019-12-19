@@ -137,3 +137,21 @@ aem_load_handler:
 
 pip_executable: '{{ default_pip_executable }}'
 python_executable: '{{ default_python_executable }}'
+
+tmpdir: /tmp
+
+### Configure data stores ###
+# Amazon S3 Data Store
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
+install_data_store_s3: false
+# Go to the Adobe Repository and download the latest version from
+# https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector/1.8.6/
+data_store_feature_pack_link: >-
+  https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
+  /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip
+data_store_feature_pack_md5_link: '{{ data_store_feature_pack_link }}.md5'
+s3_connector_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.S3DataStore.config
+s3_data_store_bucket: ""
+s3_data_store_region: ""
+s3_data_store_acces_key: ""
+s3_data_store_secret_key: ""
