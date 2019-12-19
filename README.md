@@ -129,6 +129,9 @@ Data stores configuration:
 - `s3_data_store_region` - The bucket region
 - `s3_data_store_acces_key` - The AWS access key
 - `s3_data_store_secret_key` - The AWS secret access key
+
+To use TarMK with the S3 Datastore, you need to start AEM using the crx3tar-nofds runmode, i.e. add
+`aem_custom_modes`: crx3tar-nofds
   
 ### AEM groups which would be created during provision proccess
 
@@ -297,6 +300,21 @@ Don't forget to preinstall LDI AEM modules.
         second_name: 'User'
         password: 'Test_user_password1'
         group: 'test_group'
+
+- name: author_install_s3_data_store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_instance_type: author
+      install_data_store_s3: true
+      adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.s3connector-1.8.6.zip
+      s3_data_store_bucket: my-some-data-store
+      s3_data_store_region: us-east-1
+      s3_data_store_acces_key: AAABBBCCC
+      s3_data_store_secret_key: AAABBBCCCDDDEEE
+      aem_custom_modes: crx3tar-nofds
+      ...
 
 ```
 

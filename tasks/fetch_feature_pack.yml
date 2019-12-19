@@ -6,7 +6,7 @@
     block:
       - name: fetch checksum file
         uri:
-          url: '{{ data_store_feature_pack_md5_link }}'
+          url: '{{ adobe_repo_feature_pack_md5_link }}'
           return_content: true
         register: feature_pack_checksum
         retries: 3
@@ -14,7 +14,7 @@
 
         - name: Download Amazon S3 Data Store feature pack
           get_url:
-            url: '{{ data_store_feature_pack_link }}'
+            url: '{{ adobe_repo_feature_pack_link }}'
             dest: '{{ tmpdir }}'
             checksum: 'md5:{{ feature_pack_checksum.content }}'
           register: data_store_file_downloaded
