@@ -12,11 +12,11 @@
       retries: 3
       delay: 2
 
-      - name: Download Amazon S3 Data Store feature pack
-        get_url:
-          url: '{{ adobe_repo_feature_pack_link }}'
-          dest: '{{ tmpdir }}'
-          checksum: 'md5:{{ feature_pack_checksum.content }}'
-        register: data_store_file_downloaded
-        retries: 3
-        delay: 2
+    - name: Download Amazon S3 Data Store feature pack
+      get_url:
+        url: '{{ adobe_repo_feature_pack_link }}'
+        dest: '{{ tmpdir }}'
+        checksum: 'md5:{{ feature_pack_checksum.content }}'
+      register: data_store_file_downloaded
+      retries: 3
+      delay: 2
