@@ -89,12 +89,14 @@ provisioner:
       callback_whitelist: profile_tasks,timer
   inventory:
     group_vars:
+      temp_s3_bucket: "test-aem-64-{{ lookup('env', 'CI_COMMIT_SHORT_SHA' ) }}"
+      temp_s3_region: us-east-1
       data_store_s3:
         install_data_store_s3: true
         adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
           com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip"
-        s3_data_store_bucket: epm-ldi-test-aem-s3-65
-        s3_data_store_region: us-east-1
+        s3_data_store_bucket: "{{ temp_s3_bucket }}"
+        s3_data_store_region: "{{ temp_s3_region }}"
         s3_data_store_acces_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
         s3_data_store_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
         aem_custom_modes: crx3tar-nofds

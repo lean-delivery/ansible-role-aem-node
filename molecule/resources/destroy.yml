@@ -1,0 +1,11 @@
+---
+- name: Include common destroy
+  import_playbook: ../resources/provisioning/AWS/destroy.yml
+
+- name: Delete temporary S3 bucket
+  hosts: aem_authors[0]
+  tasks:
+    - name: Delete a bucket and all contents
+      aws_s3:
+        bucket: '{{ temp_s3_bucket }}'
+        mode: delete
