@@ -149,7 +149,7 @@ install_data_store_s3: false
 adobe_repo_feature_pack_link: >-
   https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
   /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip
-adobe_repo_feature_pack_md5_link: '{{ data_store_feature_pack_link }}.md5'
+adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
 s3_connector_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.S3DataStore.config
 s3_data_store_bucket: ""
 s3_data_store_region: ""

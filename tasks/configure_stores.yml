@@ -47,9 +47,9 @@
     - name: creating PID for configuration Amazon S3 Data Store
       template:
         src: s3datastore.config.j2
-        dest: '{{ s3_connector_pid_file }}'
+        dest: '{{ aem_install_dir}}/{{s3_connector_pid_file }}'
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
         mode: 0660
-      become: true
   when: install_data_store_s3
+  become: true
