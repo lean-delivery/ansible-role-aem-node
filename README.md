@@ -71,6 +71,7 @@ Role Variables : default
 - `aem_instance_type` - AEM type (author or publish)\
   default: `author`
 - `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others\
+   * __crx3tar-nofds__ - To use TarMK with the S3 Datastore, you need to start AEM using the crx3tar-nofds runmode\
   default: ``
 - `aem_root` - Default AEM root path\
   default: `/opt/aem`
@@ -122,7 +123,7 @@ Role Variables : default
 Data stores configuration:
 - `install_data_store_s3` - Configure Amazon S3 Data Store
   default: `False`
-- `data_store_feature_pack_link` - S3 Datastore Connector link to download from Adobe Repository
+- `adobe_repo_feature_pack_link` - Link to download S3 Datastore Connector zip file from Adobe Repository
   default: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
               /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
 - `s3_data_store_bucket` - The bucket name
@@ -306,7 +307,9 @@ Don't forget to preinstall LDI AEM modules.
 
   roles:
     - role: ansible-role-aem-node
+      aem_version: '6.5'
       aem_instance_type: author
+      ...
       install_data_store_s3: true
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.s3connector-1.8.6.zip
       s3_data_store_bucket: my-some-data-store
@@ -315,7 +318,6 @@ Don't forget to preinstall LDI AEM modules.
       s3_data_store_secret_key: AAABBBCCCDDDEEE
       aem_custom_modes: crx3tar-nofds
       ...
-
 ```
 
 
