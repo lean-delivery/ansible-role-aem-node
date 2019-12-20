@@ -90,6 +90,9 @@ provisioner:
   inventory:
     group_vars:
       data_store_s3:
+        install_data_store_s3: true
+        adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+          com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip"
         s3_data_store_bucket: epm-ldi-test-aem-s3-65
         s3_data_store_region: us-east-1
         s3_data_store_acces_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
