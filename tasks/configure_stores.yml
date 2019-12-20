@@ -6,7 +6,8 @@
     - name: download data store feature pack
       include_tasks: 'fetch_feature_pack.yml'
 
-    - set_fact:
+    - name: define dir paths
+      set_fact:
         aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
         temp_dir: '{{ tmpdir }}/{{ (data_store_file_downloaded.dest | basename | splitext)[0] }}'
 
