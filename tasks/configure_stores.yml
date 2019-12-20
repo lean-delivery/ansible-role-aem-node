@@ -26,7 +26,7 @@
       unarchive:
         src: '{{ data_store_file_downloaded.dest }}'
         dest: '{{ temp_dir }}'
-        remote_src: yes
+        remote_src: true
 
     - name: copy jars to AEM install folder
       copy:
@@ -47,7 +47,7 @@
     - name: creating PID for configuration Amazon S3 Data Store
       template:
         src: s3datastore.config.j2
-        dest: '{{ aem_install_dir}}/{{s3_connector_pid_file }}'
+        dest: '{{ aem_install_dir + "/" + s3_connector_pid_file }}'
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
         mode: 0660
