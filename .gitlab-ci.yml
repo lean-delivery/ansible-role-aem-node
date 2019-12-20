@@ -43,7 +43,7 @@ AWS aem-node-author-6.3:
   tags:
     - aws
 
-AWS aem-node-publisher-6.3:
+.AWS aem-node-publisher-6.3:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -70,7 +70,7 @@ AWS aem-node-author-6.4:
   tags:
     - aws
 
-.AWS aem-node-author-6.5:
+AWS aem-node-author-6.5:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
