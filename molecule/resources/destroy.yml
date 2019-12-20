@@ -7,5 +7,5 @@
   tasks:
     - name: Delete a bucket and all contents
       aws_s3:
-        bucket: '{{ temp_s3_bucket }}'
+        bucket: "{{ lookup('env','CI_JOB_ID') }}"
         mode: delete

@@ -7,9 +7,9 @@
   tasks:
     - name: Create S3 bucket
       aws_s3:
-        bucket: "{{ temp_s3_bucket }}"
+        bucket: "{{ lookup('env','CI_JOB_ID') }}"
         mode: create
-        region: "{{ temp_s3_region }}"
+        region: us-east-1
 
 - name: Install java
   hosts: all
