@@ -45,6 +45,25 @@ platforms:
       - aem_authors
       - aem_publishers
 
+  - name: test-aws-ubuntu16-aem-node-author-6.4-s3datastore
+    image: ami-09677e0a6b14905b0
+    platform: ubuntu16
+    instance_type: m5d.large
+    profile_name: epmldi-instance-profile
+    region: us-east-1
+    vpc_subnet_id: subnet-0f2b9cd66faea38af
+    assign_public_ip: false
+    security_group_name:
+      - default
+    spot_price: 0.04
+    wait_timeout: 1800
+    ssh_user: ubuntu
+    groups:
+      - debian_family
+      - aem_authors
+      - aem_publishers
+      - data_store_s3
+
   - name: test-aws-ubuntu18-aem-node-author-6.4
     image: ami-012fd5eb46f56731f
     platform: ubuntu18
@@ -68,6 +87,14 @@ provisioner:
   config_options:
     defaults:
       callback_whitelist: profile_tasks,timer
+  inventory:
+    group_vars:
+      data_store_s3:
+        s3_data_store_bucket: epm-ldi-test-aem-s3-64
+        s3_data_store_region: us-east-1
+        s3_data_store_acces_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
+        s3_data_store_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
+        aem_custom_modes: crx3tar-nofds
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
     prepare: ../resources/prepare.yml
