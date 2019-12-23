@@ -1,0 +1,14 @@
+---
+- name: Delete temporary S3 bucket
+  hosts: aem_authors[0]
+  tasks:
+    - name: check if temp S3 bucket exists
+      aws_s3_bucket_facts:
+        region: us-east-1
+      register: s3_buckets
+    - name: delete a temp S3 bucket and all contents
+      aws_s3:
+        bucket: "{{ item.name }}"
+        mode: delete
+      loop: "{{ s3_buckets.ansible_facts.buckets }}"
+      when: item.name == ("epm-ldi-aem-" + lookup('env','CI_JOB_ID'))
