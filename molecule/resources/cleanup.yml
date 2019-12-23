@@ -1,6 +1,8 @@
 ---
 - name: Delete temporary S3 bucket
-  hosts: aem_authors[0]
+  hosts: localhost
+  connection: local
+  gather_facts: false
   tasks:
     - name: check if temp S3 bucket exists
       aws_s3_bucket_facts:
