@@ -5,11 +5,34 @@
 - name: Prepare temporary bucket for S3 data store testing
   hosts: aem_authors[0]
   tasks:
-    - name: Create S3 bucket
-      aws_s3:
-        bucket: "{{ lookup('env','CI_JOB_ID') }}"
-        mode: create
-        region: us-east-1
+    block:
+      - name: Define pyton-pip variables
+        set_fact:
+          pip_executable: "{{ ansible_os_family == 'Debian' | ternary('pip3', 'pip3') }}"
+          python_executable: "{{ ansible_os_family == 'Debian' | ternary('python3', 'pip') }}"
+
+      - name: Install python-pip
+        package:
+          name: '{{ requirements }}'
+        retries: 3
+        register: result
+        until: result is success
+        become: true
+
+      - name: install python boto3
+        pip:
+          name: boto3
+          executable: '{{ pip_executable }}'
+        retries: 3
+        register: result
+        until: result is success
+        become: true
+
+      - name: Create S3 bucket
+        aws_s3:
+          bucket: "{{ lookup('env','CI_JOB_ID') }}"
+          mode: create
+          region: us-east-1
 
 - name: Install java
   hosts: all
