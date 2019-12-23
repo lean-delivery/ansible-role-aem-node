@@ -3,13 +3,17 @@
 
 - name: Configure data store
   block:
-    - name: download data store feature pack
-      include_tasks: 'fetch_feature_pack.yml'
-
-    - name: define dir paths
+    - name: define data store variables
       set_fact:
+        data_store_type: '{{ install_data_store_s3 | ternary("s3", "azure")}}'
         aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
         temp_dir: '{{ tmpdir }}/{{ (data_store_file_downloaded.dest | basename | splitext)[0] }}'
+
+    - name: set variables based on data store type
+      include_vars: 'data_store/{{ data_store_type }}_vars.yml'
+
+    - name: download data store feature pack
+      include_tasks: 'fetch_feature_pack.yml'
 
     - name: create a folder crx-quickstart/install in the installation directory
       file:
@@ -45,12 +49,11 @@
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
 
-    - name: creating PID for configuration Amazon S3 Data Store
+    - name: creating PID for configuration Data Store
       template:
-        src: s3datastore.config.j2
-        dest: '{{ aem_install_dir + "/" + s3_connector_pid_file }}'
+        src: 'datastore_{{ data_store_type }}.config.j2'
+        dest: '{{ aem_install_dir + "/" + datastore_connector_pid_file }}'
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
         mode: 0660
-  when: install_data_store_s3
   become: true

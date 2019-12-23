@@ -1,0 +1,10 @@
+accessKey="{{ azure_data_store_access_key }}"
+azureBlobEndpoint="{{ azure_data_store_blob_endpoint }}"
+container="{{ azure_data_store_container }}"
+secretKey="{{ azure_data_store_secret_key }}"
+maxConnections="4"
+maxErrorRetry="10"
+socketTimeout="120000"
+{% if azure_data_store_sas != '' %}
+azureSas="{{ azure_data_store_sas }}"
+{% endif %}

@@ -1,0 +1,13 @@
+---
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
+# Go to the Adobe Repository and download the latest version from
+# https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector/
+adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip"
+adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
+datastore_connector_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.S3DataStore.config
+
+s3_data_store_bucket: ''
+s3_data_store_region: ''
+s3_data_store_acces_key: ''
+s3_data_store_secret_key: ''
