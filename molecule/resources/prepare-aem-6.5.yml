@@ -25,7 +25,7 @@
           executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
       - name: Create S3 bucket
         aws_s3:
-          bucket: "{{ lookup('env','CI_JOB_ID') }}"
+          bucket: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
           mode: create
           region: us-east-1
       become: true
