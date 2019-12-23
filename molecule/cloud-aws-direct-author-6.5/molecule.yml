@@ -101,7 +101,7 @@ provisioner:
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
     prepare: ../resources/prepare-aem-6.5.yml
-    destroy: ../resources/provisioning/AWS/destroy.yml
+    destroy: ../resources/destroy.yml
     verify: ../resources/tests/verify.yml
   lint:
     name: ansible-lint

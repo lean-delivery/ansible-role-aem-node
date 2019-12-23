@@ -9,4 +9,3 @@
 
 - name: Include common destroy
   import_playbook: ../resources/provisioning/AWS/destroy.yml
-
