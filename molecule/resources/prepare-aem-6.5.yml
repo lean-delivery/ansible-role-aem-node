@@ -16,18 +16,13 @@
           repo: 'deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe'
           state: present
         when: ansible_distribution == 'Ubuntu'
-      - name: Define python-pip variables
-        set_fact:
-          python_executable: "{{ ansible_os_family == 'Debian' | ternary('python3-pip', 'python-pip') }}"
-          pip_executable: "{{ ansible_os_family == 'Debian' | ternary('pip3', 'pip') }}"
       - name: Install python-pip
         package:
-          name: '{{ python_executable }}'
+          name: "{{ (ansible_os_family == 'Debian') | ternary('python3-pip', 'python-pip') }}"
       - name: install python boto3
         pip:
           name: boto3
-          executable: '{{ pip_executable }}'
-        register: result
+          executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
       - name: Create S3 bucket
         aws_s3:
           bucket: "{{ lookup('env','CI_JOB_ID') }}"
