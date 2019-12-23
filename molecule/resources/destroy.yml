@@ -1,7 +1,4 @@
 ---
-- name: Include common destroy
-  import_playbook: ../resources/provisioning/AWS/destroy.yml
-
 - name: Delete temporary S3 bucket
   hosts: aem_authors[0]
   tasks:
@@ -9,3 +6,7 @@
       aws_s3:
         bucket: "{{ lookup('env','CI_JOB_ID') }}"
         mode: delete
+
+- name: Include common destroy
+  import_playbook: ../resources/provisioning/AWS/destroy.yml
+
