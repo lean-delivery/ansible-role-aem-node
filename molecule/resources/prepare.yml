@@ -23,7 +23,7 @@
           bucket: "{{ lookup('env','CI_JOB_ID') }}"
           mode: create
           region: us-east-1
-    become: true
+      become: true
 
 - name: Install java
   hosts: all
