@@ -85,7 +85,7 @@ provisioner:
         aem_custom_modes: crx3tar-nofds
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
-    prepare: ../resources/prepare.yml
+    prepare: ../resources/prepare_datastore.yml
     destroy: ../resources/provisioning/AWS/destroy.yml
     verify: ../resources/tests/verify.yml
     cleanup: ../resources/cleanup.yml
