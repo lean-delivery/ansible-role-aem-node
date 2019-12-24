@@ -84,7 +84,7 @@ provisioner:
         s3_data_store_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
-    prepare: ../resources/prepare_datastore.yml
+    prepare: ../resources/prepare-datastore.yml
     destroy: ../resources/provisioning/AWS/destroy.yml
     verify: ../resources/tests/verify.yml
     cleanup: ../resources/cleanup.yml
