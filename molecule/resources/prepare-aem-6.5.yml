@@ -2,34 +2,6 @@
 - name: Include common prepare
   import_playbook: ../resources/provisioning/AWS/prepare.yml
 
-- name: Prepare temporary bucket for S3 data store testing
-  hosts: aem_authors[0]
-  tasks:
-    - block:
-      - name: Install EPEL repo
-        yum:
-          name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'
-          state: present
-        when: ansible_os_family == 'RedHat'
-      - name: Add universe repository for Ubuntu
-        apt_repository:
-          repo: 'deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe'
-          state: present
-        when: ansible_distribution == 'Ubuntu'
-      - name: Install python-pip
-        package:
-          name: "{{ (ansible_os_family == 'Debian') | ternary('python3-pip', 'python-pip') }}"
-      - name: install python boto3
-        pip:
-          name: boto3
-          executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
-      - name: Create S3 bucket
-        aws_s3:
-          bucket: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
-          mode: create
-          region: us-east-1
-      become: true
-
 - name: Install java
   hosts: all
   roles:
