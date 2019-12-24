@@ -82,7 +82,6 @@ provisioner:
         s3_data_store_region: us-east-1
         s3_data_store_acces_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
         s3_data_store_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
-        aem_custom_modes: crx3tar-nofds
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
     prepare: ../resources/prepare-datastore-6.5.yml
