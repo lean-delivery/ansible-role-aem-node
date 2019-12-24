@@ -10,7 +10,7 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-aws-centos7-aem-node-author-6.3
+  - name: test-aws-centos7-aem-node-author-6.4-datastore
     profile_name: epmldi-instance-profile
     image: ami-9887c6e7
     instance_type: m5.large
@@ -26,8 +26,9 @@ platforms:
       - rhel_family
       - aem_authors
       - aem_publishers
+      - data_store_s3
 
-  - name: test-aws-ubuntu16-aem-node-author-6.3
+  - name: test-aws-ubuntu16-aem-node-author-6.4-datastore
     image: ami-09677e0a6b14905b0
     platform: ubuntu16
     instance_type: m5d.large
@@ -44,8 +45,9 @@ platforms:
       - debian_family
       - aem_authors
       - aem_publishers
+      - data_store_s3
 
-  - name: test-aws-ubuntu18-aem-node-author-6.3
+  - name: test-aws-ubuntu18-aem-node-author-6.4-datastore
     image: ami-012fd5eb46f56731f
     platform: ubuntu18
     instance_type: m5d.large
@@ -62,21 +64,35 @@ platforms:
       - debian_family
       - aem_authors
       - aem_publishers
+      - data_store_s3
+
 provisioner:
   name: ansible
   log: true
   config_options:
     defaults:
       callback_whitelist: profile_tasks,timer
+  inventory:
+    group_vars:
+      data_store_s3:
+        install_data_store_s3: true
+        adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+          com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip"
+        s3_data_store_bucket: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
+        s3_data_store_region: us-east-1
+        s3_data_store_acces_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
+        s3_data_store_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
+        aem_custom_modes: crx3tar-nofds
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
-    prepare: ../resources/prepare.yml
+    prepare: ../resources/prepare_datastore.yml
     destroy: ../resources/provisioning/AWS/destroy.yml
     verify: ../resources/tests/verify.yml
+    cleanup: ../resources/cleanup.yml
   lint:
     name: ansible-lint
 scenario:
-  name: cloud-aws-direct-author-6.3
+  name: cloud-aws-direct-author-6.4-datastore
 verifier:
   name: ansible
   lint:
