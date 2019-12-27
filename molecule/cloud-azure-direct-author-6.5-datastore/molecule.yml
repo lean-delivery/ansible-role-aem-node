@@ -69,7 +69,7 @@ provisioner:
          com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
         azure_data_store_access_key: "storage11490"
         azure_data_store_container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
-        azure_data_store_sas: "" # todo: add generated SAS
+        azure_data_store_secret_key: "{{ hostvars['localhost']['storage_access_keys'][0]['value'] }}"
   playbooks:
     create: ../resources/provisioning/AZURE/create.yml
     prepare: prepare.yml

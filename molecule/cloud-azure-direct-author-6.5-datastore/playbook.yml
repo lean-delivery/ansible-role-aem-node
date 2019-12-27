@@ -1,5 +1,23 @@
 ---
-# todo: generate SAS
+- name: Get storage access keys
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  vars:
+    resource_group_name: epm-ldi
+    storage_account_name: storage11490
+  tasks:
+    - name: get storage access keys
+      azure_rm_resource:
+        resource_group: "{{ resource_group_name }}"
+        method: POST
+        url: "/subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}\
+                   /resourceGroups/{{ resource_group_name }}/providers/\
+                   Microsoft.Storage/storageAccounts/\
+                   {{ storage_account_name }}/listKeys"
+        body:
+          api-version: "2019-06-01"
+      register: storage_access_keys
 
 - name: Install authors
   hosts: aem_authors

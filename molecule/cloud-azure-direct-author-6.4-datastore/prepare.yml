@@ -4,6 +4,10 @@
 
 - name: Prepare temporary blob storage
   hosts: aem_authors[0]
+  vars:
+    resource_group_name: epm-ldi
+    storage_account_name: storage11490
+    blob_container_name: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
   tasks:
     - block:
         - name: Install EPEL repo
@@ -25,7 +29,7 @@
             executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
         - name: create azure blob container
           azure_rm_storageblob:
-            resource_group: epm-ldi
-            storage_account_name: storage11490
-            container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
+            resource_group: "{{ resource_group_name }}"
+            storage_account_name: "{{ storage_account_name }}"
+            container: "{{ blob_container_name }}"
       become: true
