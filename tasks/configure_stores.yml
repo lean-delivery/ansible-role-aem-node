@@ -7,7 +7,6 @@
       set_fact:
         data_store_type: '{{ install_data_store_s3 | ternary("s3", "azure") }}'
         aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
-        temp_dir: '{{ tmpdir }}/{{ (data_store_file_downloaded.dest | basename | splitext)[0] }}'
         # To use TarMK with the S3 Datastore, we need to start AEM using the crx3tar-nofds runmode
         aem_custom_modes: crx3tar-nofds
 
@@ -16,6 +15,10 @@
 
     - name: download data store feature pack
       include_tasks: 'fetch_feature_pack.yml'
+
+    - name: define temp_dir variable
+      set_fact:
+        temp_dir: '{{ tmpdir }}/{{ (data_store_file_downloaded.dest | basename | splitext)[0] }}'
 
     - name: create a folder crx-quickstart/install in the installation directory
       file:

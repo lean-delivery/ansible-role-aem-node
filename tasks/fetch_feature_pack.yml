@@ -12,7 +12,7 @@
       retries: 3
       delay: 2
 
-    - name: Download Amazon S3 Data Store feature pack
+    - name: Download feature pack for data store
       get_url:
         url: '{{ adobe_repo_feature_pack_link }}'
         dest: '{{ tmpdir }}'
