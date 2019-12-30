@@ -13,4 +13,4 @@
         bucket: "{{ item.name }}"
         mode: delete
       loop: "{{ s3_buckets.ansible_facts.buckets }}"
-      when: item.name == ("epm-ldi-aem-" + lookup('env','CI_JOB_ID'))
+      when: item.name == ("epm-ldi-aem-" + lookup('env','CI_JOB_ID') + "-" + (ansible_distribution | lower) + "-" + ansible_distribution_major_version)

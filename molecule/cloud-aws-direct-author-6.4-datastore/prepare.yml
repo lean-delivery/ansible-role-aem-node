@@ -3,7 +3,7 @@
   import_playbook: ../resources/prepare.yml
 
 - name: Prepare temporary bucket for S3 data store testing
-  hosts: aem_authors[0]
+  hosts: aem_authors
   tasks:
     - block:
         - name: Install EPEL repo
@@ -25,7 +25,7 @@
             executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
         - name: Create S3 bucket
           aws_s3:
-            bucket: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
+            bucket: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
             mode: create
             region: us-east-1
       become: true
