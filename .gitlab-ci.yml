@@ -104,7 +104,7 @@ AWS aem-node-author-6.5-datastore:
   tags:
     - aws
 
-AZURE aem-node-author-6.5-datastore:
+.AZURE aem-node-author-6.5-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.5-datastore
