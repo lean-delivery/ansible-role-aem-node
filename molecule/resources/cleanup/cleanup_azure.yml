@@ -8,6 +8,6 @@
       azure_rm_storageblob:
         resource_group: epm-ldi
         storage_account_name: storage11490
-        container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
+        container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
         state: absent
         force: true

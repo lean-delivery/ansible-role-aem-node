@@ -23,7 +23,6 @@ platforms:
       - rhel_family
       - aem_authors
       - aem_publishers
-      - data_store_azure
 
   - name: test-azure-ubuntu16-aem-node-author-6.5-datastore
     platform: ubuntu16
@@ -38,7 +37,6 @@ platforms:
       - debian_family
       - aem_authors
       - aem_publishers
-      - data_store_azure
 
   - name: test-azure-ubuntu18-aem-node-author-6.5-datastore
     platform: ubuntu18
@@ -53,7 +51,6 @@ platforms:
       - debian_family
       - aem_authors
       - aem_publishers
-      - data_store_azure
 
 provisioner:
   name: ansible
@@ -61,15 +58,6 @@ provisioner:
   config_options:
     defaults:
       callback_whitelist: profile_tasks,timer
-  inventory:
-    group_vars:
-      data_store_azure:
-        install_data_store_azure: true
-        adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
-         com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
-        azure_data_store_access_key: "storage11490"
-        azure_data_store_container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
-        azure_data_store_secret_key: "{{ hostvars['localhost']['storage_access_keys'][0]['value'] }}"
   playbooks:
     create: ../resources/provisioning/AZURE/create.yml
     prepare: prepare.yml

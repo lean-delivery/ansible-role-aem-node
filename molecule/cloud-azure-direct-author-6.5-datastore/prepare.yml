@@ -1,13 +1,10 @@
 ---
-- name: Include common prepare for role
-  import_playbook: ../resources/prepare-aem-6.5.yml
+- name: Include common prepare
+  import_playbook: ../resources/provisioning/AZURE/prepare.yml
 
-- name: Prepare temporary blob storage
-  hosts: aem_authors[0]
-  vars:
-    resource_group_name: epm-ldi
-    storage_account_name: storage11490
-    blob_container_name: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}"
+- name: Prepare temporary blob storage for molecule test
+  hosts: aem_authors
+  gather_facts: false
   tasks:
     - block:
         - name: Install EPEL repo
@@ -29,7 +26,34 @@
             executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
         - name: create azure blob container
           azure_rm_storageblob:
-            resource_group: "{{ resource_group_name }}"
-            storage_account_name: "{{ storage_account_name }}"
-            container: "{{ blob_container_name }}"
+            resource_group: epm-ldi
+            storage_account_name: storage11490
+            container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
       become: true
+
+- name: Install java
+  hosts: aem_authors
+  tasks:
+    - name: Download java tarball from Storage Blob
+      azure_rm_storageblob:
+        resource_group: epm-ldi
+        storage_account_name: storage11490
+        container: oracle-java
+        blob: jdk-11.0.3_linux-x64_bin.tar.gz
+        dest: /tmp/jdk-11.0.3_linux-x64_bin.tar.gz
+
+  roles:
+    - role: lean_delivery.java
+      java_distribution: oracle_java
+      transport: local
+      transport_local: /tmp/jdk-11.0.3_linux-x64_bin.tar.gz
+
+- name: Prepare certificates
+  hosts: aem_authors
+  become: true
+  roles:
+    - role: jdauphant.ssl-certs
+      ssl_certs_common_name: localhost
+      ssl_certs_cert_path: "/etc/ssl/{{ ssl_certs_common_name }}/{{ ssl_certs_common_name }}.crt"
+      ssl_certs_path_owner: "root"
+      ssl_certs_path_group: "root"

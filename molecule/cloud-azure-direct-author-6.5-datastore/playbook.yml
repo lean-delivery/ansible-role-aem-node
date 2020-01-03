@@ -52,3 +52,10 @@
         second_name: 'User'
         password: 'testtest_123i@S'
         group: 'test_group'
+      install_data_store_azure: true
+      adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+             com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
+      azure_data_store_access_key: "storage11490"
+      azure_data_store_container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-\
+        {{ ansible_distribution_major_version }}"
+      azure_data_store_secret_key: "{{ hostvars['localhost']['storage_access_keys'][0]['value'] }}"
