@@ -60,7 +60,7 @@
         dest: '{{ aem_install_dir + "/" + datastore_connector_pid_file }}'
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
-        mode: 0660
+        mode: 0644
 
     - name: Debug PID file
       debug:
