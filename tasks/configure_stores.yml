@@ -63,11 +63,6 @@
         mode: 0660
 
     - name: Debug PID file
-      find:
-        paths: "{{ aem_install_dir }}"
-      register: file_list
-
-    - name: Debug
       debug:
-        msg: "{{ file_list }}"
+        msg: "{{ lookup('file', aem_install_dir + '/' + datastore_connector_pid_file) }}"
   become: true
