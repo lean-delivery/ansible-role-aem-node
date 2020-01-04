@@ -4,7 +4,6 @@
 
 - name: Prepare temporary blob storage for molecule test
   hosts: aem_authors
-  gather_facts: false
   tasks:
     - block:
         - name: Install EPEL repo
