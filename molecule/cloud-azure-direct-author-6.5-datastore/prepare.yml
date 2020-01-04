@@ -4,7 +4,7 @@
 
 - name: Install java
   hosts: aem_authors
-  tasks:
+  pre_tasks:
     - name: Download java tarball from Storage Blob
       azure_rm_storageblob:
         resource_group: epm-ldi
