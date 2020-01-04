@@ -22,3 +22,13 @@
   register: pip_result
   until: pip_result is succeeded
   become: true
+
+- name: Install Ansible Azure
+  pip:
+    name: ansible[azure]
+    state: present
+    executable: '{{ pip_executable }}'
+  when: download_transport == 'azure'
+  register: pip_result
+  until: pip_result is succeeded
+  become: true

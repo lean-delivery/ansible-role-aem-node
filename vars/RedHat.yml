@@ -4,3 +4,4 @@ default_python_executable: python
 
 requirements:
   - '{{ python_executable | default("python") }}-pip'
+  - 'python-wheel'
