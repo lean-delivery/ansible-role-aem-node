@@ -30,6 +30,6 @@
     state: present
     executable: '{{ pip_executable }}'
   when: download_transport == 'azure'
-  register: pip_result
-  until: pip_result is succeeded
+  register: azure_result
+  until: azure_result is succeeded
   become: true
