@@ -38,7 +38,7 @@ transport_azure_resource_group: ''
 transport_azure_storage_account_name: ''
 transport_azure_container: ''
 aem_transport_azure_path: '{{ aem_version }}/aem.jar'
-license_transport_azure_path: '/licenses/{{ aem_version }}/license.properties'
+license_transport_azure_path: 'licenses/{{ aem_version }}/license.properties'
 transport_azure_subscription_id: "{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}"
 transport_azure_client_id: "{{ lookup('env','AZURE_CLIENT_ID') }}"
 transport_azure_client_secret: "{{ lookup('env','AZURE_SECRET') }}"
