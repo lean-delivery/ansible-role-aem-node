@@ -28,6 +28,10 @@
             resource_group: epm-ldi
             storage_account_name: storage11490
             container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
+            subscription_id: '{{ transport_azure_subscription_id }}'
+            client_id: '{{ transport_azure_client_id }}'
+            secret: '{{ transport_azure_client_secret }}'
+            tenant: '{{ transport_azure_tenant_id }}'
       become: true
 
 - name: Install java
