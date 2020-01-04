@@ -23,7 +23,10 @@
   hosts: aem_authors
   roles:
     - role: ansible-role-aem-node
-      download_transport: s3
+      download_transport: azure
+      transport_azure_resource_group: epm-ldi
+      transport_azure_storage_account_name: storage11490
+      transport_azure_container: aemartifacts
       publisher_ssl: true
       aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
