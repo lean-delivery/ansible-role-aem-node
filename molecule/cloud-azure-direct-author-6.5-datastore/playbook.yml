@@ -61,4 +61,5 @@
       azure_data_store_access_key: "storage11490"
       azure_data_store_container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-\
         {{ ansible_distribution_major_version }}"
-      azure_data_store_secret_key: "{{ hostvars['localhost']['storage_access_keys']['response']['keys'][0]['value'] }}"
+      azure_data_store_secret_key: >-
+        {{ hostvars['localhost']['storage_access_keys']['response']['keys'][0]['value'] | replace('=', '\\=') }}
