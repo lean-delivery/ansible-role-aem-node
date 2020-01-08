@@ -61,4 +61,12 @@
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
         mode: 0644
+
+    - name: Debug PID file
+      command: cat {{ aem_install_dir + '/' + datastore_connector_pid_file }}
+      register: content
+
+    - name: Debug
+      debug:
+        msg: "{{ content }}"
   become: true
