@@ -37,6 +37,35 @@
       register: storage_sig
       changed_when: false
 
+- name: Prepare temporary blob storage for molecule test
+  hosts: aem_authors
+  tasks:
+    - block:
+        - name: Install EPEL repo
+          yum:
+            name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'
+            state: present
+          when: ansible_os_family == 'RedHat'
+        - name: Add universe repository for Ubuntu
+          apt_repository:
+            repo: 'deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe'
+            state: present
+          when: ansible_distribution == 'Ubuntu'
+        - name: Install python
+          package:
+            name: "{{ (ansible_os_family == 'Debian') | ternary('python3-pip', 'python-pip') }}"
+        - name: install ansible azure
+          pip:
+            name: ansible[azure]
+            executable: "{{ (ansible_os_family == 'Debian') | ternary('pip3', 'pip') }}"
+        - name: create azure blob container
+          azure_rm_storageblob:
+            resource_group: epm-ldi
+            storage_account_name: storage11490
+            container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-\
+              {{ ansible_distribution_major_version }}"
+    become: true
+
 - name: Install java
   hosts: aem_authors
   roles:
