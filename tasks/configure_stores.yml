@@ -54,6 +54,10 @@
         owner: '{{ aem_user }}'
         group: '{{ aem_user }}'
 
+    - name: Debug Blob container name
+      debug:
+        msg: "{{ azure_data_store_container }}"
+
     - name: creating PID for configuration Data Store
       template:
         src: 'datastore_{{ data_store_type }}.config.j2'
