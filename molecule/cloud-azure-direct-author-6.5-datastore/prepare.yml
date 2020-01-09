@@ -2,9 +2,9 @@
 - name: Include common prepare
   import_playbook: ../resources/provisioning/AZURE/prepare.yml
 
-- name: Get SAS
+- name: Prepare Azure
   hosts: localhost
-  gather_facts: false
+  gather_facts: true
   connection: local
   vars:
     az_resource_group_name: epm-ldi
@@ -13,6 +13,11 @@
     java_download_path: /tmp
     az_file_name: jdk-11.0.3_linux-x64_bin.tar.gz
   tasks:
+    - name: debug Blob container name
+      debug:
+        msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+      loop: '{{ molecule_yml.platforms }}'
+
     # Create blob containers with unique idempotent name based on GitLab CI job ID + Molecule platform name
     # AEM can't go further if name of blob container is longer than 18 characters
     - name: create azure blob container

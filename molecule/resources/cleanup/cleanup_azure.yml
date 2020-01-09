@@ -5,6 +5,11 @@
   connection: local
   gather_facts: false
   tasks:
+    - name: debug Blob container name
+      debug:
+        msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+      loop: '{{ molecule_yml.platforms }}'
+
     - name: delete a temp blob storage and all contents
       azure_rm_storageblob:
         resource_group: epm-ldi
