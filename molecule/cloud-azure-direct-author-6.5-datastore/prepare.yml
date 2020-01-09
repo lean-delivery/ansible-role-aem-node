@@ -19,7 +19,7 @@
       azure_rm_storageblob:
         resource_group: '{{ az_resource_group_name }}'
         storage_account_name: '{{ az_storage_account_name }}'
-        container: "{{ 'tst-aem-' + ( lookup('env','CI_JOB_ID') + item.name)| to_uuid)[:8] }}"
+        container: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
       loop: '{{ molecule_yml.platforms }}'
 
     - name: Set expiration period

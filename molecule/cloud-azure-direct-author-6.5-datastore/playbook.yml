@@ -64,7 +64,7 @@
              com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
       azure_data_store_access_key: "storage11490"
       azure_data_store_container: >-
-        {{ 'tst-aem-' + ( lookup('env','CI_JOB_ID') +
+        {{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') +
           molecule_yml.platforms[ansible_play_hosts.index(inventory_hostname)].name) | to_uuid)[:8] }}
       azure_data_store_secret_key: >-
         {{ hostvars['localhost']['storage_access_keys']['response']['keys'][0]['value'] | replace("=", "\=") }}
