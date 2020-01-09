@@ -7,8 +7,9 @@
   become: true
 
 - name: Install python-pip
-  package:
+  apt:
     name: '{{ requirements }}'
+    update_cache: true
   retries: 3
   register: result
   until: result is success
