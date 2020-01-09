@@ -24,37 +24,33 @@ platforms:
       - aem_authors
       - aem_publishers
 
-# todo: fix issue with python-pip installation first
-# Failed to import the required Python library (setuptools) on myVmss000000's Python /usr/bin/python.
-#  - name: test-azure-ubuntu16-aem-node-author-6.5-datastore
-#    platform: ubuntu16
-#    vm_size: Standard_D2s_v3
-#    assign_public_ip: false
-#    az_location: northeurope
-#    az_resource_group_name: epm-ldi
-#    az_virtual_network_name: epm-ldi-northeurope-vnet
-#    az_subnet_name: epm-ldi-northeurope-subnet
-#    az_network_security_group: epm-ldi-northeurope-sg
-#    groups:
-#      - debian_family
-#      - aem_authors
-#      - aem_publishers
-#
-# todo: fix issue with python-pip installation first
-# Failed to import the required Python library (setuptools) on myVmss000000's Python /usr/bin/python.
-#  - name: test-azure-ubuntu18-aem-node-author-6.5-datastore
-#    platform: ubuntu18
-#    vm_size: Standard_D2s_v3
-#    assign_public_ip: false
-#    az_location: northeurope
-#    az_resource_group_name: epm-ldi
-#    az_virtual_network_name: epm-ldi-northeurope-vnet
-#    az_subnet_name: epm-ldi-northeurope-subnet
-#    az_network_security_group: epm-ldi-northeurope-sg
-#    groups:
-#      - debian_family
-#      - aem_authors
-#      - aem_publishers
+  - name: test-azure-ubuntu16-aem-node-author-6.5-datastore
+    platform: ubuntu16
+    vm_size: Standard_D2s_v3
+    assign_public_ip: false
+    az_location: northeurope
+    az_resource_group_name: epm-ldi
+    az_virtual_network_name: epm-ldi-northeurope-vnet
+    az_subnet_name: epm-ldi-northeurope-subnet
+    az_network_security_group: epm-ldi-northeurope-sg
+    groups:
+      - debian_family
+      - aem_authors
+      - aem_publishers
+
+  - name: test-azure-ubuntu18-aem-node-author-6.5-datastore
+    platform: ubuntu18
+    vm_size: Standard_D2s_v3
+    assign_public_ip: false
+    az_location: northeurope
+    az_resource_group_name: epm-ldi
+    az_virtual_network_name: epm-ldi-northeurope-vnet
+    az_subnet_name: epm-ldi-northeurope-subnet
+    az_network_security_group: epm-ldi-northeurope-sg
+    groups:
+      - debian_family
+      - aem_authors
+      - aem_publishers
 
 provisioner:
   name: ansible

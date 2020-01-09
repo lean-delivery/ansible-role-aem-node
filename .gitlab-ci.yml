@@ -70,7 +70,7 @@ Lint:
   tags:
     - aws
 
-.AZURE aem-node-author-6.4-datastore:
+AZURE aem-node-author-6.4-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.4-datastore
