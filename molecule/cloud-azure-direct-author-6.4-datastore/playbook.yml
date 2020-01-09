@@ -30,9 +30,7 @@
       publisher_ssl: true
       aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
-      replication_enabled: true
       aem_instance_type: author
-      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_change_default_admin_password: true
       aem_new_admin_password: "testtest_123@S"
       publishers: "{{ groups['aem_publishers'] }}"
@@ -59,7 +57,8 @@
       adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
              com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
       azure_data_store_access_key: "storage11490"
-      azure_data_store_container: "epm-ldi-aem-{{ lookup('env','CI_JOB_ID') }}-{{ ansible_distribution | lower }}-\
-        {{ ansible_distribution_major_version }}"
+      azure_data_store_container: >-
+        {{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') +
+          molecule_yml.platforms[ansible_play_hosts.index(inventory_hostname)].name) | to_uuid)[:8] }}
       azure_data_store_secret_key: >-
-        {{ hostvars['localhost']['storage_access_keys']['response']['keys'][0]['value'] | replace("=", "\\=") }}
+        {{ hostvars['localhost']['storage_access_keys']['response']['keys'][0]['value'] | replace("=", "\=") }}
