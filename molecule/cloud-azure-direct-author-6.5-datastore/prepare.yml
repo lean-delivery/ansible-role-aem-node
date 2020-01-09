@@ -17,6 +17,8 @@
       debug:
         msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
       loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'
 
     # Create blob containers with unique idempotent name based on GitLab CI job ID + Molecule platform name
     # AEM can't go further if name of blob container is longer than 18 characters
@@ -26,6 +28,8 @@
         storage_account_name: '{{ az_storage_account_name }}'
         container: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
       loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'
 
     - name: Set expiration period
       set_fact:

@@ -18,12 +18,6 @@
         body:
           api-version: "2019-06-01"
       register: storage_access_keys
-    - name: Set unique blob container name dicts
-      set_fact:
-        unique_container_name: >-
-          {{ unique_container_name | default({})
-            | combine({ item.name: 'tst-aem-' + ( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }) }}
-      loop: '{{ molecule_yml.platforms }}'
 
 - name: Install authors
   hosts: aem_authors
