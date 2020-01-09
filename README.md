@@ -63,9 +63,9 @@ Role Variables : default
 - `license_transport_s3_path` - aem license file s3 path\
   default: `/licenses/{{ aem_version }}/license.properties`
 - `transport_s3_aws_access_key` - access key\
-  default: `{{ lookup('env','AWS_ACCESS_KEY') }}`
+  default: `{{ lookup('env','AWS_ACCESS_KEY_ID') }}`
 - `transport_s3_aws_secret_key` - secret key\
-  default: `{{ lookup('env','AWS_SECRET_KEY') }}`
+  default: `{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}`
 - `web_transport_common_url` - Server link to download installation packages\
   default: `ftp://ftp:ftp@ftp.com/aem`
 - `aem_instance_type` - AEM type (author or publish)\

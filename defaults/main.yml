@@ -31,8 +31,8 @@ download_transport: web
 transport_s3_bucket: aemartifacts
 aem_transport_s3_path: '/{{ aem_version }}/aem.jar'
 license_transport_s3_path: '/licenses/{{ aem_version }}/license.properties'
-transport_s3_aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
-transport_s3_aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
+transport_s3_aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+transport_s3_aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
 
 transport_azure_resource_group: ''
 transport_azure_storage_account_name: ''
