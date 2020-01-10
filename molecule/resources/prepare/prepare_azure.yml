@@ -15,8 +15,8 @@
     # AEM can't go further if name of blob container is longer than 18 characters
     - name: create temp azure blob container
       azure_rm_storageblob:
-        resource_group: '{{ az_resource_group_name }}'
-        storage_account_name: '{{ az_storage_account_name }}'
+        resource_group: epm-ldi
+        storage_account_name: storage11490
         container: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
       loop: '{{ molecule_yml.platforms }}'
       loop_control:
