@@ -1,8 +1,8 @@
 ---
-- name: Delete temporary S3 bucket
+- name: Prepare temporary S3 bucket
   hosts: localhost
-  connection: local
   gather_facts: false
+  connection: local
   tasks:
     - name: debug temp S3 bucket name
       debug:
@@ -11,10 +11,12 @@
       loop_control:
         label: '{{ item.name }}'
 
-    - name: delete a temp S3 bucket and all contents
+    # Create blob containers with unique idempotent name based on GitLab CI job ID + Molecule platform name
+    - name: create AWS S3 bucket
       aws_s3:
         bucket: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
-        mode: delete
+        mode: create
+        region: us-east-1
       loop: '{{ molecule_yml.platforms }}'
       loop_control:
         label: '{{ item.name }}'
