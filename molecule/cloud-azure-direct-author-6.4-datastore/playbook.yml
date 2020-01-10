@@ -18,6 +18,7 @@
         body:
           api-version: "2019-06-01"
       register: storage_access_keys
+      changed_when: false
 
 - name: Install authors
   hosts: aem_authors

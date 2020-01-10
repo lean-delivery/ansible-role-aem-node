@@ -6,10 +6,18 @@
   when: ansible_distribution == 'Ubuntu'
   become: true
 
+- name: Apt update
+  apt:
+    update_cache: true
+  retries: 3
+  register: result
+  until: result is success
+  become: true
+  changed_when: false
+
 - name: Install python-pip
   apt:
     name: '{{ requirements }}'
-    update_cache: true
   retries: 3
   register: result
   until: result is success
