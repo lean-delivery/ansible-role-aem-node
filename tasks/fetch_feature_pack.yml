@@ -9,8 +9,8 @@
         url: '{{ adobe_repo_feature_pack_md5_link }}'
         return_content: true
       register: feature_pack_checksum
-      retries: 3
-      delay: 2
+      retries: 5
+      delay: 3
 
     - name: Download feature pack for data store
       get_url:
@@ -18,5 +18,5 @@
         dest: '{{ tmpdir }}'
         checksum: 'md5:{{ feature_pack_checksum.content }}'
       register: data_store_file_downloaded
-      retries: 3
-      delay: 2
+      retries: 5
+      delay: 3
