@@ -2,6 +2,9 @@
 - name: Include common prepare
   import_playbook: ../resources/provisioning/AZURE/prepare.yml
 
+- name: Include Azure specific preparation
+  import_playbook: ../resources/prepare/prepare_azure.yml
+
 - name: Prepare Azure
   hosts: localhost
   gather_facts: true
@@ -13,24 +16,6 @@
     java_download_path: /tmp
     az_file_name: jdk-11.0.3_linux-x64_bin.tar.gz
   tasks:
-    - name: debug Blob container name
-      debug:
-        msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
-      loop: '{{ molecule_yml.platforms }}'
-      loop_control:
-        label: '{{ item.name }}'
-
-    # Create blob containers with unique idempotent name based on GitLab CI job ID + Molecule platform name
-    # AEM can't go further if name of blob container is longer than 18 characters
-    - name: create azure blob container
-      azure_rm_storageblob:
-        resource_group: '{{ az_resource_group_name }}'
-        storage_account_name: '{{ az_storage_account_name }}'
-        container: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
-      loop: '{{ molecule_yml.platforms }}'
-      loop_control:
-        label: '{{ item.name }}'
-
     - name: Set expiration period
       set_fact:
         sas_time_start: '{{ ansible_date_time.iso8601_micro }}'

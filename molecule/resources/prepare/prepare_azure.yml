@@ -1,0 +1,23 @@
+---
+- name: Prepare temporary Azure blob container
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: debug temp blob container name
+      debug:
+        msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+      loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'
+
+    # Create blob containers with unique idempotent name based on GitLab CI job ID + Molecule platform name
+    # AEM can't go further if name of blob container is longer than 18 characters
+    - name: create temp azure blob container
+      azure_rm_storageblob:
+        resource_group: '{{ az_resource_group_name }}'
+        storage_account_name: '{{ az_storage_account_name }}'
+        container: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+      loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'
