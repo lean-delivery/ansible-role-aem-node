@@ -1,5 +1,4 @@
 ---
-# todo: remove temp containers
 - name: Delete temporary blob container
   hosts: localhost
   connection: local
