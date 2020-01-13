@@ -18,6 +18,7 @@ This role:
 - supports multiple publishing instances for one authoring
 - can create aem groups with predefined permissions
 - can create aem user accounts
+- can install and configure Amazon S3 and Azure Data Stores for binary data
 
 
 Requirements
@@ -71,7 +72,7 @@ Role Variables : default
 - `aem_instance_type` - AEM type (author or publish)\
   default: `author`
 - `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others\
-   * __crx3tar-nofds__ - To use TarMK with the S3 Datastore, you need to start AEM using the crx3tar-nofds runmode\
+   * __crx3tar-nofds__ - To use TarMK with the S3 Datastore or Azure, you need to start AEM using the crx3tar-nofds runmode\
   default: ``
 - `aem_root` - Default AEM root path\
   default: `/opt/aem`
@@ -120,20 +121,34 @@ Role Variables : default
 - `aem_change_default_admin_password` - Change or not default admin password\
   default: `False`
 
-Data stores configuration:
-- `install_data_store_s3` - Configure Amazon S3 Data Store
+**_Data stores configuration:_**
+- `install_data_store_s3` - Configure Amazon S3 Data Store\
   default: `False`
-- `adobe_repo_feature_pack_link` - Link to download S3 Datastore Connector zip file from Adobe Repository
-  default: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
+- `install_data_store_azure` - Configure Azure Data Store\
+  default: `False`
+- `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 or Azure Data Store Connector zip file\
+  sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
               /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
-- `s3_data_store_bucket` - The bucket name
-- `s3_data_store_region` - The bucket region
+- `adobe_repo_feature_pack_md5_link` - Link to download feature pack's md5 file. Can be redefined if needed
+  default: `{{ adobe_repo_feature_pack_link }}.md5`\
+  Replace with proper http(s) URL if needed
+  
+  _Amazon S3 Data Store specific:_
+- `s3_data_store_bucket` - The name of S3 bucket where binary data will be stored
+- `s3_data_store_region` - The S3 bucket region
 - `s3_data_store_acces_key` - The AWS access key
 - `s3_data_store_secret_key` - The AWS secret access key
+- `s3_data_store_iam_role` - Alternatively, IAM roles can be used for authentication. If you are using IAM roles you no longer need to specify the accessKey and secretKey\
+  default: `False`  
 
-To use TarMK with the S3 Datastore, you need to start AEM using the crx3tar-nofds runmode, i.e. add
-`aem_custom_modes`: crx3tar-nofds
-  
+  _Azure Data Store specific:_
+- `azure_data_store_access_key` - The Azure storage account name
+- `azure_data_store_blob_endpoint` - The Azure Storage blob endpoint\
+  default: `https://{{ azure_data_store_access_key }}.blob.core.windows.net`
+- `azure_data_store_secret_key` - The storage access key. Ensure that the '=' character is escaped like '\\='
+- `azure_data_store_container` - The Microsoft Azure blob storage container name
+- `azure_data_store_sas` - In version 1.6.3 of the connector, Azure Shared Access Signature (SAS) support was added. If both SAS and storage credentials exists in the configuration file, SAS has priority.  Ensure that the '=' character is escaped like '\\='
+
 ### AEM groups which would be created during provision proccess
 
 ```yml
@@ -302,7 +317,7 @@ Don't forget to preinstall LDI AEM modules.
         password: 'Test_user_password1'
         group: 'test_group'
 
-- name: author_install_s3_data_store
+- name: author-install-s3-data-store
   hosts: aem_authors
 
   roles:
@@ -316,8 +331,20 @@ Don't forget to preinstall LDI AEM modules.
       s3_data_store_region: us-east-1
       s3_data_store_acces_key: AAABBBCCC
       s3_data_store_secret_key: AAABBBCCCDDDEEE
-      aem_custom_modes: crx3tar-nofds
+
+- name: author-install-azure-data-store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_version: '6.5'
+      aem_instance_type: author
       ...
+      install_data_store_azure: true
+      adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
+      azure_data_store_access_key: my-some-storage-account
+      azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="
+      azure_data_store_container: my-aem-container
 ```
 
 
