@@ -171,5 +171,5 @@ adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
 # Directory to install feature pack in it
 aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
 
-# AEM PID to configure any external data store. There are default values in "vars/data_sore/<cloud_specific>_vars.yml"
+# AEM PID to configure any external data store. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
 datastore_connector_pid_file: ''
