@@ -15,10 +15,11 @@
   until: result is success
   become: true
 
-- name: Install Python requests
+- name: Install Python requirements
   pip:
-    name: requests
+    name: '{{ pip_requirements }}'
     state: present
+    extra_args: --upgrade
     executable: '{{ pip_executable }}'
   register: pip_result
   until: pip_result is succeeded
