@@ -97,7 +97,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.5-datastore:
+AWS aem-node-author-6.5-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
