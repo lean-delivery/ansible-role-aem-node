@@ -16,6 +16,12 @@ EnvironmentFile={{ aem_home }}/aem_jar_file
 
 ExecStart=/usr/bin/java -server -Xms{{ Xms_size }}m -Xmx{{ Xmx_size }}m -XX:PermSize={{ aem_perm_size }} \
          -XX:+{{ aem_garbage_collector }} -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=20 -XX:ConcGCThreads=5 -XX:InitiatingHeapOccupancyPercent=70 \
+         {% if jolokia_agent is defined and aem_instance_type == "author" %}
+         -javaagent:{{ aem_home }}/jolokia-jvm-1.6.2-agent.jar=port={{ jolokia_agent_port_author }} \
+         {% endif %}
+         {% if jolokia_agent is defined and aem_instance_type == "publisher" %}
+         -javaagent:{{ aem_home }}/jolokia-jvm-1.6.2-agent.jar=port={{ jolokia_agent_port_publisher }} \
+         {% endif %}
          -jar ${JARFILE} start -c crx-quickstart -i launchpad \
          -p {{ aem_instance_port }} -Dsling.properties=conf/sling.properties \
          -Dsling.run.modes={{ aem_instance_type }},{{ environment_type }}{% if aem_custom_modes != '' %},{{ aem_custom_modes }}{% endif %} \

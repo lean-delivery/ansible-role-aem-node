@@ -118,6 +118,12 @@ Role Variables : default
   default: `19999`
 - `aem_change_default_admin_password` - Change or not default admin password\
   default: `False`
+- `jolokia_agent` - Insert javaagent in author node\
+  default: `False`
+- `jolokia_agent_port_author` - Port for jolokia agent\
+  default: `9998`
+- `jolokia_agent_port_publisher` - Port for jolokia agent\
+  default: `9999`
 
 ### AEM groups which would be created during provision proccess
 

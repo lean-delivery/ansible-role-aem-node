@@ -42,3 +42,18 @@
     group: '{{ aem_user }}'
     mode: '0640'
   become: true
+
+- name: 'ensure that jolokia is downloaded (s3 transport)'
+  aws_s3:
+    bucket: '{{ transport_s3_bucket }}'
+    object: '{{ jolokia_transport_s3_path }}'
+    dest: '{{ aem_home }}/jolokia-jvm-1.6.2-agent.jar'
+    aws_access_key: '{{ transport_s3_aws_access_key }}'
+    aws_secret_key: '{{ transport_s3_aws_secret_key }}'
+    mode: get
+    overwrite: different
+    ignore_nonexistent_bucket: true
+  retries: 5
+  delay: 2
+  when: jolokia_agent is defined
+  become: true
