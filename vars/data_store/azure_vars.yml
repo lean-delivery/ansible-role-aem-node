@@ -4,7 +4,6 @@
 # https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.azureblobconnector/
 adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
 com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
-adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
 datastore_connector_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.AzureDataStore.config
 
 # The storage account name

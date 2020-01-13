@@ -150,9 +150,6 @@ python_executable: '{{ default_python_executable }}'
 tmpdir: /tmp
 
 ### Configure data stores ###
-# Supported types are: s3, azure
-data_store_type: ''
-
 # Amazon S3 Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
 install_data_store_s3: false
@@ -161,5 +158,18 @@ install_data_store_s3: false
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
 install_data_store_azure: false
 
+# Supported types are: s3, azure.
+# Will be evaluated if "install_data_store_s3" or "install_data_store_azure" enabled
+data_store_type: ''
+
+# Link to download AEM feature pack. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
+# Can be redefined if needed
+adobe_repo_feature_pack_link: ''
+# Default Link to download AEM feature pack md5 file. Can be redefined if needed
+adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
+
 # Directory to install feature pack in it
 aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
+
+# AEM PID to configure any external data store. There are default values in "vars/data_sore/<cloud_specific>_vars.yml"
+datastore_connector_pid_file: ''
