@@ -97,7 +97,7 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.5-datastore:
+.AWS aem-node-author-6.5-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -113,11 +113,12 @@ AZURE aem-node-author-6.5-datastore:
   tags:
     - azure
 
-.AWS aem-node-publisher-6.5:
+AWS aem-node-publisher-6.5:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
   script:
     - molecule test -s cloud-aws-direct-publisher-6.5
+  when: manual
   tags:
     - aws
