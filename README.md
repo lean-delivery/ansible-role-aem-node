@@ -18,7 +18,10 @@ This role:
 - supports multiple publishing instances for one authoring
 - can create aem groups with predefined permissions
 - can create aem user accounts
-- can install and configure Amazon S3 and Azure Data Stores for binary data
+- can install and configure Amazon S3 and Azure Data Stores for binary data. The following combinations have been tested and work:
+  - AEM 6.4 with Amazon S3 connector v1.8.6
+  - AEM 6.5 with Amazon S3 connector v1.8.6
+  - AEM 6.5 with Azure blob connector v1.9.12
 
 
 Requirements
@@ -146,7 +149,7 @@ Role Variables : default
 - `azure_data_store_blob_endpoint` - The Azure Storage blob endpoint\
   default: `https://{{ azure_data_store_access_key }}.blob.core.windows.net`
 - `azure_data_store_secret_key` - The storage access key. Ensure that the '=' character is escaped like '\\='
-- `azure_data_store_container` - The Microsoft Azure blob storage container name
+- `azure_data_store_container` - The Microsoft Azure blob storage container name. **WARNING! The name of blob container can't be longer than 18 characters (not documented anywhere!)**
 - `azure_data_store_sas` - In version 1.6.3 of the connector, Azure Shared Access Signature (SAS) support was added. If both SAS and storage credentials exists in the configuration file, SAS has priority.  Ensure that the '=' character is escaped like '\\='
 
 ### AEM groups which would be created during provision proccess
