@@ -10,6 +10,7 @@ common_requirements:
 ubuntu16_azure_extra_requirements:
   - libssl-dev
   - libffi-dev
+  - pyopenssl
 
 requirements: >-
   {{ ((download_transport == 'azure') and (ansible_distribution_major_version == '16'))
