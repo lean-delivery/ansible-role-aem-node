@@ -160,3 +160,6 @@ install_data_store_s3: false
 # Azure Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
 install_data_store_azure: false
+
+# Directory to install feature pack in it
+aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
