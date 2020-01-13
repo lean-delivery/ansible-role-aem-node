@@ -23,9 +23,9 @@
   until: result is success
   become: true
 
-- name: Install Python requests
+- name: Install Python requirements
   pip:
-    name: requests
+    name: '{{ pip3_requirements }}'
     state: present
     executable: '{{ pip_executable }}'
   register: pip_result
