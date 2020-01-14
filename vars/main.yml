@@ -1,5 +1,2 @@
 ---
 # vars file for aem-node
-
-# To use TarMK with the S3/Azure Datastore, we need to start AEM using the crx3tar-nofds runmode
-aem_custom_modes: "{{ (install_data_store_s3 or install_data_store_azure) | ternary('crx3tar-nofds', omit) }}"

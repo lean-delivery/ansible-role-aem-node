@@ -162,6 +162,9 @@ install_data_store_azure: false
 # Will be evaluated if "install_data_store_s3" or "install_data_store_azure" enabled
 data_store_type: ''
 
+# To use TarMK with the S3/Azure Datastore, we need to start AEM using the crx3tar-nofds runmode
+external_blob_datastore_runmode: crx3tar-nofds
+
 # Link to download AEM feature pack. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
 # Can be redefined if needed
 adobe_repo_feature_pack_link: ''
