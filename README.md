@@ -75,7 +75,6 @@ Role Variables : default
 - `aem_instance_type` - AEM type (author or publish)\
   default: `author`
 - `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others\
-   * __crx3tar-nofds__ - To use TarMK with the S3 Datastore or Azure, you need to start AEM using the crx3tar-nofds runmode\
   default: ``
 - `aem_root` - Default AEM root path\
   default: `/opt/aem`
