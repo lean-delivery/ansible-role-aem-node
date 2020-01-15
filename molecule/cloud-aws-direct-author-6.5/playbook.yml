@@ -32,3 +32,4 @@
         second_name: 'User'
         password: 'testtest_123i@S'
         group: 'test_group'
+      jolokia_agent: true

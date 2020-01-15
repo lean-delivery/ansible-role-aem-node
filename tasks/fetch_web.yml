@@ -18,3 +18,13 @@
     group: '{{ aem_user }}'
     mode: 0640
   become: true
+
+- name: ensure that Jolokia agent is downloaded
+  get_url:
+    url: '{{ jolokia_agent_url }}'
+    dest: '{{ aem_home }}/jolokia-jvm-1.6.2-agent.jar'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0640
+  become: true
+  when: jolokia_agent is defined
