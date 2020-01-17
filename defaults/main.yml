@@ -154,20 +154,15 @@ jolokia_agent_port_author: 9998
 tmpdir: /tmp
 
 ### Configure data stores ###
+# Supported types are: s3, azure.
 # Amazon S3 Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
-install_data_store_s3: false
-
 # Azure Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
-install_data_store_azure: false
-
-# Supported types are: s3, azure.
-# Will be evaluated if "install_data_store_s3" or "install_data_store_azure" enabled
-data_store_type: ''
+cloud_datastore_type: ''
 
 # To use TarMK with the S3/Azure Datastore, we need to start AEM using the crx3tar-nofds runmode
-external_blob_datastore_runmode: crx3tar-nofds
+cloud_datastore_runmode: crx3tar-nofds
 
 # Link to download AEM feature pack. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
 # Can be redefined if needed

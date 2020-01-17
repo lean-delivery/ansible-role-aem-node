@@ -130,10 +130,11 @@ Role Variables : default
   default: `9999`
 
 **_Data stores configuration:_**
-- `install_data_store_s3` - Configure Amazon S3 Data Store\
-  default: `False`
-- `install_data_store_azure` - Configure Azure Data Store\
-  default: `False`
+- `cloud_datastore_type` - Configure Amazon S3 or Azure Data Store\
+  default: `""`\
+  Available options:
+  - `s3` Amazon S3 Data Store
+  - `azure` Azure Data Store
 - `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 or Azure Data Store Connector zip file\
   sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
               /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
@@ -333,7 +334,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      install_data_store_s3: true
+      cloud_datastore_type: s3
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.s3connector-1.8.6.zip
       s3_data_store_bucket: my-some-data-store
       s3_data_store_region: us-east-1
@@ -348,7 +349,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      install_data_store_azure: true
+      cloud_datastore_type: azure
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
       azure_data_store_access_key: my-some-storage-account
       azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="
