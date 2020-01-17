@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: aem_node
   author: Lean Delivery Team <team@lean-delivery.com>
-  description: Yet Another Ansible Role From Lean Delivery
+  description: AEM author and publisher installation
   company: EPAM Systems
   issue_tracker_url: https://github.com/lean-delivery/ansible-role-aem-node/issues
   license: Apache
@@ -11,6 +11,7 @@ galaxy_info:
     - name: "Ubuntu"
       versions:
         - "bionic"
+        - "xenial"
     - name: "EL"
       versions:
         - "7"

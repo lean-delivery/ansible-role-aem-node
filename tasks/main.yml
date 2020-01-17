@@ -1,8 +1,8 @@
 ---
 # file: tasks/main.yml
 
-- name: set facts
-  include_tasks: set_facts.yml
+- name: include variables
+  include_vars: '{{ ansible_os_family }}.yml'
 
 - name: pre installation
   include_tasks: pre-install.yml
@@ -20,30 +20,41 @@
     file:
       path: '{{ aem_file }}'
       state: touch
-    become: True
+    become: true
   when: not aem_done.stat.exists
 
 - name: configuration
   include_tasks: configure.yml
 
 - name: package installation
-  include: '{{ tasks_path }}/package-installation.yml  aem_package={{ item }}'
+  include_tasks: '{{ tasks_path }}/package-installation.yml'
+  vars:
+    aem_package: '{{ item }}'
   loop: '{{ aem_packages }}'
   when: aem_packages|length > 0
 
-# Configure replication if this is AEM Authoring instance
+# Configure enable ssl and install ssl cert/key
+- name: replication configuration
+  include_tasks: activate-ssl-port.yml
+  when: aem_ssl_enable
+
+# Configure flush/replication agents
 - name: replication configuration
   include_tasks: replication.yml
   when: replication_enabled
 
 # Create additional groups
 - name: aem groups creation
-  include: '{{ tasks_path }}/add-group.yml group={{ item }}'
+  include_tasks: '{{ tasks_path }}/add-group.yml'
+  vars:
+    group: '{{ item }}'
   loop: '{{ aem_groups }}'
   when: aem_groups|length > 0
 
  # Create additional users
 - name: aem users creation
-  include: '{{ tasks_path }}/add-user.yml user={{ item }}'
+  include_tasks: '{{ tasks_path }}/add-user.yml'
+  vars:
+    user: '{{ item }}'
   loop: '{{ aem_users }}'
   when: aem_users|length > 0

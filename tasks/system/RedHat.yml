@@ -1,0 +1,25 @@
+---
+- name: Install EPEL repo
+  yum:
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'
+    state: present
+  register: install_epel
+  until: install_epel is succeeded
+  become: true
+
+- name: Install python-pip
+  package:
+    name: '{{ requirements }}'
+  retries: 3
+  register: result
+  until: result is success
+  become: true
+
+- name: Install Python requests
+  pip:
+    name: requests
+    state: present
+    executable: '{{ pip_executable }}'
+  register: pip_result
+  until: pip_result is succeeded
+  become: true

@@ -1,19 +1,18 @@
 ---
-
-- name: java_install
+- name: Install java
   hosts: all
   roles:
     - role: lean_delivery.java
 
-- name: author_install
+- name: Install author
   hosts: aem_authors
   roles:
     - role: ansible-role-aem-node
       aem_instance_type: author
-      replication_enabled: True
-      aem_change_default_admin_password: True
+      replication_enabled: true
+      aem_change_default_admin_password: true
       aem_new_admin_password: "testtest"
-      ftp_server_link: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_groups:
        -
         id: 'test_group'
@@ -32,3 +31,4 @@
         second_name: 'User'
         password: 'test_user_password'
         group: 'test_group'
+      jolokia_agent: true

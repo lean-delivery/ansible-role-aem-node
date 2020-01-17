@@ -1,18 +1,18 @@
 ---
-
-- name: Install java
-  hosts: all
-  roles:
-    - role: lean_delivery.java
-
-- name: Install publisher
-  hosts: aem_publishers
+- name: Install authors
+  hosts: aem_authors
   roles:
     - role: ansible-role-aem-node
-      aem_instance_type: publish
+      download_transport: s3
+      aem_ssl_enable: true
+      aem_ssl_dir: /etc/ssl/localhost/
       replication_enabled: true
+      aem_instance_type: author
       web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
-      aem_instance_port: 4505
+      aem_change_default_admin_password: true
+      aem_new_admin_password: "testtest_123@S"
+      publishers: "{{ groups['aem_publishers'] }}"
+      aem_version: '6.3'
       aem_groups:
        -
         id: 'test_group'
@@ -29,6 +29,6 @@
         id: 'test_user'
         first_name: 'Test'
         second_name: 'User'
-        password: 'test_user_password'
+        password: 'testtest_123i@S'
         group: 'test_group'
       jolokia_agent: true

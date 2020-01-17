@@ -6,7 +6,7 @@
     id: '{{ group.id }}'
     name: '{{ group.name }}'
     host: '{{ group.host | default("http://localhost") }}'
-    port: '{{ group.port | default("4502") }}'
+    port: '{{ group.port | default(aem_instance_port) }}'
     admin_user: '{{ aem_admin_login }}'
     admin_password: '{{ aem_admin_password }}'
     permissions: '{{ group.permissions | default(None) }}'

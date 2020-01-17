@@ -3,7 +3,7 @@
 
 ## AEM SECTION ###
 
-# AEM version (6.0, 6.1, 6.2, 6.3, 6.4)
+# AEM version (6.3, 6.4, 6.5)
 aem_version: '6.4'
 
 # List of additional AEM Packages to install
@@ -15,19 +15,28 @@ publishers: []
 dispatchers: []
 
 # INFO: AEM Run mode by default: <aem_instance_type - e.g. "author">,<env type - e.g. "dev">
-
-# True if you need "noSampleContent" run mode, or false - if you don't
-aem_no_sample_content: False
-
-web_server_ssl: False
-web_server_https_port: 443
-web_server_http_port: 80
+publisher_ssl: false
+dispatcher_ssl: false
+dispatcher_https_port: 443
+dispatcher_http_port: 80
 
 #server link to download
-ftp_server_link: 'ftp://ftp:ftp@ftp.com/aem/'
+web_transport_common_url: 'ftp://ftp:ftp@ftp.com/aem'
+full_aem_web_transport_link: '{{ web_transport_common_url }}/{{ aem_version }}/aem.jar'
+full_license_web_transport_link: '{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties'
 
-aem_instance_type: "author"
+# web or s3
+download_transport: web
 
+transport_s3_bucket: aemartifacts
+aem_transport_s3_path: '/{{ aem_version }}/aem.jar'
+jolokia_transport_s3_path: '/jolokia-jvm-1.6.2-agent.jar'
+license_transport_s3_path: '/licenses/{{ aem_version }}/license.properties'
+transport_s3_aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+transport_s3_aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+
+
+aem_instance_type: 'author'
 
 # Comma separated custom run modes
 aem_custom_modes: ''
@@ -41,6 +50,16 @@ aem_admin_login: admin
 aem_admin_password: admin
 environment_type: dev_test
 
+#variables for  ssl activation
+aem_ssl_enable: false
+aem_instance_ssl_port: 8443
+aem_ssl_dir: '{{aem_root}}/ssl'
+keystore_password: qwe123
+truststore_password: qwe123
+aem_ssl_hostname: localhost
+ssl_key_full_path: '{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.key'
+ssl_crt_full_path: '{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.crt'
+ssl_der_full_path: '{{ aem_ssl_dir }}/{{ aem_ssl_hostname }}.der'
 
 # Linux username and group which operates AEM
 aem_user: aem
@@ -51,9 +70,7 @@ aem_user_id: 99999
 aem_group_id: 19999
 
 # Do you want to change default admin password?
-aem_change_default_admin_password: False
-
-
+aem_change_default_admin_password: false
 
 # AEM groups which would be created during provision proccess
 # aem_groups:
@@ -90,14 +107,37 @@ aem_groups: []
 #     # AEM user primary group
 #     'group' : 'everyone'
 aem_users: []
+aem_garbage_collector: 'UseG1GC'
 
-
-aem_garbage_collector: "UseG1GC"
 # UseParallelGC , UseSerialGC
+aem_perm_size: '512m'
+replication_enabled: false
+Xms_size: '{{ (ansible_memtotal_mb * 0.7) |int|abs }}'
+Xmx_size: '{{ (ansible_memtotal_mb * 0.7) |int|abs }}'
 
-aem_perm_size: "512m"
+# AEM Home Dir: aem_root = /opt/aem/author(publish)
+aem_home: '{{ aem_root }}/{{ aem_instance_type }}'
+# AEM service name
+aem_service_name: 'aem-{{ aem_instance_type }}'
+# Destination file name
+cq_file_name: 'cq-{{ aem_instance_type }}-p{{ aem_instance_port }}'
+# AEM REST Link
+aem_rest_link: 'http://localhost:{{ aem_instance_port }}'
+aem_file: '/opt/{{ aem_service_name }}.done'
+tasks_path: '{{ role_path }}/tasks'
+aem_load_handler:
+  -
+    path: 'damadmin'
+    content: 'Assets'
+  -
+    path: 'miscadmin'
+    content: 'Tools'
+  -
+    path: 'system/console/bundles'
+    content: 'Experience'
 
-replication_enabled: False
-
-Xms_size: "{{ (ansible_memtotal_mb * 0.7) |int|abs }}"
-Xmx_size: "{{ (ansible_memtotal_mb * 0.7) |int|abs }}"
+pip_executable: '{{ default_pip_executable }}'
+python_executable: '{{ default_python_executable }}'
+jolokia_agent_url: https://search.maven.org/remotecontent?filepath=org/jolokia/jolokia-jvm/1.6.2/jolokia-jvm-1.6.2-agent.jar
+jolokia_agent_port_publisher: 9999
+jolokia_agent_port_author: 9998

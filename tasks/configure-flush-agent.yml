@@ -1,26 +1,28 @@
 ---
 # file: tasks/configure-replication.yml
 
-- name: set web_server_port when web_server_ssl is true
+- name: Set dispatcher_port when dispatcher_ssl is true
   set_fact:
-    web_server_port: "{{ web_server_https_port }}"
-  when: web_server_ssl
+    dispatcher_port: '{{ dispatcher_https_port }}'
+    dispatcher_protocol: https
+  when: dispatcher_ssl
 
-- name: set web_server_port when web_server_ssl is false
+- name: Set dispatcher_port when dispatcher_ssl is false
   set_fact:
-    web_server_port: "{{ web_server_http_port }}"
-  when: not web_server_ssl
+    dispatcher_port: '{{ dispatcher_http_port }}'
+    dispatcher_protocol: http
+  when: not dispatcher_ssl
 
-- name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (flush type)"
+- name: Create/update dispatcher flush  agents on author host
   aem_agent:
     name: "{{ hostvars[host]['inventory_hostname']|replace('.','-')|lower() }}-dispatcher"
     state: disabled
     title: 'replication agent for publish instance'
     folder: 'agents.{{ aem_instance_type }}'
-    transport_uri: "http://{{ hostvars[host]['inventory_hostname'] }}:\
-                    {{ web_server_port }}/dispatcher/invalidate.cache"
-    transport_user: "{{ aem_admin_login }}"
-    transport_password: "{{ aem_admin_password }}"
+    transport_uri: "{{ dispatcher_protocol }}://{{ hostvars[host]['inventory_hostname'] }}:\
+                    {{ dispatcher_port }}/dispatcher/invalidate.cache"
+    transport_user: '{{ aem_admin_login }}'
+    transport_password: '{{ aem_admin_password }}'
     log_level: error
     triggers: 'on_receive,no_versioning'
     serialization_type: flush
@@ -28,20 +30,20 @@
     admin_user: '{{ aem_admin_login }}'
     admin_password: '{{ aem_admin_password }}'
     retry_delay: 60000
-    host: "http://localhost"
-    port: 4502
+    host: 'http://localhost'
+    port: '{{ aem_instance_port }}'
   when: aem_instance_type == 'author'
 
-- name: "Create/update agent for {{ hostvars[host]['inventory_hostname'] }} (flush type)"
+- name: Create/update dispatcher flush  agents for on publisher host
   aem_agent:
     name: "{{ hostvars[host]['inventory_hostname']|replace('.','-')|lower() }}-dispatcher"
     state: enabled
     title: 'replication agent for publish instance'
     folder: 'agents.{{ aem_instance_type }}'
-    transport_uri: "http://{{ hostvars[host]['inventory_hostname'] }}:\
-                    {{ web_server_port }}/dispatcher/invalidate.cache"
-    transport_user: "{{ aem_admin_login }}"
-    transport_password: "{{ aem_admin_password }}"
+    transport_uri: "{{ dispatcher_protocol }}://{{ hostvars[host]['inventory_hostname'] }}:\
+                    {{ dispatcher_port }}/dispatcher/invalidate.cache"
+    transport_user: '{{ aem_admin_login }}'
+    transport_password: '{{ aem_admin_password }}'
     log_level: error
     triggers: 'on_receive,no_versioning'
     serialization_type: flush
@@ -49,6 +51,6 @@
     admin_user: '{{ aem_admin_login }}'
     admin_password: '{{ aem_admin_password }}'
     retry_delay: 60000
-    host: "http://localhost"
-    port: 4502
+    host: 'http://localhost'
+    port: '{{ aem_instance_port }}'
   when: aem_instance_type == 'publish'

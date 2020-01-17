@@ -5,40 +5,39 @@
   service:
     name: '{{ aem_service_name }}'
     state: stopped
-    daemon_reload: True
-  become: True
+    daemon_reload: true
+  become: true
   notify:
   - wait while stopping
 
 - name: wait while stopping
   shell: "ps -u {{ aem_user }} | grep java -c"
-  ignore_errors: True
+  ignore_errors: true
   register: service_aem_status
   until: service_aem_status.stdout.find("0") != -1
   retries: 50
   delay: 10
-  become: True
+  become: true
 
 - name: start aem
   service:
     name: '{{ aem_service_name }}'
-    enabled: True
+    enabled: true
     state: started
-  become: True
+  become: true
 
 - name: firstload aem
   uri:
     url: '{{ aem_rest_link }}/{{ item.path }}'
-#    url: '{{ aem_load_test_link }}/{{ item.path }}'
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    force_basic_auth: True
+    force_basic_auth: true
     method: GET
-    return_content: True
+    return_content: true
     status_code: 200
   register: aemLoad
   until: (item.content in aemLoad.content)
-  retries: 100
+  retries: 150
   delay: 10
   loop: '{{ aem_load_handler }}'
 
@@ -51,9 +50,9 @@
     url: '{{ aem_rest_link }}/{{ item.path }}'
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    force_basic_auth: True
+    force_basic_auth: true
     method: GET
-    return_content: True
+    return_content: true
     status_code: 200
   register: aemLoad
   until: (item.content in aemLoad.content)

@@ -3,31 +3,37 @@
 
 - name: remove default agents
   uri:
-    url: "{{ aem_rest_link }}/bin/wcmcommand"
+    url: '{{ aem_rest_link }}/bin/wcmcommand'
     method: POST
     user: '{{ aem_admin_login }}'
     password: '{{ aem_admin_password }}'
-    force_basic_auth: True
+    force_basic_auth: true
     body: 'cmd=deletePage&charset=UTF-8&forse=true&path=/etc/replication/agents.{{ aem_instance_type }}/{{ item }}'
   register: agentDisable
   until: (agentDisable is succeeded)
   retries: 100
   delay: 5
-  ignore_errors: True
+  ignore_errors: true
   loop:
     - flush
     - publish
 
 - block:
 
+
+
   - name: configure publish agents
-    include: '{{ tasks_path }}/configure-replication-agent.yml publisher={{ item }}'
-    loop: "{{ publishers }}"
+    include_tasks: '{{ tasks_path }}/configure-replication-agent.yml'
+    vars:
+      publisher: '{{ item }}'
+    loop: '{{ publishers }}'
 
   when: "aem_instance_type == 'author' and publishers|length > 0"
 
 - block:
   - name: configure flush agents
-    include: '{{ tasks_path }}/configure-flush-agent.yml host={{ item }}'
-    loop: "{{ dispatchers }}"
+    include_tasks: '{{ tasks_path }}/configure-flush-agent.yml'
+    vars:
+      host: '{{ item }}'
+    loop: '{{ dispatchers }}'
   when: "dispatchers|length > 0"
