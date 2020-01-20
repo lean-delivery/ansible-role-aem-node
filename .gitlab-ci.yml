@@ -88,7 +88,7 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.5:
+.AWS aem-node-author-6.5:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -97,7 +97,7 @@ AWS aem-node-author-6.5:
   tags:
     - aws
 
-AWS aem-node-author-6.5-datastore:
+.AWS aem-node-author-6.5-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -106,14 +106,23 @@ AWS aem-node-author-6.5-datastore:
   tags:
     - aws
 
-AZURE aem-node-author-6.5-datastore:
+AWS aem-node-author-6.5-filedatastore:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.5-filedatastore
+  tags:
+    - aws
+
+.AZURE aem-node-author-6.5-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.5-datastore
   tags:
     - azure
 
-AWS aem-node-publisher-6.5:
+.AWS aem-node-publisher-6.5:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
