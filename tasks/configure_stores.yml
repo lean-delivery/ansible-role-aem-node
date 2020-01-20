@@ -1,57 +1,26 @@
 ---
 # file: tasks/configure_stores.yml
 
-- name: Configure data store
-  block:
-    - name: set variables based on data store type
-      include_vars: 'data_store/{{ cloud_datastore_type }}_vars.yml'
+- name: set variables based on data store type
+  include_vars: 'data_store/{{ cloud_datastore_type }}_vars.yml'
 
-    - name: download data store feature pack
-      include_tasks: 'fetch_feature_pack.yml'
+- name: create a folder crx-quickstart/install in the installation directory
+  file:
+    path: '{{ aem_install_dir }}'
+    state: directory
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+  become: true
 
-    - name: define temp_dir variable
-      set_fact:
-        temp_dir: '{{ tmpdir }}/{{ (data_store_file_downloaded.dest | basename | splitext)[0] }}'
+- name: download and unpack cloud data store connector
+  include_tasks: 'feature_pack-installation.yml'
+  when: cloud_datastore_type == 's3' or cloud_datastore_type == 'azure'
 
-    - name: create a folder crx-quickstart/install in the installation directory
-      file:
-        path: '{{ aem_install_dir }}'
-        state: directory
-        owner: '{{ aem_user }}'
-        group: '{{ aem_user }}'
-
-    - name: ensure temporary directory exists
-      file:
-        path: '{{ temp_dir }}'
-        state: directory
-
-    - name: extract the contents of the feature pack zip file to a temporary folder
-      unarchive:
-        src: '{{ data_store_file_downloaded.dest }}'
-        dest: '{{ temp_dir }}'
-        remote_src: true
-
-    - name: copy jars to AEM install folder
-      copy:
-        src: '{{ temp_dir }}/jcr_root/libs/system/install/'
-        dest: '{{ aem_install_dir }}/'
-        remote_src: true
-        owner: '{{ aem_user }}'
-        group: '{{ aem_user }}'
-
-    - name: copy config files to AEM install folder
-      copy:
-        src: '{{ temp_dir }}/jcr_root/libs/system/config/'
-        dest: '{{ aem_install_dir }}/'
-        remote_src: true
-        owner: '{{ aem_user }}'
-        group: '{{ aem_user }}'
-
-    - name: creating PID for configuration Data Store
-      template:
-        src: 'datastore_{{ cloud_datastore_type }}.config.j2'
-        dest: '{{ aem_install_dir + "/" + datastore_connector_pid_file }}'
-        owner: '{{ aem_user }}'
-        group: '{{ aem_user }}'
-        mode: 0644
+- name: creating PID for configuration Data Store
+  template:
+    src: 'datastore_{{ cloud_datastore_type }}.config.j2'
+    dest: '{{ aem_install_dir + "/" + datastore_pid_file }}'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0644
   become: true

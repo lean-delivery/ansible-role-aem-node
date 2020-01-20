@@ -1,7 +1,8 @@
 ---
 # file: tasks/fetch_feature_pack.yml
 
-# todo: add feature to download feature pack list at once, not only data store feature pack
+# Feature pack(s) will be downloaded from Adobe Repository
+# https://repo.adobe.com/nexus/content/groups/public/com/adobe/
 - name: download data store feature pack
   block:
     - name: fetch checksum file

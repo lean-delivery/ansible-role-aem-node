@@ -153,7 +153,14 @@ jolokia_agent_port_author: 9998
 
 tmpdir: /tmp
 
-### Configure data stores ###
+#############################
+### Configure data stores
+#############################
+## Configure default File data store
+# When using a NAS to store shared file data stores, we provide possibility to customize configuration options
+file_datastore_customize: false
+
+## Configure Cloud data stores
 # Supported types are: s3, azure.
 # Amazon S3 Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
@@ -174,4 +181,4 @@ adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
 aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
 
 # AEM PID to configure any external data store. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
-datastore_connector_pid_file: ''
+datastore_pid_file: ''

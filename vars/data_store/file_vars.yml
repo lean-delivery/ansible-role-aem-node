@@ -1,0 +1,13 @@
+---
+
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#file-data-store
+datastore_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.FileDataStore.config
+
+# repository.home - a path on the file system where repository data will be stored.
+# The provided path can be relative or absolute. If a relative path is provided,
+# it is handled according to the definition of relative path as specified by java.io.File.
+# By default Sling sets repository.home to ${sling.home}/repository
+file_datastore_repository_home: '{{ aem_home }}/crx-quickstart/repository'
+
+# Path to the directory under which the files would be stored. If specified then it takes precedence over repository.home value
+file_datastore_path: ''
