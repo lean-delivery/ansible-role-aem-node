@@ -55,7 +55,7 @@ Role Variables : default
   default: `443`
 - `dispatcher_http_port` - Http port for listening\
   default: `80`
-- `download_transport` - web or s3\
+- `download_transport` - one of: web, s3, azure\
   default: `web`
 - `full_aem_web_transport_link` - link for aem installation file\
   default: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
@@ -71,6 +71,21 @@ Role Variables : default
   default: `{{ lookup('env','AWS_ACCESS_KEY_ID') }}`
 - `transport_s3_aws_secret_key` - secret key\
   default: `{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}`
+- `transport_azure_resource_group` - name of Azure resource group
+- `transport_azure_storage_account_name` - name of Azure storage account
+- `transport_azure_container` - name of blob container
+- `aem_transport_azure_path` - aem installation file Azure blob container path\
+  default: `/{{ aem_version }}/aem.jar`
+- `license_transport_azure_path` - aem license file Azure blob container path\
+   default: `/licenses/{{ aem_version }}/license.properties`
+- `transport_azure_subscription_id` - Azure subscription ID\
+   default: `{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}`
+- `transport_azure_tenant_id` - Azure tenant ID\
+   default: `{{ lookup('env','AZURE_TENANT') }}`
+- `transport_azure_client_id` - Azure client ID\
+   default: `{{ lookup('env','AZURE_CLIENT_ID') }}`
+- `transport_azure_client_secret` - Azure client secret\
+   default: `{{ lookup('env','AZURE_SECRET') }}`
 - `web_transport_common_url` - Server link to download installation packages\
   default: `ftp://ftp:ftp@ftp.com/aem`
 - `aem_instance_type` - AEM type (author or publish)\
@@ -131,26 +146,23 @@ Role Variables : default
   default: `9999`
 
 **Data stores configuration:**\
-_File Data Store configuration:_
-- `file_datastore_customize` - To override default properties of File Data Store\
-  default: `false`
-- `file_datastore_repository_home` - The path on the file system where repository data will be stored
-- `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value 
-  
-_Cloud Data Store configuration:_
-- `cloud_datastore_type` - Configure Amazon S3 or Azure Data Store\
+- `datastore_type` - enable custom Data Stores\
   default: `""`\
   Available options:
+  - `file` This is the implementation of FileDataStore present in Jackrabbit 2. It provides a way to store the binary data as normal files on the file system. Use it to override default configuration
   - `s3` Amazon S3 Data Store
   - `azure` Azure Data Store
-- `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 or Azure Data Store Connector zip file\
-  sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector
-              /1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
+
+  _File Data Store specific:_
+- `file_datastore_repository_home` - The path on the file system where repository data will be stored. Set to override default property value
+- `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value
+  
+  _Amazon S3 Data Store specific:_
+- `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 Data Store Connector zip file\
+  sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
 - `adobe_repo_feature_pack_md5_link` - Link to download feature pack's md5 file. Can be redefined if needed
   default: `{{ adobe_repo_feature_pack_link }}.md5`\
   Replace with proper http(s) URL if needed
-  
-  _Amazon S3 Data Store specific:_
 - `s3_data_store_bucket` - The name of S3 bucket where binary data will be stored
 - `s3_data_store_region` - The S3 bucket region
 - `s3_data_store_acces_key` - The AWS access key
@@ -159,6 +171,11 @@ _Cloud Data Store configuration:_
   default: `False`  
 
   _Azure Data Store specific:_
+- `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 Data Store Connector zip file\
+  sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip`
+- `adobe_repo_feature_pack_md5_link` - Link to download feature pack's md5 file. Can be redefined if needed
+  default: `{{ adobe_repo_feature_pack_link }}.md5`\
+  Replace with proper http(s) URL if needed
 - `azure_data_store_access_key` - The Azure storage account name
 - `azure_data_store_blob_endpoint` - The Azure Storage blob endpoint\
   default: `https://{{ azure_data_store_access_key }}.blob.core.windows.net`
@@ -342,7 +359,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      cloud_datastore_type: s3
+      datastore_type: s3
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.s3connector-1.8.6.zip
       s3_data_store_bucket: my-some-data-store
       s3_data_store_region: us-east-1
@@ -357,7 +374,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      cloud_datastore_type: azure
+      datastore_type: azure
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
       azure_data_store_access_key: my-some-storage-account
       azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="

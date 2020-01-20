@@ -156,17 +156,15 @@ tmpdir: /tmp
 #############################
 ### Configure data stores
 #############################
-## Configure default File data store
+## Supported types are: file, s3, azure.
+## Default File data store
 # When using a NAS to store shared file data stores, we provide possibility to customize configuration options
-file_datastore_customize: false
-
-## Configure Cloud data stores
-# Supported types are: s3, azure.
-# Amazon S3 Data Store
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#file-data-store
+## Amazon S3 Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
-# Azure Data Store
+## Azure Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
-cloud_datastore_type: ''
+datastore_type: ''
 
 # To use TarMK with the S3/Azure Datastore, we need to start AEM using the crx3tar-nofds runmode
 cloud_datastore_runmode: crx3tar-nofds

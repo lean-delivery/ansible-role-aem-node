@@ -24,7 +24,7 @@ ExecStart=/usr/bin/java -server -Xms{{ Xms_size }}m -Xmx{{ Xmx_size }}m -XX:Perm
          {% endif %}
          -jar ${JARFILE} start -c crx-quickstart -i launchpad \
          -p {{ aem_instance_port }} -Dsling.properties=conf/sling.properties \
-         -Dsling.run.modes={{ aem_instance_type }},{{ environment_type }}{% if (cloud_datastore_type == 's3' or cloud_datastore_type == 'azure') %},{{ cloud_datastore_runmode }}{% endif %}{% if aem_custom_modes != '' %},{{ aem_custom_modes }}{% endif %} \
+         -Dsling.run.modes={{ aem_instance_type }},{{ environment_type }}{% if (datastore_type == 's3' or datastore_type == 'azure') %},{{ cloud_datastore_runmode }}{% endif %}{% if aem_custom_modes != '' %},{{ aem_custom_modes }}{% endif %} \
          -Dcom.adobe.granite.crypto.file.disable=true \
          -Djava.awt.headless=true {% if aemSustemdTimezone is defined %}\
          -Duser.timezone={{ aemSustemdTimezone }}{% endif %}{% if ds_storage is defined and ds_storage == "mongodb" %} \

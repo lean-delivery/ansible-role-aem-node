@@ -2,7 +2,7 @@
 # file: tasks/configure_stores.yml
 
 - name: set variables based on data store type
-  include_vars: 'data_store/{{ cloud_datastore_type }}_vars.yml'
+  include_vars: 'data_store/{{ datastore_type }}_vars.yml'
 
 - name: create a folder crx-quickstart/install in the installation directory
   file:
@@ -14,11 +14,11 @@
 
 - name: download and unpack cloud data store connector
   include_tasks: 'feature_pack-installation.yml'
-  when: cloud_datastore_type == 's3' or cloud_datastore_type == 'azure'
+  when: datastore_type == 's3' or datastore_type == 'azure'
 
 - name: creating PID for configuration Data Store
   template:
-    src: 'datastore_{{ cloud_datastore_type }}.config.j2'
+    src: 'datastore_{{ datastore_type }}.config.j2'
     dest: '{{ aem_install_dir + "/" + datastore_pid_file }}'
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
