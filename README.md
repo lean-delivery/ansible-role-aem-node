@@ -145,7 +145,7 @@ Role Variables : default
 - `jolokia_agent_port_publisher` - Port for jolokia agent\
   default: `9999`
 
-**Data stores configuration:**\
+**Data stores configuration:**
 - `datastore_type` - enable custom Data Stores\
   default: `""`\
   Available options:
@@ -153,7 +153,8 @@ Role Variables : default
   - `s3` Amazon S3 Data Store
   - `azure` Azure Data Store
 
-  _File Data Store specific:_
+  _File Data Store specific:_\
+When using a NAS to store shared file data stores. Use it to override default configuration. **WARNING! Make sure the directory exists, check directory permissions**
 - `file_datastore_repository_home` - The path on the file system where repository data will be stored. Set to override default property value
 - `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value
   
