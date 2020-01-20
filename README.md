@@ -380,6 +380,17 @@ Don't forget to preinstall LDI AEM modules.
       azure_data_store_access_key: my-some-storage-account
       azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="
       azure_data_store_container: my-aem-container
+
+- name: author-install-custom-file-data-store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_version: '6.5'
+      aem_instance_type: author
+      ...
+      datastore_type: file
+      file_datastore_path: /mnt/nas/datastore
 ```
 
 
