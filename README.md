@@ -18,6 +18,7 @@ This role:
 - supports multiple publishing instances for one authoring
 - can create aem groups with predefined permissions
 - can create aem user accounts
+- can configure File Data Store when using a NAS to store shared file data stores
 - can install and configure Amazon S3 and Azure Data Stores for binary data. The following combinations have been tested and work:
   - AEM 6.4 with Amazon S3 connector v1.8.6
   - AEM 6.5 with Amazon S3 connector v1.8.6
@@ -129,7 +130,14 @@ Role Variables : default
 - `jolokia_agent_port_publisher` - Port for jolokia agent\
   default: `9999`
 
-**_Data stores configuration:_**
+**Data stores configuration:**\
+_File Data Store configuration:_
+- `file_datastore_customize` - To override default properties of File Data Store\
+  default: `false`
+- `file_datastore_repository_home` - The path on the file system where repository data will be stored
+- `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value 
+  
+_Cloud Data Store configuration:_
 - `cloud_datastore_type` - Configure Amazon S3 or Azure Data Store\
   default: `""`\
   Available options:
