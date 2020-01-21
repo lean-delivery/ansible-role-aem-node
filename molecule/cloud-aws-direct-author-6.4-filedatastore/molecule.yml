@@ -10,7 +10,7 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-aws-centos7-aem-node-author-6.5-filedatastore
+  - name: test-aws-centos7-aem-node-author-6.4-filedatastore
     profile_name: epmldi-instance-profile
     image: ami-9887c6e7
     instance_type: m5.large
@@ -27,7 +27,7 @@ platforms:
       - aem_authors
       - aem_publishers
 
-  - name: test-aws-ubuntu16-aem-node-author-6.5-filedatastore
+  - name: test-aws-ubuntu16-aem-node-author-6.4-filedatastore
     image: ami-09677e0a6b14905b0
     platform: ubuntu16
     instance_type: m5d.large
@@ -45,7 +45,7 @@ platforms:
       - aem_authors
       - aem_publishers
 
-  - name: test-aws-ubuntu18-aem-node-author-6.5-filedatastore
+  - name: test-aws-ubuntu18-aem-node-author-6.4-filedatastore
     image: ami-012fd5eb46f56731f
     platform: ubuntu18
     instance_type: m5d.large
@@ -77,7 +77,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: cloud-aws-direct-author-6.5-filedatastore
+  name: cloud-aws-direct-author-6.4-filedatastore
 verifier:
   name: ansible
   lint:

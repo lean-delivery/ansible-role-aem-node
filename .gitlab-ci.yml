@@ -43,6 +43,15 @@ Lint:
   tags:
     - aws
 
+AWS aem-node-author-6.3-filedatastore:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.3-filedatastore
+  tags:
+    - aws
+
 .AWS aem-node-publisher-6.3:
   variables:
     AWS_REGION: us-east-1
@@ -58,6 +67,15 @@ Lint:
   stage: deployment test
   script:
     - molecule test -s cloud-aws-direct-author-6.4
+  tags:
+    - aws
+
+AWS aem-node-author-6.4-filedatastore:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.4-filedatastore
   tags:
     - aws
 

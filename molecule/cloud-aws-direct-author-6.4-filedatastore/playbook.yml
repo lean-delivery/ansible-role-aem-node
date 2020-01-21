@@ -7,12 +7,13 @@
       publisher_ssl: true
       aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
+      replication_enabled: true
       aem_instance_type: author
       web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_change_default_admin_password: true
       aem_new_admin_password: "testtest_123@S"
       publishers: "{{ groups['aem_publishers'] }}"
-      aem_version: '6.5'
+      aem_version: '6.4'
       aem_groups:
        -
         id: 'test_group'
