@@ -43,7 +43,7 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.3-filedatastore:
+.AWS aem-node-author-6.3-filedatastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -70,7 +70,7 @@ AWS aem-node-author-6.3-filedatastore:
   tags:
     - aws
 
-AWS aem-node-author-6.4-filedatastore:
+.AWS aem-node-author-6.4-filedatastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -124,7 +124,7 @@ AWS aem-node-author-6.4-filedatastore:
   tags:
     - aws
 
-AWS aem-node-author-6.5-filedatastore:
+.AWS aem-node-author-6.5-filedatastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
