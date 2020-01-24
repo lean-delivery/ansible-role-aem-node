@@ -43,6 +43,31 @@
     mode: '0640'
   become: true
 
+- name: 'ensure that AEM SP is downloaded (s3 transport)'
+  block:
+    - name: download AEM SP zip file
+      aws_s3:
+        bucket: '{{ transport_s3_bucket }}'
+        object: '{{ service_pack_s3_path }}'
+        dest: '{{ aem_install_dir }}/{{ service_pack_s3_path.split("/")[-1] }}'
+        aws_access_key: '{{ transport_s3_aws_access_key }}'
+        aws_secret_key: '{{ transport_s3_aws_secret_key }}'
+        mode: get
+        overwrite: different
+        ignore_nonexistent_bucket: true
+      retries: 5
+      delay: 2
+
+    - name: 'protecting SP file'
+      file:
+        path: '{{ aem_install_dir }}/{{ service_pack_s3_path.split("/")[-1] }}'
+        owner: '{{ aem_user }}'
+        group: '{{ aem_user }}'
+        mode: '0640'
+      become: true
+  when: service_pack_s3_path | length > 0
+  become: true
+
 - name: 'ensure that jolokia is downloaded (s3 transport)'
   aws_s3:
     bucket: '{{ transport_s3_bucket }}'

@@ -46,3 +46,30 @@
     group: '{{ aem_user }}'
     mode: '0640'
   become: true
+
+- name: 'ensure that AEM SP is downloaded (azure transport)'
+  block:
+    - name: download AEM SP zip file
+      azure_rm_storageblob:
+        resource_group: '{{ transport_azure_resource_group }}'
+        storage_account_name: '{{ transport_azure_storage_account_name }}'
+        container: '{{ transport_azure_container }}'
+        blob: '{{ service_pack_azure_path }}'
+        dest: '{{ aem_install_dir }}/{{ service_pack_azure_path.split("/")[-1] }}'
+        force: true
+        subscription_id: '{{ transport_azure_subscription_id }}'
+        client_id: '{{ transport_azure_client_id }}'
+        secret: '{{ transport_azure_client_secret }}'
+        tenant: '{{ transport_azure_tenant_id }}'
+      retries: 5
+      delay: 2
+
+    - name: 'protecting SP file'
+      file:
+        path: '{{ aem_install_dir }}/{{ service_pack_azure_path.split("/")[-1] }}'
+        owner: '{{ aem_user }}'
+        group: '{{ aem_user }}'
+        mode: '0640'
+      become: true
+  when: service_pack_azure_path | length > 0
+  become: true

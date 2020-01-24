@@ -12,6 +12,7 @@ This role installs AEM (Authoring and Publishing roles) instance on RHEL/Ubuntu-
 
 This role:
 - installs AEM (6.3 6.4 6.5 versions for choosing, 6.4 by default ) and configures it as a systemd Linux service
+- can add AEM Service Pack during installation, zip file with SP will be placed in the crx-quickstart/install directory
 - can change default admin password
 - can install any predefined AEM packages (such as hotfixes\service packs)
 - configures replication agent on author for publishing if it is not a standalone environment
@@ -23,6 +24,7 @@ This role:
   - AEM 6.4 with Amazon S3 connector v1.8.6
   - AEM 6.5 with Amazon S3 connector v1.8.6
   - AEM 6.5 with Azure blob connector v1.9.12
+- can install Jolokia agent to monitor server resources using
 
 
 Requirements
@@ -55,39 +57,6 @@ Role Variables : default
   default: `443`
 - `dispatcher_http_port` - Http port for listening\
   default: `80`
-- `download_transport` - one of: web, s3, azure\
-  default: `web`
-- `full_aem_web_transport_link` - link for aem installation file\
-  default: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
-- `full_license_web_transport_link` - link for aem license file\
-  default: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
-- `transport_s3_bucket` - s3 bucket\
-  default: `aemartifacts`
-- `aem_transport_s3_path` - aem installation file s3 path\
-  default: `/{{ aem_version }}/aem.jar`
-- `license_transport_s3_path` - aem license file s3 path\
-  default: `/licenses/{{ aem_version }}/license.properties`
-- `transport_s3_aws_access_key` - access key\
-  default: `{{ lookup('env','AWS_ACCESS_KEY_ID') }}`
-- `transport_s3_aws_secret_key` - secret key\
-  default: `{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}`
-- `transport_azure_resource_group` - name of Azure resource group
-- `transport_azure_storage_account_name` - name of Azure storage account
-- `transport_azure_container` - name of blob container
-- `aem_transport_azure_path` - aem installation file Azure blob container path\
-  default: `/{{ aem_version }}/aem.jar`
-- `license_transport_azure_path` - aem license file Azure blob container path\
-   default: `/licenses/{{ aem_version }}/license.properties`
-- `transport_azure_subscription_id` - Azure subscription ID\
-   default: `{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}`
-- `transport_azure_tenant_id` - Azure tenant ID\
-   default: `{{ lookup('env','AZURE_TENANT') }}`
-- `transport_azure_client_id` - Azure client ID\
-   default: `{{ lookup('env','AZURE_CLIENT_ID') }}`
-- `transport_azure_client_secret` - Azure client secret\
-   default: `{{ lookup('env','AZURE_SECRET') }}`
-- `web_transport_common_url` - Server link to download installation packages\
-  default: `ftp://ftp:ftp@ftp.com/aem`
 - `aem_instance_type` - AEM type (author or publish)\
   default: `author`
 - `aem_custom_modes` - Comma separated custom run modes wich allow you to tune your AEM instance for a specific purpose; for example author or publish, test, development, intranet or others\
@@ -138,12 +107,53 @@ Role Variables : default
   default: `19999`
 - `aem_change_default_admin_password` - Change or not default admin password\
   default: `False`
-- `jolokia_agent` - Insert javaagent in author node\
-  default: `False`
-- `jolokia_agent_port_author` - Port for jolokia agent\
-  default: `9998`
-- `jolokia_agent_port_publisher` - Port for jolokia agent\
-  default: `9999`
+  
+**Transport configuration:**  
+- `download_transport` - one of: web, s3, azure\
+  default: `web`
+  
+  _WEB transport specific:_
+- `web_transport_common_url` - Server link to download installation packages\
+    default: `ftp://ftp:ftp@ftp.com/aem`
+- `full_aem_web_transport_link` - link for aem installation file\
+  default: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
+- `full_license_web_transport_link` - link for aem license file\
+  default: `{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties`
+- `full_sp_web_transport_link` - link for AEM Service Pack zip file. Zip file with SP will be placed in the crx-quickstart/install directory before first run\
+  default: `''` use relative to `web_transport_common_url` path
+  
+  _AWS S3 transport specific:_
+- `transport_s3_bucket` - s3 bucket\
+  default: `aemartifacts`
+- `aem_transport_s3_path` - aem installation file s3 path\
+  default: `/{{ aem_version }}/aem.jar`
+- `license_transport_s3_path` - aem license file s3 path\
+  default: `/licenses/{{ aem_version }}/license.properties`
+- `service_pack_s3_path` - link for AEM Service Pack zip file. Zip file with SP will be placed in the crx-quickstart/install directory before first run\
+  default: `''` use relative to `transport_s3_bucket` path
+- `transport_s3_aws_access_key` - access key\
+  default: `{{ lookup('env','AWS_ACCESS_KEY_ID') }}`
+- `transport_s3_aws_secret_key` - secret key\
+  default: `{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}`
+  
+  _Azure blob container transport specific:_
+- `transport_azure_resource_group` - name of Azure resource group
+- `transport_azure_storage_account_name` - name of Azure storage account
+- `transport_azure_container` - name of blob container
+- `aem_transport_azure_path` - aem installation file Azure blob container path\
+  default: `/{{ aem_version }}/aem.jar`
+- `license_transport_azure_path` - aem license file Azure blob container path\
+   default: `/licenses/{{ aem_version }}/license.properties`
+- `service_pack_azure_path` - link for AEM Service Pack zip file. Zip file with SP will be placed in the crx-quickstart/install directory before first run\
+   default: `''` use relative to `transport_azure_container` path
+- `transport_azure_subscription_id` - Azure subscription ID\
+   default: `{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}`
+- `transport_azure_tenant_id` - Azure tenant ID\
+   default: `{{ lookup('env','AZURE_TENANT') }}`
+- `transport_azure_client_id` - Azure client ID\
+   default: `{{ lookup('env','AZURE_CLIENT_ID') }}`
+- `transport_azure_client_secret` - Azure client secret\
+   default: `{{ lookup('env','AZURE_SECRET') }}`
 
 **Data stores configuration:**
 - `datastore_type` - enable custom Data Stores\
@@ -183,6 +193,14 @@ When using a NAS to store shared file data stores. Use it to override default co
 - `azure_data_store_secret_key` - The storage access key. Ensure that the '=' character is escaped like '\\='
 - `azure_data_store_container` - The Microsoft Azure blob storage container name. **WARNING! The name of blob container can't be longer than 18 characters (not documented anywhere!)**
 - `azure_data_store_sas` - In version 1.6.3 of the connector, Azure Shared Access Signature (SAS) support was added. If both SAS and storage credentials exists in the configuration file, SAS has priority.  Ensure that the '=' character is escaped like '\\='
+
+**Jolokia agent configuration:**
+- `jolokia_agent` - Insert javaagent in author node\
+  default: `False`
+- `jolokia_agent_port_author` - Port for jolokia agent\
+  default: `9998`
+- `jolokia_agent_port_publisher` - Port for jolokia agent\
+  default: `9999`
 
 ### AEM groups which would be created during provision proccess
 
@@ -332,6 +350,41 @@ Don't forget to preinstall LDI AEM modules.
       replication_enabled: true
       aem_instance_type: author
       web_transport_common_url: ftp://ftp:ftp@aem.example.com/aem
+      publishers: "{{ groups['aem_publishers'] }}"
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'Test_user_password1'
+        group: 'test_group'
+
+- name: author-install-s3-transport-plus-sp
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_version: '6.5'
+      download_transport: s3
+      transport_s3_bucket: aem_artifacts
+      aem_transport_s3_path: /6.5/aem.jar
+      license_transport_s3_path: /license/6.5/license.properties
+      service_pack_s3_path: /sp/6.5/AEM-6.5.3.0-6.5.3.zip
+      transport_s3_aws_access_key: AAABBBCCC
+      transport_s3_aws_secret_key: AAABBBCCCDDDEEE
+      replication_enabled: true
+      aem_instance_type: author
       publishers: "{{ groups['aem_publishers'] }}"
       aem_groups:
        -

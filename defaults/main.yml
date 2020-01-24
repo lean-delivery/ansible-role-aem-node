@@ -23,6 +23,8 @@ dispatcher_http_port: 80
 #server link to download
 web_transport_common_url: 'ftp://ftp:ftp@ftp.com/aem'
 full_aem_web_transport_link: '{{ web_transport_common_url }}/{{ aem_version }}/aem.jar'
+# Add SP during installation if needed, zip file with SP will be placed in the crx-quickstart/install directory
+full_sp_web_transport_link: ''
 full_license_web_transport_link: '{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties'
 
 # web or s3 or azure
@@ -30,6 +32,8 @@ download_transport: web
 
 transport_s3_bucket: aemartifacts
 aem_transport_s3_path: '/{{ aem_version }}/aem.jar'
+# Add SP during installation if needed, zip file with SP will be placed in the crx-quickstart/install directory
+service_pack_s3_path: ''
 jolokia_transport_s3_path: '/jolokia-jvm-1.6.2-agent.jar'
 license_transport_s3_path: '/licenses/{{ aem_version }}/license.properties'
 transport_s3_aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
@@ -39,6 +43,8 @@ transport_azure_resource_group: ''
 transport_azure_storage_account_name: ''
 transport_azure_container: ''
 aem_transport_azure_path: '{{ aem_version }}/aem.jar'
+# Add SP during installation if needed, zip file with SP will be placed in the crx-quickstart/install directory
+service_pack_azure_path: ''
 license_transport_azure_path: 'licenses/{{ aem_version }}/license.properties'
 transport_azure_subscription_id: "{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}"
 transport_azure_client_id: "{{ lookup('env','AZURE_CLIENT_ID') }}"
@@ -152,6 +158,13 @@ jolokia_agent_port_publisher: 9999
 jolokia_agent_port_author: 9998
 
 tmpdir: /tmp
+
+#############################
+### Service pack preinstall
+#############################
+# Add SP during installation if needed
+# Zip file with SP will be placed in the crx-quickstart/install directory
+# SP is needed for proper work od MongoMK + cloud data stores
 
 #############################
 ### Configure data stores

@@ -35,6 +35,15 @@
     state: directory
   become: true
 
+- name: ensure that crx-quickstart/install directory exists for further sp, feature pack installation
+  file:
+    path: '{{ aem_install_dir }}'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0775
+    state: directory
+  become: true
+
 - name: Configure system
   include_tasks: '{{ platform }}'
   with_first_found:

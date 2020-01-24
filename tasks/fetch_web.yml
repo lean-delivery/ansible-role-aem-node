@@ -19,6 +19,15 @@
     mode: 0640
   become: true
 
+- name: ensure that AEM SP is downloaded (web transport)
+  get_url:
+    url: '{{ full_sp_web_transport_link }}'
+    dest: '{{ aem_install_dir }}/{{ full_sp_web_transport_link.split("/")[-1] }}'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0640
+  when: full_sp_web_transport_link | length > 0
+
 - name: ensure that Jolokia agent is downloaded
   get_url:
     url: '{{ jolokia_agent_url }}'

@@ -4,14 +4,6 @@
 - name: set variables based on data store type
   include_vars: 'data_store/{{ datastore_type }}_vars.yml'
 
-- name: create a folder crx-quickstart/install in the installation directory
-  file:
-    path: '{{ aem_install_dir }}'
-    state: directory
-    owner: '{{ aem_user }}'
-    group: '{{ aem_user }}'
-  become: true
-
 - name: download and unpack cloud data store connector
   include_tasks: 'feature_pack-installation.yml'
   when: datastore_type == 's3' or datastore_type == 'azure'
