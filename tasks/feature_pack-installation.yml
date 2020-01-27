@@ -1,5 +1,5 @@
 ---
-# file: tasks/featurepack-installation.yml
+# file: tasks/feature_pack-installation.yml
 
 - name: download feature pack
   include_tasks: 'fetch_feature_pack.yml'
@@ -28,10 +28,15 @@
     group: '{{ aem_user }}'
   become: true
 
+# Pay attention to fact that config files can include configuration for node store services.
+# For instance, S3 connector includes org.apache.jackrabbit.oak.plugins.document.DocumentNodeStoreService.config file
+# with only option customBlobStore=B"true" inside.
+# We must omit the replacement of this file if Mongo storage type is already configured at the previous stage
 - name: copy config files to AEM install folder
   copy:
     src: '{{ temp_dir }}/jcr_root/libs/system/config/'
     dest: '{{ aem_install_dir }}/'
+    force: no  # do not replace node store service config if exists. Must work in conjunction with mongo storage type
     remote_src: true
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
