@@ -160,13 +160,6 @@ jolokia_agent_port_author: 9998
 tmpdir: /tmp
 
 #############################
-### Service pack preinstall
-#############################
-# Add SP during installation if needed
-# Zip file with SP will be placed in the crx-quickstart/install directory
-# SP is needed for proper work od MongoMK + cloud data stores
-
-#############################
 ### Configure data stores
 #############################
 ## Supported types are: file, s3, azure.
