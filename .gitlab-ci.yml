@@ -115,6 +115,15 @@ Lint:
   tags:
     - aws
 
+.AWS aem-node-author-6.5-mongo:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.5-mongo
+  tags:
+    - aws
+
 .AWS aem-node-author-6.5-datastore:
   variables:
     AWS_REGION: us-east-1
