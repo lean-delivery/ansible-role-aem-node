@@ -166,9 +166,12 @@ tmpdir: /tmp
 ## Supported types are: tar, mongo.
 # For MongoMK we provide configuration file
 aem_storage_type: tar
+
+# To use MongoMK, we must start AEM using runmode: crx3,crx3mongo
+mongo_nodestore_runmode: crx3,crx3mongo
+
 # AEM PID to configure node store. There are default values in "vars/node_store/{{ storage_type }}_vars.yml"
 nodestore_pid_file: ''
-
 
 #############################
 ### Configure data stores
