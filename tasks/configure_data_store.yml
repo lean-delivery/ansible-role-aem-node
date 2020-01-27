@@ -1,5 +1,5 @@
 ---
-# file: tasks/configure_stores.yml
+# file: tasks/configure_data_store.yml
 
 - name: set variables based on data store type
   include_vars: 'data_store/{{ datastore_type }}_vars.yml'

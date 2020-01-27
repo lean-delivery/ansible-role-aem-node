@@ -1,0 +1,14 @@
+---
+# file: tasks/configure_node_store.yml
+
+- name: set variables based on ode store type
+  include_vars: 'node_store/{{ aem_storage_type }}_vars.yml'
+
+- name: creating PID for configuration Node Store
+  template:
+    src: 'nodestore_{{ aem_storage_type }}.config.j2'
+    dest: '{{ aem_install_dir + "/" + nodestore_pid_file }}'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: 0644
+  become: true

@@ -1,0 +1,6 @@
+---
+
+nodestore_pid_file: org.apache.jackrabbit.oak.segment.SegmentNodeStoreService.config
+
+# todo: implement possibility of configuring
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/introduction/storage-elements-in-aem-6.html#tar-storage

@@ -1,0 +1,7 @@
+mongouri="{{ mongo_node_store_mongo_uri }}"
+db="{{ mongo_node_store_db_name }}"
+cache="{{ mongo_node_store_cache_size }}"
+changesSize="{{ mongo_node_store_changes_size }}"
+{% if mongo_node_store_custom_blobstore %}
+customBlobStore=B"true"
+{% endif %}

@@ -42,8 +42,12 @@
   debug:
     msg: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
 
+- name: configure node store if needed
+  include_tasks: configure_node_store.yml
+  when: aem_storage_type == 'mongo'
+
 - name: configure data stores if needed
-  include_tasks: configure_stores.yml
+  include_tasks: configure_data_store.yml
   when: datastore_type | length > 0
 
 - name: creating systemd script for AEM instance

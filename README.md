@@ -19,6 +19,7 @@ This role:
 - supports multiple publishing instances for one authoring
 - can create aem groups with predefined permissions
 - can create aem user accounts
+- can configure Document Node Store (MongoMK implementation)
 - can configure File Data Store when using a NAS to store shared file data stores
 - can install and configure Amazon S3 and Azure Data Stores for binary data. The following combinations have been tested and work:
   - AEM 6.4 with Amazon S3 connector v1.8.6
@@ -154,6 +155,25 @@ Role Variables : default
    default: `{{ lookup('env','AZURE_CLIENT_ID') }}`
 - `transport_azure_client_secret` - Azure client secret\
    default: `{{ lookup('env','AZURE_SECRET') }}`
+
+**Node store configuration:**
+- `aem_storage_type`- Currently, there are two node storage implementations available in AEM6: Tar storage, and MongoDB storage.\
+  default: `tar`\
+  Available options:
+  - `tar` By default, AEM 6 uses the Tar storage to store nodes and binaries, using the default configuration options
+  - `mongo` AEM 6 can be configured to run with MongoDB storage
+  
+  _Mongo Storage specific:_
+- `mongo_node_store_mongo_uri` - The MongoURI required to connect to Mongo Database. Check https://docs.mongodb.com/manual/reference/connection-string/ for detail\
+  default: `mongodb://localhost:27017`
+- `mongo_node_store_db_name` - Name of the Mongo database\
+  default: `aem-author`
+- `mongo_node_store_cache_size` - The cache size in MB. This is distributed among various caches used in DocumentNodeStore\
+  default: `256`
+- `mongo_node_store_changes_size` - Size in MB of capped collection used in Mongo for caching the diff output\
+  default: `256`
+- `mongo_node_store_custom_blobstore` - Boolean value indicating that a custom data store will be used. Use it with Amazon S3 or Azure Data Store together\
+  default: `false`
 
 **Data stores configuration:**
 - `datastore_type` - enable custom Data Stores\
