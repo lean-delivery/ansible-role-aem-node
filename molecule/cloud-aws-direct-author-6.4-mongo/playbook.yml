@@ -7,7 +7,6 @@
       publisher_ssl: true
       aem_ssl_enable: true
       aem_ssl_dir: /etc/ssl/localhost/
-      replication_enabled: true
       aem_instance_type: author
       web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
       aem_change_default_admin_password: true
