@@ -2,9 +2,6 @@
 - name: Include common prepare for role
   import_playbook: ../resources/prepare-aem-6.5.yml
 
-- name: Include AWS specific preparation
-  import_playbook: ../resources/prepare/prepare_s3.yml
-
 - name: Install MongoDB
   hosts: all
   roles:
