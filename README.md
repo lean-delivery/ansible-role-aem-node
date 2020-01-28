@@ -19,12 +19,17 @@ This role:
 - supports multiple publishing instances for one authoring
 - can create aem groups with predefined permissions
 - can create aem user accounts
-- can configure Document Node Store (MongoMK implementation)
 - can configure File Data Store when using a NAS to store shared file data stores
 - can install and configure Amazon S3 and Azure Data Stores for binary data. The following combinations have been tested and work:
   - AEM 6.4 with Amazon S3 connector v1.8.6
   - AEM 6.5 with Amazon S3 connector v1.8.6
   - AEM 6.5 with Azure blob connector v1.9.12
+- can configure Document Node Store (MongoMK implementation). The following combinations have been tested and work:
+  - AEM 6.3 + MongoDB 3.4
+  - AEM 6.4 + MongoDB 3.4
+  - AEM 6.5 + MongoDB 3.4
+  - AEM 6.5 + SP v3 + MongoDB 3.4 + Amazon S3 connector v1.8.6
+  - AEM 6.5 + SP v3 + MongoDB 3.4 + Azure blob connector v1.9.12
 - can install Jolokia agent to monitor server resources using
 
 
@@ -464,6 +469,33 @@ Don't forget to preinstall LDI AEM modules.
       ...
       datastore_type: file
       file_datastore_path: /mnt/nas/datastore
+
+- name: author-install-azure-transport-sp-mongodb-azure-data-store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      download_transport: azure
+      transport_azure_resource_group: my-resource-group
+      transport_azure_storage_account_name: storage100500
+      transport_azure_container: aem_artifacts
+      service_pack_azure_path: 'sp/6.5/AEM-6.5.3.0-6.5.3.zip'
+      transport_azure_subscription_id: AAAA111bbbb2222...
+      transport_azure_tenant_id: a1b2c3-4g4h...
+      transport_azure_client_id: a1b2c3-4g4h...
+      transport_azure_client_secret: a1b2c3-4g4h...
+      aem_version: '6.5'
+      aem_instance_type: author
+      ...
+      aem_storage_type: mongo
+      mongo_node_store_mongo_uri: 'mongodb://[primaryhost]:[port],[secondaryhost]:[port]/?replicaSet=[replicaSet name]'
+      mongo_node_store_db_name: aem-author
+      mongo_node_store_custom_blobstore: true
+      datastore_type: azure
+      adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
+      azure_data_store_access_key: my-some-storage-account
+      azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="
+      azure_data_store_container: my-aem-container
 ```
 
 
