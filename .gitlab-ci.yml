@@ -106,12 +106,28 @@ AWS aem-node-author-6.4-mongo:
   tags:
     - aws
 
+.AWS aem-node-author-6.4-sp-mongo-datastore:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.4-sp-mongo-datastore
+  tags:
+    - aws
+
 # Disabled because AEM 6.4 + com.adobe.granite.oak.azureblobconnector DOESN'T WORK!
 # Perhaps installing AEM service packs can help, need to go deeper to find out
 .AZURE aem-node-author-6.4-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.4-datastore
+  tags:
+    - azure
+
+.AZURE aem-node-author-6.4-sp-mongo-datastore:
+  stage: deployment test
+  script:
+    - molecule test -s cloud-azure-direct-author-6.4-sp-mongo-datastore
   tags:
     - azure
 
@@ -151,6 +167,15 @@ AWS aem-node-author-6.5-mongo:
   tags:
     - aws
 
+.AWS aem-node-author-6.5-sp-mongo-datastore:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.5-sp-mongo-datastore
+  tags:
+    - aws
+
 .AWS aem-node-author-6.5-filedatastore:
   variables:
     AWS_REGION: us-east-1
@@ -164,6 +189,13 @@ AWS aem-node-author-6.5-mongo:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.5-datastore
+  tags:
+    - azure
+
+.AZURE aem-node-author-6.5-sp-mongo-datastore:
+  stage: deployment test
+  script:
+    - molecule test -s cloud-azure-direct-author-6.5-sp-mongo-datastore
   tags:
     - azure
 
