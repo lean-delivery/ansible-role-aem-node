@@ -106,7 +106,9 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.4-sp-mongo-datastore:
+# Disabled because molecule test for AEM 6.4 + SP + MongoDB + S3 connector doesn't work
+# Error: No space left on device. Currently there is no any easy way to increase VM disk size
+.AWS aem-node-author-6.4-sp-mongo-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -116,7 +118,7 @@ AWS aem-node-author-6.4-sp-mongo-datastore:
     - aws
 
 # Disabled because AEM 6.4 + com.adobe.granite.oak.azureblobconnector DOESN'T WORK!
-# Perhaps installing AEM service packs can help, need to go deeper to find out
+# Applying AEM service packs doesn't help!
 .AZURE aem-node-author-6.4-datastore:
   stage: deployment test
   script:
@@ -124,7 +126,9 @@ AWS aem-node-author-6.4-sp-mongo-datastore:
   tags:
     - azure
 
-AZURE aem-node-author-6.4-sp-mongo-datastore:
+# Disabled because AEM 6.4 + com.adobe.granite.oak.azureblobconnector DOESN'T WORK!
+# Applying AEM service packs doesn't help!
+.AZURE aem-node-author-6.4-sp-mongo-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.4-sp-mongo-datastore
