@@ -1,7 +1,7 @@
 ---
 # file: tasks/configure_node_store.yml
 
-- name: set variables based on ode store type
+- name: set variables based on node store type
   include_vars: 'node_store/{{ aem_storage_type }}_vars.yml'
 
 - name: creating PID for configuration Node Store
