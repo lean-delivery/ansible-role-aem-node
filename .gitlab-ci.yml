@@ -43,7 +43,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.3-mongo:
+AWS aem-node-author-6.3-mongo:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -79,7 +79,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.4-mongo:
+AWS aem-node-author-6.4-mongo:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -153,7 +153,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.5-mongo:
+AWS aem-node-author-6.5-mongo:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
