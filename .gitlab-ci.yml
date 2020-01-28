@@ -43,7 +43,7 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.3-mongo:
+.AWS aem-node-author-6.3-mongo:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -79,7 +79,7 @@ AWS aem-node-author-6.3-mongo:
   tags:
     - aws
 
-AWS aem-node-author-6.4-mongo:
+.AWS aem-node-author-6.4-mongo:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -106,7 +106,7 @@ AWS aem-node-author-6.4-mongo:
   tags:
     - aws
 
-.AWS aem-node-author-6.4-sp-mongo-datastore:
+AWS aem-node-author-6.4-sp-mongo-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -124,7 +124,7 @@ AWS aem-node-author-6.4-mongo:
   tags:
     - azure
 
-.AZURE aem-node-author-6.4-sp-mongo-datastore:
+AZURE aem-node-author-6.4-sp-mongo-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.4-sp-mongo-datastore
@@ -149,7 +149,7 @@ AWS aem-node-author-6.4-mongo:
   tags:
     - aws
 
-AWS aem-node-author-6.5-mongo:
+.AWS aem-node-author-6.5-mongo:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -167,7 +167,7 @@ AWS aem-node-author-6.5-mongo:
   tags:
     - aws
 
-.AWS aem-node-author-6.5-sp-mongo-datastore:
+AWS aem-node-author-6.5-sp-mongo-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -192,7 +192,7 @@ AWS aem-node-author-6.5-mongo:
   tags:
     - azure
 
-.AZURE aem-node-author-6.5-sp-mongo-datastore:
+AZURE aem-node-author-6.5-sp-mongo-datastore:
   stage: deployment test
   script:
     - molecule test -s cloud-azure-direct-author-6.5-sp-mongo-datastore
