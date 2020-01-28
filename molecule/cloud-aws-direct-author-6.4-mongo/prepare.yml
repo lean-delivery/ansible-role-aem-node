@@ -1,0 +1,9 @@
+---
+- name: Include common prepare for role
+  import_playbook: ../resources/prepare.yml
+
+- name: Install MongoDB
+  hosts: all
+  roles:
+    - role: undergreen.mongodb
+      mongodb_version: "3.4"

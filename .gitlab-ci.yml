@@ -43,6 +43,15 @@ Lint:
   tags:
     - aws
 
+.AWS aem-node-author-6.3-mongo:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.3-mongo
+  tags:
+    - aws
+
 .AWS aem-node-author-6.3-filedatastore:
   variables:
     AWS_REGION: us-east-1
@@ -67,6 +76,15 @@ Lint:
   stage: deployment test
   script:
     - molecule test -s cloud-aws-direct-author-6.4
+  tags:
+    - aws
+
+.AWS aem-node-author-6.4-mongo:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-author-6.4-mongo
   tags:
     - aws
 
