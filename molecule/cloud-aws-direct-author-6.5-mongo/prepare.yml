@@ -4,6 +4,7 @@
 
 - name: Install MongoDB
   hosts: all
+  become: true
   roles:
     - role: undergreen.mongodb
       mongodb_version: "3.4"
