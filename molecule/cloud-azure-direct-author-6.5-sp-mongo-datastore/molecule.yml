@@ -10,7 +10,7 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-azure-centos7-aem-node-author-6.5-datastore
+  - name: test-azure-centos7-aem-node-author-6.5-sp-mongo-datastore
     platform: centos7
     vm_size: Standard_E2s_v3
     assign_public_ip: false
