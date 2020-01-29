@@ -34,7 +34,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.3:
+AWS aem-node-author-6.3:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -61,7 +61,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-publisher-6.3:
+AWS aem-node-publisher-6.3:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -70,7 +70,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.4:
+AWS aem-node-author-6.4:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -135,7 +135,7 @@ Lint:
   tags:
     - azure
 
-.AWS aem-node-publisher-6.4:
+AWS aem-node-publisher-6.4:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -144,7 +144,7 @@ Lint:
   tags:
     - aws
 
-.AWS aem-node-author-6.5:
+AWS aem-node-author-6.5:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -171,7 +171,7 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.5-sp-mongo-datastore:
+.AWS aem-node-author-6.5-sp-mongo-datastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -203,7 +203,7 @@ AWS aem-node-author-6.5-sp-mongo-datastore:
   tags:
     - azure
 
-.AWS aem-node-publisher-6.5:
+AWS aem-node-publisher-6.5:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
