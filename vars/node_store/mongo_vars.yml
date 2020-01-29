@@ -3,8 +3,10 @@
 nodestore_pid_file: org.apache.jackrabbit.oak.plugins.document.DocumentNodeStoreService.config
 
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/introduction/storage-elements-in-aem-6.html#mongo-storage
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/introduction/aem-with-mongodb.html#aem-configuration
 mongo_node_store_mongo_uri: 'mongodb://localhost:27017'
 mongo_node_store_db_name: aem-author
 mongo_node_store_cache_size: 256
 mongo_node_store_changes_size: 256
 mongo_node_store_custom_blobstore: false
+mongo_node_store_blob_cache_size: 16

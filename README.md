@@ -174,11 +174,13 @@ Role Variables : default
 - `mongo_node_store_db_name` - Name of the Mongo database\
   default: `aem-author`
 - `mongo_node_store_cache_size` - The cache size in MB. This is distributed among various caches used in DocumentNodeStore\
-  default: `256`
+  default: `256` However, Oak read performance will benefit from a bigger cache.
 - `mongo_node_store_changes_size` - Size in MB of capped collection used in Mongo for caching the diff output\
   default: `256`
-- `mongo_node_store_custom_blobstore` - Boolean value indicating that a custom data store will be used. Use it with Amazon S3 or Azure Data Store together\
+- `mongo_node_store_custom_blobstore` - Boolean value indicating that a custom data store will be used. Use it together with one of: Filesystem Data Store, Amazon S3 or Azure Data Store\
   default: `false`
+- `mongo_node_store_blob_cache_size` - Size in Mb of in memory cache for the frequently used blobs. Frequently used blobs may be cached by AEM to avoid refetching them from the data store. All the file system based Data Stores will benefit from the operating system level disk cache
+  default: `16`
 
 **Data stores configuration:**
 - `datastore_type` - enable custom Data Stores\
