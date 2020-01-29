@@ -33,5 +33,5 @@
         password: 'testtest_123i@S'
         group: 'test_group'
       jolokia_agent: true
-      datastore_type: file
+      aem_datastore_type: file
       file_datastore_path: /custom/repository/datastore

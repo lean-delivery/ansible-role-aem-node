@@ -57,7 +57,7 @@
         group: 'test_group'
       aem_storage_type: mongo
       mongo_node_store_custom_blobstore: true
-      datastore_type: azure
+      aem_datastore_type: azure
       adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
              com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
       azure_data_store_access_key: "storage11490"

@@ -184,7 +184,7 @@ nodestore_pid_file: ''
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
 ## Azure Data Store
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
-datastore_type: ''
+aem_datastore_type: ''
 
 # To use TarMK with the S3/Azure Datastore, we need to start AEM using the crx3tar-nofds runmode
 cloud_datastore_runmode: crx3tar-nofds

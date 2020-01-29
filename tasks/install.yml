@@ -48,7 +48,7 @@
 
 - name: configure data stores if needed
   include_tasks: configure_data_store.yml
-  when: datastore_type | length > 0
+  when: aem_datastore_type | length > 0
 
 - name: creating systemd script for AEM instance
   template:

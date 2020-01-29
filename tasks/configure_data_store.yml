@@ -2,15 +2,15 @@
 # file: tasks/configure_data_store.yml
 
 - name: set variables based on data store type
-  include_vars: 'data_store/{{ datastore_type }}_vars.yml'
+  include_vars: 'data_store/{{ aem_datastore_type }}_vars.yml'
 
 - name: download and unpack cloud data store connector
   include_tasks: 'feature_pack-installation.yml'
-  when: datastore_type == 's3' or datastore_type == 'azure'
+  when: aem_datastore_type == 's3' or aem_datastore_type == 'azure'
 
 - name: creating PID for configuration Data Store
   template:
-    src: 'datastore_{{ datastore_type }}.config.j2'
+    src: 'datastore_{{ aem_datastore_type }}.config.j2'
     dest: '{{ aem_install_dir + "/" + datastore_pid_file }}'
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'

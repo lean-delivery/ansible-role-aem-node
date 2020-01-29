@@ -183,7 +183,7 @@ Role Variables : default
   default: `16`
 
 **Data stores configuration:**
-- `datastore_type` - enable custom Data Stores\
+- `aem_datastore_type` - enable custom Data Stores\
   default: `""`\
   Available options:
   - `file` This is the implementation of FileDataStore present in Jackrabbit 2. It provides a way to store the binary data as normal files on the file system. Use it to override default configuration
@@ -440,7 +440,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      datastore_type: s3
+      aem_datastore_type: s3
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.s3connector-1.8.6.zip
       s3_data_store_bucket: my-some-data-store
       s3_data_store_region: us-east-1
@@ -455,7 +455,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      datastore_type: azure
+      aem_datastore_type: azure
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
       azure_data_store_access_key: my-some-storage-account
       azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="
@@ -469,7 +469,7 @@ Don't forget to preinstall LDI AEM modules.
       aem_version: '6.5'
       aem_instance_type: author
       ...
-      datastore_type: file
+      aem_datastore_type: file
       file_datastore_path: /mnt/nas/datastore
 
 - name: author-install-azure-transport-sp-mongodb-azure-data-store
@@ -493,7 +493,7 @@ Don't forget to preinstall LDI AEM modules.
       mongo_node_store_mongo_uri: 'mongodb://[primaryhost]:[port],[secondaryhost]:[port]/?replicaSet=[replicaSet name]'
       mongo_node_store_db_name: aem-author
       mongo_node_store_custom_blobstore: true
-      datastore_type: azure
+      aem_datastore_type: azure
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
       azure_data_store_access_key: my-some-storage-account
       azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="

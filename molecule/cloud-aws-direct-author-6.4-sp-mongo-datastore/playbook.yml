@@ -34,7 +34,7 @@
         group: 'test_group'
       aem_storage_type: mongo
       mongo_node_store_custom_blobstore: true
-      datastore_type: s3
+      aem_datastore_type: s3
       adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
               com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip"
       s3_data_store_bucket: >-
