@@ -193,10 +193,10 @@ Role Variables : default
   _File Data Store specific:_\
 When using a NAS to store shared file data stores. Use it to override default configuration. **WARNING! Make sure the directory exists, check directory permissions**
 - `file_datastore_repository_home` - The path on the file system where repository data will be stored. Set to override default property value
-- `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value
-- `file_datastore_min_record_length` - Size in bytes. Binary content less than `minRecordLength` would be inlined i.e. the data store id is the data itself\
+- `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value. For a MongoMK deployment, this must be a shared file system avaiable to all AEM instances. Typically a Network Attached Storage (NAS) server is used
+- `file_datastore_min_record_length` - Size in bytes. Binaries less than or equal to this size are stored with the Document Node Store. Rather than storing the ID of the blob, the content of the binary is stored. For binaries greater than this size the ID of the binary is stored as a property of the Document in the nodes collection, and the body of the binary is stored in the FileDataStore on disk. 4096 bytes is a typical file system block size\
   default: `100`
-- `file_datastore_max_cached_binary_size` - Size in bytes. Binaries with size less than or equal to this size would be stored in in memory cache\
+- `file_datastore_max_cached_binary_size` - Size in bytes. Binaries with size less than or equal to this size would be stored in memory cache\
   default: `17408`
 - `file_datastore_cache_size` - Size in MB. In memory cache for storing small files whose size is less than `maxCachedBinarySize`. This helps in better performance when lots of small binaries are accessed frequently\
   default: `16`
@@ -477,6 +477,9 @@ Don't forget to preinstall LDI AEM modules.
       ...
       aem_datastore_type: file
       file_datastore_path: /mnt/nas/datastore
+      file_datastore_min_record_length: 4096
+      file_datastore_max_cached_binary_size: 4096
+      file_datastore_cache_size: 128
 
 - name: author-install-azure-transport-sp-mongodb-azure-data-store
   hosts: aem_authors
@@ -499,6 +502,8 @@ Don't forget to preinstall LDI AEM modules.
       mongo_node_store_mongo_uri: 'mongodb://[primaryhost]:[port],[secondaryhost]:[port]/?replicaSet=[replicaSet name]'
       mongo_node_store_db_name: aem-author
       mongo_node_store_custom_blobstore: true
+      mongo_node_store_cache_size: 2048
+      mongo_node_store_blob_cache_size: 1024
       aem_datastore_type: azure
       adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
       azure_data_store_access_key: my-some-storage-account
