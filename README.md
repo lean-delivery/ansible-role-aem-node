@@ -177,7 +177,7 @@ Role Variables : default
   default: `256` However, Oak read performance will benefit from a bigger cache.
 - `mongo_node_store_changes_size` - Size in MB of capped collection used in Mongo for caching the diff output\
   default: `256`
-- `mongo_node_store_custom_blobstore` - Boolean value indicating that a custom data store will be used. Use it together with one of: Filesystem Data Store, Amazon S3 or Azure Data Store\
+- `mongo_node_store_custom_blobstore` - Boolean value indicating that a custom data store will be used. Due to the MongoDB working set limitations it is strongly recommended that the data store is maintained independent from the MongoDB. In most environments a FileDataStore using a NAS available to all AEM instances should be used. Use it together with one of: Filesystem Data Store, Amazon S3 or Azure Data Store\
   default: `false`
 - `mongo_node_store_blob_cache_size` - Size in Mb of in memory cache for the frequently used blobs. Frequently used blobs may be cached by AEM to avoid refetching them from the data store. All the file system based Data Stores will benefit from the operating system level disk cache
   default: `16`

@@ -2,6 +2,9 @@
 - name: Include common prepare for role
   import_playbook: ../resources/prepare.yml
 
+- name: Include File Data Store specific preparation
+  import_playbook: ../resources/prepare/prepare_file.yml
+
 - name: Install MongoDB
   hosts: all
   become: true

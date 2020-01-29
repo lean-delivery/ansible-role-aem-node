@@ -14,6 +14,9 @@
       publishers: "{{ groups['aem_publishers'] }}"
       aem_version: '6.3'
       aem_storage_type: mongo
+      mongo_node_store_custom_blobstore: true
+      aem_datastore_type: file
+      file_datastore_path: /custom/repository/datastore
       aem_groups:
        -
         id: 'test_group'

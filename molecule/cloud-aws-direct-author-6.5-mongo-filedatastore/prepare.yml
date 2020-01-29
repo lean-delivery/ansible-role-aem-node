@@ -2,5 +2,8 @@
 - name: Include common prepare for role
   import_playbook: ../resources/prepare-aem-6.5.yml
 
+- name: Include File Data Store specific preparation
+  import_playbook: ../resources/prepare/prepare_file.yml
+
 - name: Include MongoDB preparation
   import_playbook: ../resources/prepare/prepare_mongo.yml

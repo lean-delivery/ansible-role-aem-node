@@ -43,12 +43,12 @@ Lint:
   tags:
     - aws
 
-AWS aem-node-author-6.3-mongo:
+AWS aem-node-author-6.3-mongo-filedatastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-direct-author-6.3-mongo
+    - molecule test -s cloud-aws-direct-author-6.3-mongo-filedatastore
   tags:
     - aws
 
@@ -79,12 +79,12 @@ AWS aem-node-author-6.3-mongo:
   tags:
     - aws
 
-AWS aem-node-author-6.4-mongo:
+AWS aem-node-author-6.4-mongo-filedatastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-direct-author-6.4-mongo
+    - molecule test -s cloud-aws-direct-author-6.4-mongo-filedatastore
   tags:
     - aws
 
@@ -153,12 +153,12 @@ AWS aem-node-author-6.4-mongo:
   tags:
     - aws
 
-AWS aem-node-author-6.5-mongo:
+AWS aem-node-author-6.5-mongo-filedatastore:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-direct-author-6.5-mongo
+    - molecule test -s cloud-aws-direct-author-6.5-mongo-filedatastore
   tags:
     - aws
 
