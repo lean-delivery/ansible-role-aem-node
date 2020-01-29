@@ -4,4 +4,6 @@ repository.home="{{ file_datastore_repository_home }}"
 {% if file_datastore_path != '' %}
 path="{{ file_datastore_path }}"
 {% endif %}
-minRecordLength="100"
+minRecordLength="{{ file_datastore_min_record_length }}"
+maxCachedBinarySize="{{ file_datastore_max_cached_binary_size }}"
+cacheSizeInMB="{{ file_datastore_cache_size }}"

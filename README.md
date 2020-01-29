@@ -194,6 +194,12 @@ Role Variables : default
 When using a NAS to store shared file data stores. Use it to override default configuration. **WARNING! Make sure the directory exists, check directory permissions**
 - `file_datastore_repository_home` - The path on the file system where repository data will be stored. Set to override default property value
 - `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value
+- `file_datastore_min_record_length` - Size in bytes. Binary content less than `minRecordLength` would be inlined i.e. the data store id is the data itself\
+  default: `100`
+- `file_datastore_max_cached_binary_size` - Size in bytes. Binaries with size less than or equal to this size would be stored in in memory cache\
+  default: `17408`
+- `file_datastore_cache_size` - Size in MB. In memory cache for storing small files whose size is less than `maxCachedBinarySize`. This helps in better performance when lots of small binaries are accessed frequently\
+  default: `16`
   
   _Amazon S3 Data Store specific:_
 - `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 Data Store Connector zip file\

@@ -1,6 +1,8 @@
 ---
 
 # https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#file-data-store
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/introduction/aem-with-mongodb.html#aem-configuration
+# https://jackrabbit.apache.org/oak/docs/osgi_config.html#config-sling
 datastore_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.FileDataStore.config
 
 # repository.home - a path on the file system where repository data will be stored.
@@ -11,3 +13,7 @@ file_datastore_repository_home: ''
 
 # Path to the directory under which the files would be stored. If specified then it takes precedence over repository.home value
 file_datastore_path: ''
+
+file_datastore_min_record_length: 100
+file_datastore_max_cached_binary_size: 17408
+file_datastore_cache_size: 16
