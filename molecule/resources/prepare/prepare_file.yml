@@ -1,5 +1,5 @@
 ---
-- name: Install java
+- name: Create path to the root of the data store
   hosts: all
   tasks:
     - name: Create custom dir for datastore

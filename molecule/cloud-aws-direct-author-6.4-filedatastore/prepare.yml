@@ -2,5 +2,5 @@
 - name: Include common prepare for role
   import_playbook: ../resources/prepare.yml
 
-- name: Include AWS specific preparation
+- name: Include File Data Store specific preparation
   import_playbook: ../resources/prepare/prepare_file.yml
