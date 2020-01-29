@@ -1,0 +1,11 @@
+s3Region="{{ s3_data_store_region }}"
+s3Bucket="{{ s3_data_store_bucket }}"
+{% if s3_data_store_iam_role is sameas false %}
+accessKey="{{ s3_data_store_acces_key }}"
+secretKey="{{ s3_data_store_secret_key }}"
+{% endif %}
+connectionTimeout="120000"
+maxConnections="40"
+maxErrorRetry="10"
+socketTimeout="120000"
+writeThreads="30"

@@ -1,0 +1,23 @@
+---
+- name: Delete temporary blob container
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: debug Blob container name
+      debug:
+        msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+      loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'
+
+    - name: delete a temp blob storage and all contents
+      azure_rm_storageblob:
+        resource_group: epm-ldi
+        storage_account_name: storage11490
+        container: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+        state: absent
+        force: true
+      loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'

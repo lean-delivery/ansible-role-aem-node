@@ -15,11 +15,22 @@
   until: result is success
   become: true
 
-- name: Install Python requests
+- name: Install Python requirements
   pip:
-    name: requests
+    name: '{{ pip_requirements }}'
     state: present
+    extra_args: --upgrade
     executable: '{{ pip_executable }}'
   register: pip_result
   until: pip_result is succeeded
+  become: true
+
+- name: Install Ansible Azure
+  pip:
+    name: ansible[azure]
+    state: present
+    executable: '{{ pip_executable }}'
+  when: download_transport == 'azure'
+  register: azure_result
+  until: azure_result is succeeded
   become: true

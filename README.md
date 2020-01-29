@@ -18,6 +18,11 @@ This role:
 - supports multiple publishing instances for one authoring
 - can create aem groups with predefined permissions
 - can create aem user accounts
+- can configure File Data Store when using a NAS to store shared file data stores
+- can install and configure Amazon S3 and Azure Data Stores for binary data. The following combinations have been tested and work:
+  - AEM 6.4 with Amazon S3 connector v1.8.6
+  - AEM 6.5 with Amazon S3 connector v1.8.6
+  - AEM 6.5 with Azure blob connector v1.9.12
 
 
 Requirements
@@ -50,7 +55,7 @@ Role Variables : default
   default: `443`
 - `dispatcher_http_port` - Http port for listening\
   default: `80`
-- `download_transport` - web or s3\
+- `download_transport` - one of: web, s3, azure\
   default: `web`
 - `full_aem_web_transport_link` - link for aem installation file\
   default: `{{ web_transport_common_url }}/{{ aem_version }}/aem.jar`
@@ -66,6 +71,21 @@ Role Variables : default
   default: `{{ lookup('env','AWS_ACCESS_KEY_ID') }}`
 - `transport_s3_aws_secret_key` - secret key\
   default: `{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}`
+- `transport_azure_resource_group` - name of Azure resource group
+- `transport_azure_storage_account_name` - name of Azure storage account
+- `transport_azure_container` - name of blob container
+- `aem_transport_azure_path` - aem installation file Azure blob container path\
+  default: `/{{ aem_version }}/aem.jar`
+- `license_transport_azure_path` - aem license file Azure blob container path\
+   default: `/licenses/{{ aem_version }}/license.properties`
+- `transport_azure_subscription_id` - Azure subscription ID\
+   default: `{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}`
+- `transport_azure_tenant_id` - Azure tenant ID\
+   default: `{{ lookup('env','AZURE_TENANT') }}`
+- `transport_azure_client_id` - Azure client ID\
+   default: `{{ lookup('env','AZURE_CLIENT_ID') }}`
+- `transport_azure_client_secret` - Azure client secret\
+   default: `{{ lookup('env','AZURE_SECRET') }}`
 - `web_transport_common_url` - Server link to download installation packages\
   default: `ftp://ftp:ftp@ftp.com/aem`
 - `aem_instance_type` - AEM type (author or publish)\
@@ -124,6 +144,45 @@ Role Variables : default
   default: `9998`
 - `jolokia_agent_port_publisher` - Port for jolokia agent\
   default: `9999`
+
+**Data stores configuration:**
+- `datastore_type` - enable custom Data Stores\
+  default: `""`\
+  Available options:
+  - `file` This is the implementation of FileDataStore present in Jackrabbit 2. It provides a way to store the binary data as normal files on the file system. Use it to override default configuration
+  - `s3` Amazon S3 Data Store
+  - `azure` Azure Data Store
+
+  _File Data Store specific:_\
+When using a NAS to store shared file data stores. Use it to override default configuration. **WARNING! Make sure the directory exists, check directory permissions**
+- `file_datastore_repository_home` - The path on the file system where repository data will be stored. Set to override default property value
+- `file_datastore_path` - The path to the directory under which the files would be stored. If specified then it takes precedence over `file_datastore_repository_home` value
+  
+  _Amazon S3 Data Store specific:_
+- `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 Data Store Connector zip file\
+  sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip`
+- `adobe_repo_feature_pack_md5_link` - Link to download feature pack's md5 file. Can be redefined if needed
+  default: `{{ adobe_repo_feature_pack_link }}.md5`\
+  Replace with proper http(s) URL if needed
+- `s3_data_store_bucket` - The name of S3 bucket where binary data will be stored
+- `s3_data_store_region` - The S3 bucket region
+- `s3_data_store_acces_key` - The AWS access key
+- `s3_data_store_secret_key` - The AWS secret access key
+- `s3_data_store_iam_role` - Alternatively, IAM roles can be used for authentication. If you are using IAM roles you no longer need to specify the accessKey and secretKey\
+  default: `False`  
+
+  _Azure Data Store specific:_
+- `adobe_repo_feature_pack_link` - Link to download feature pack with Amazon S3 Data Store Connector zip file\
+  sample: `https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip`
+- `adobe_repo_feature_pack_md5_link` - Link to download feature pack's md5 file. Can be redefined if needed
+  default: `{{ adobe_repo_feature_pack_link }}.md5`\
+  Replace with proper http(s) URL if needed
+- `azure_data_store_access_key` - The Azure storage account name
+- `azure_data_store_blob_endpoint` - The Azure Storage blob endpoint\
+  default: `https://{{ azure_data_store_access_key }}.blob.core.windows.net`
+- `azure_data_store_secret_key` - The storage access key. Ensure that the '=' character is escaped like '\\='
+- `azure_data_store_container` - The Microsoft Azure blob storage container name. **WARNING! The name of blob container can't be longer than 18 characters (not documented anywhere!)**
+- `azure_data_store_sas` - In version 1.6.3 of the connector, Azure Shared Access Signature (SAS) support was added. If both SAS and storage credentials exists in the configuration file, SAS has priority.  Ensure that the '=' character is escaped like '\\='
 
 ### AEM groups which would be created during provision proccess
 
@@ -293,6 +352,45 @@ Don't forget to preinstall LDI AEM modules.
         password: 'Test_user_password1'
         group: 'test_group'
 
+- name: author-install-s3-data-store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_version: '6.5'
+      aem_instance_type: author
+      ...
+      datastore_type: s3
+      adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.s3connector-1.8.6.zip
+      s3_data_store_bucket: my-some-data-store
+      s3_data_store_region: us-east-1
+      s3_data_store_acces_key: AAABBBCCC
+      s3_data_store_secret_key: AAABBBCCCDDDEEE
+
+- name: author-install-azure-data-store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_version: '6.5'
+      aem_instance_type: author
+      ...
+      datastore_type: azure
+      adobe_repo_feature_pack_link: https://repo.adobe.com/nexus/content/.../com.adobe.granite.oak.azureblobconnector-1.9.12.zip
+      azure_data_store_access_key: my-some-storage-account
+      azure_data_store_secret_key: "VHnh83bXJmMgzL...Oyp28sffOgAq0VGrHU6ScwpA\=\="
+      azure_data_store_container: my-aem-container
+
+- name: author-install-custom-file-data-store
+  hosts: aem_authors
+
+  roles:
+    - role: ansible-role-aem-node
+      aem_version: '6.5'
+      aem_instance_type: author
+      ...
+      datastore_type: file
+      file_datastore_path: /mnt/nas/datastore
 ```
 
 

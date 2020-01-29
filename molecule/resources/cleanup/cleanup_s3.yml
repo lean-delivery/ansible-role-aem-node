@@ -1,0 +1,23 @@
+---
+- name: Delete temporary S3 bucket
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: debug temp S3 bucket name
+      debug:
+        msg: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+      loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'
+
+    - name: delete a temp S3 bucket and all contents
+      aws_s3:
+        bucket: "{{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') + item.name) | to_uuid)[:8] }}"
+        mode: delete
+      retries: 3
+      register: result
+      until: result is success
+      loop: '{{ molecule_yml.platforms }}'
+      loop_control:
+        label: '{{ item.name }}'

@@ -1,0 +1,65 @@
+---
+- name: Get storage access keys
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  vars:
+    resource_group_name: epm-ldi
+    storage_account_name: storage11490
+  tasks:
+    - name: get storage access keys
+      azure_rm_resource:
+        resource_group: "{{ resource_group_name }}"
+        method: POST
+        url: "/subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}\
+                   /resourceGroups/{{ resource_group_name }}/providers/\
+                   Microsoft.Storage/storageAccounts/\
+                   {{ storage_account_name }}/listKeys"
+        body:
+          api-version: "2019-06-01"
+      register: storage_access_keys
+      changed_when: false
+
+- name: Install authors
+  hosts: aem_authors
+  roles:
+    - role: ansible-role-aem-node
+      download_transport: azure
+      transport_azure_resource_group: epm-ldi
+      transport_azure_storage_account_name: storage11490
+      transport_azure_container: aemartifacts
+      publisher_ssl: true
+      aem_ssl_enable: true
+      aem_ssl_dir: /etc/ssl/localhost/
+      aem_instance_type: author
+      aem_change_default_admin_password: true
+      aem_new_admin_password: "testtest_123@S"
+      publishers: "{{ groups['aem_publishers'] }}"
+      aem_version: '6.4'
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'testtest_123i@S'
+        group: 'test_group'
+      datastore_type: azure
+      adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+             com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
+      azure_data_store_access_key: "storage11490"
+      azure_data_store_container: >-
+        {{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') +
+          molecule_yml.platforms[ansible_play_hosts.index(inventory_hostname)].name) | to_uuid)[:8] }}
+      azure_data_store_secret_key: >-
+        {{ hostvars['localhost']['storage_access_keys']['response']['keys'][0]['value'] | replace("=", "\=") }}

@@ -42,6 +42,10 @@
   debug:
     msg: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
 
+- name: configure data stores if needed
+  include_tasks: configure_stores.yml
+  when: datastore_type | length > 0
+
 - name: creating systemd script for AEM instance
   template:
     src: aem.service.j2

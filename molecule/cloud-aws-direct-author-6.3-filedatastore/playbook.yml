@@ -1,0 +1,36 @@
+---
+- name: Install authors
+  hosts: aem_authors
+  roles:
+    - role: ansible-role-aem-node
+      download_transport: s3
+      aem_ssl_enable: true
+      aem_ssl_dir: /etc/ssl/localhost/
+      replication_enabled: true
+      aem_instance_type: author
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      aem_change_default_admin_password: true
+      aem_new_admin_password: "testtest_123@S"
+      publishers: "{{ groups['aem_publishers'] }}"
+      aem_version: '6.3'
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'testtest_123i@S'
+        group: 'test_group'
+      jolokia_agent: true
+      datastore_type: file
+      file_datastore_path: /custom/repository/datastore

@@ -4,3 +4,9 @@ default_python_executable: python
 
 requirements:
   - '{{ python_executable | default("python") }}-pip'
+  - 'python-wheel'
+
+# pip must be upgraded first, otherwise ansible[azure] installation fails
+pip_requirements:
+  - pip
+  - requests

@@ -1,0 +1,20 @@
+---
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
+# Go to the Adobe Repository and download the latest version from
+# https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/com.adobe.granite.oak.azureblobconnector/
+adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+com.adobe.granite.oak.azureblobconnector/1.9.12/com.adobe.granite.oak.azureblobconnector-1.9.12.zip"
+datastore_pid_file: org.apache.jackrabbit.oak.plugins.blob.datastore.AzureDataStore.config
+
+# The storage account name
+azure_data_store_access_key: ''
+# The Azure Blob Endpoint. For example, https://<storage-account>.blob.core.windows.net
+azure_data_store_blob_endpoint: 'https://{{ azure_data_store_access_key }}.blob.core.windows.net'
+# The storage access key. Ensure that the '=' character is escaped like '\='
+azure_data_store_secret_key: ''
+# The Microsoft Azure blob storage container name
+azure_data_store_container: ''
+# In version 1.6.3 of the connector, Azure Shared Access Signature (SAS) support was added.
+# If both SAS and storage credentials exists in the configuration file, SAS has priority
+# For more information about SAS see https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview
+azure_data_store_sas: ''

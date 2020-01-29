@@ -1,6 +1,26 @@
 ---
+# Hack for Ansible + Python 3
+ansible_python_interpreter: /usr/bin/python3
 default_pip_executable: pip3
 default_python_executable: python3
 
-requirements:
+common_requirements:
   - '{{ python_executable | default("python3") }}-pip'
+
+ubuntu16_azure_extra_requirements:
+  - libssl-dev
+  - libffi-dev
+
+requirements: >-
+  {{ ((download_transport == 'azure') and (ansible_distribution_major_version == '16'))
+    | ternary(common_requirements + ubuntu16_azure_extra_requirements, common_requirements) }}
+
+pip3_common_requirements:
+  - requests
+
+pip3_ubuntu16_azure_extra_requirements:
+  - pyopenssl
+
+pip3_requirements: >-
+  {{ ((download_transport == 'azure') and (ansible_distribution_major_version == '16'))
+    | ternary(pip3_common_requirements + pip3_ubuntu16_azure_extra_requirements, pip3_common_requirements) }}

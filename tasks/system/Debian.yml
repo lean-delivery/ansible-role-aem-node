@@ -6,19 +6,38 @@
   when: ansible_distribution == 'Ubuntu'
   become: true
 
+- name: Apt update
+  apt:
+    update_cache: true
+  retries: 3
+  register: result
+  until: result is success
+  become: true
+  changed_when: false
+
 - name: Install python-pip
-  package:
+  apt:
     name: '{{ requirements }}'
   retries: 3
   register: result
   until: result is success
   become: true
 
-- name: Install Python requests
+- name: Install Python requirements
   pip:
-    name: requests
+    name: '{{ pip3_requirements }}'
     state: present
     executable: '{{ pip_executable }}'
   register: pip_result
   until: pip_result is succeeded
+  become: true
+
+- name: Install Ansible Azure
+  pip:
+    name: ansible[azure]
+    state: present
+    executable: '{{ pip_executable }}'
+  when: download_transport == 'azure'
+  register: azure_result
+  until: azure_result is succeeded
   become: true

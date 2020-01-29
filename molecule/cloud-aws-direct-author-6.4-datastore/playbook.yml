@@ -1,0 +1,42 @@
+---
+- name: Install authors
+  hosts: aem_authors
+  roles:
+    - role: ansible-role-aem-node
+      download_transport: s3
+      publisher_ssl: true
+      aem_ssl_enable: true
+      aem_ssl_dir: /etc/ssl/localhost/
+      aem_instance_type: author
+      web_transport_common_url: "{{ lookup('env','STORAGE_AWS') }}/aem"
+      aem_change_default_admin_password: true
+      aem_new_admin_password: "testtest_123@S"
+      publishers: "{{ groups['aem_publishers'] }}"
+      aem_version: '6.4'
+      aem_groups:
+       -
+        id: 'test_group'
+        name: 'Test'
+        description: 'All test users'
+        permissions:
+          - 'path:/,read:true'
+          - 'path:/etc/packages,read:true,modify:true,create:true,delete:false,replicate:true'
+        root_groups:
+          - 'everyone'
+      aem_users:
+       -
+        category: 'test'
+        id: 'test_user'
+        first_name: 'Test'
+        second_name: 'User'
+        password: 'testtest_123i@S'
+        group: 'test_group'
+      datastore_type: s3
+      adobe_repo_feature_pack_link: "https://repo.adobe.com/nexus/content/groups/public/com/adobe/granite/\
+              com.adobe.granite.oak.s3connector/1.8.6/com.adobe.granite.oak.s3connector-1.8.6.zip"
+      s3_data_store_bucket: >-
+        {{ 'tst-aem-' + (( lookup('env','CI_JOB_ID') +
+           molecule_yml.platforms[ansible_play_hosts.index(inventory_hostname)].name) | to_uuid)[:8] }}
+      s3_data_store_region: us-east-1
+      s3_data_store_acces_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
+      s3_data_store_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"

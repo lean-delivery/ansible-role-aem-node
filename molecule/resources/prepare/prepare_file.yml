@@ -1,0 +1,10 @@
+---
+- name: Install java
+  hosts: all
+  tasks:
+    - name: Create custom dir for datastore
+      file:
+        path: /custom/repository/datastore
+        state: directory
+        mode: '0777'
+      become: true

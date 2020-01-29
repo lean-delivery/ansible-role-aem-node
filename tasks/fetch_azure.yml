@@ -1,0 +1,48 @@
+---
+- name: 'ensure that {{ cq_file_name }} file is downloaded (azure transport)'
+  azure_rm_storageblob:
+    resource_group: '{{ transport_azure_resource_group }}'
+    storage_account_name: '{{ transport_azure_storage_account_name }}'
+    container: '{{ transport_azure_container }}'
+    blob: '{{ aem_transport_azure_path }}'
+    dest: '{{ aem_home }}/{{ cq_file_name }}.jar'
+    force: true
+    subscription_id: '{{ transport_azure_subscription_id }}'
+    client_id: '{{ transport_azure_client_id }}'
+    secret: '{{ transport_azure_client_secret }}'
+    tenant: '{{ transport_azure_tenant_id }}'
+  retries: 5
+  delay: 2
+  become: true
+
+- name: 'protecting aem jar file'
+  file:
+    path: '{{ aem_home }}/{{ cq_file_name }}.jar'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: '0640'
+  become: true
+
+- name: 'ensure that AEM licence file is downloaded (azure transport)'
+  azure_rm_storageblob:
+    resource_group: '{{ transport_azure_resource_group }}'
+    storage_account_name: '{{ transport_azure_storage_account_name }}'
+    container: '{{ transport_azure_container }}'
+    blob: '{{ license_transport_azure_path }}'
+    dest: '{{ aem_home }}/license.properties'
+    force: true
+    subscription_id: '{{ transport_azure_subscription_id }}'
+    client_id: '{{ transport_azure_client_id }}'
+    secret: '{{ transport_azure_client_secret }}'
+    tenant: '{{ transport_azure_tenant_id }}'
+  retries: 5
+  delay: 2
+  become: true
+
+- name: 'protecting license file'
+  file:
+    path: '{{ aem_home }}/license.properties'
+    owner: '{{ aem_user }}'
+    group: '{{ aem_user }}'
+    mode: '0640'
+  become: true

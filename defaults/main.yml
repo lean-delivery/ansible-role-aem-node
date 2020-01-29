@@ -25,7 +25,7 @@ web_transport_common_url: 'ftp://ftp:ftp@ftp.com/aem'
 full_aem_web_transport_link: '{{ web_transport_common_url }}/{{ aem_version }}/aem.jar'
 full_license_web_transport_link: '{{ web_transport_common_url }}/licenses/{{ aem_version }}/license.properties'
 
-# web or s3
+# web or s3 or azure
 download_transport: web
 
 transport_s3_bucket: aemartifacts
@@ -35,6 +35,15 @@ license_transport_s3_path: '/licenses/{{ aem_version }}/license.properties'
 transport_s3_aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
 transport_s3_aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
 
+transport_azure_resource_group: ''
+transport_azure_storage_account_name: ''
+transport_azure_container: ''
+aem_transport_azure_path: '{{ aem_version }}/aem.jar'
+license_transport_azure_path: 'licenses/{{ aem_version }}/license.properties'
+transport_azure_subscription_id: "{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}"
+transport_azure_client_id: "{{ lookup('env','AZURE_CLIENT_ID') }}"
+transport_azure_client_secret: "{{ lookup('env','AZURE_SECRET') }}"
+transport_azure_tenant_id: "{{ lookup('env','AZURE_TENANT') }}"
 
 aem_instance_type: 'author'
 
@@ -141,3 +150,33 @@ python_executable: '{{ default_python_executable }}'
 jolokia_agent_url: https://search.maven.org/remotecontent?filepath=org/jolokia/jolokia-jvm/1.6.2/jolokia-jvm-1.6.2-agent.jar
 jolokia_agent_port_publisher: 9999
 jolokia_agent_port_author: 9998
+
+tmpdir: /tmp
+
+#############################
+### Configure data stores
+#############################
+## Supported types are: file, s3, azure.
+## Default File data store
+# When using a NAS to store shared file data stores, we provide possibility to customize configuration options
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#file-data-store
+## Amazon S3 Data Store
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#amazon-s-data-store
+## Azure Data Store
+# https://docs.adobe.com/content/help/en/experience-manager-65/deploying/deploying/data-store-config.html#azure-data-store
+datastore_type: ''
+
+# To use TarMK with the S3/Azure Datastore, we need to start AEM using the crx3tar-nofds runmode
+cloud_datastore_runmode: crx3tar-nofds
+
+# Link to download AEM feature pack. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
+# Can be redefined if needed
+adobe_repo_feature_pack_link: ''
+# Default Link to download AEM feature pack md5 file. Can be redefined if needed
+adobe_repo_feature_pack_md5_link: '{{ adobe_repo_feature_pack_link }}.md5'
+
+# Directory to install feature pack in it
+aem_install_dir: '{{ aem_home }}/crx-quickstart/install'
+
+# AEM PID to configure any external data store. There are default values in "vars/data_sore/{{ cloud_specific }}_vars.yml"
+datastore_pid_file: ''
