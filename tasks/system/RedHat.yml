@@ -7,7 +7,7 @@
   until: install_epel is succeeded
   become: true
 
-- name: Install python-pip
+- name: Install requirements
   package:
     name: '{{ requirements }}'
   retries: 3

@@ -15,7 +15,7 @@
   become: true
   changed_when: false
 
-- name: Install python-pip
+- name: Install requirements
   apt:
     name: '{{ requirements }}'
   retries: 3

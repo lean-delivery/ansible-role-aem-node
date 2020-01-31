@@ -6,6 +6,7 @@ default_python_executable: python3
 
 common_requirements:
   - '{{ python_executable | default("python3") }}-pip'
+  - 'unzip'
 
 ubuntu16_azure_extra_requirements:
   - libssl-dev
