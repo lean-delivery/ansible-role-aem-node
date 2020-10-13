@@ -17,6 +17,7 @@
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
     recurse: true
+    mode: 0644
   become: true
 
 - name: ensure that subsys directory exists
@@ -24,6 +25,7 @@
     path: '/var/lock/subsys'
     state: directory
     recurse: true
+    mode: 0644
   become: true
 
 - name: find jarfile
@@ -36,11 +38,12 @@
   copy:
     dest: '{{ aem_home }}/aem_jar_file'
     content: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
+    mode: 0644
   become: true
 
-- name: debug
-  debug:
-    msg: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
+#- name: debug
+#  debug:
+#    msg: "JARFILE={{ jarfile['files'][0]['path'] | replace('{{ aem_home }}','') }}"
 
 - name: configure node store if needed
   include_tasks: configure_node_store.yml

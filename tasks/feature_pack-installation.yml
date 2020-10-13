@@ -12,12 +12,14 @@
   file:
     path: '{{ temp_dir }}'
     state: directory
+    mode: 0644
 
 - name: extract the contents of the feature pack zip file to a temporary folder
   unarchive:
     src: '{{ data_store_file_downloaded.dest }}'
     dest: '{{ temp_dir }}'
     remote_src: true
+    mode: 0644
 
 - name: copy jars to AEM install folder
   copy:
@@ -26,6 +28,7 @@
     remote_src: true
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
+    mode: 0644
   become: true
 
 # Pay attention to fact that config files can include configuration for node store services.
@@ -40,4 +43,5 @@
     remote_src: true
     owner: '{{ aem_user }}'
     group: '{{ aem_user }}'
+    mode: 0644
   become: true
