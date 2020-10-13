@@ -17,4 +17,3 @@ file_datastore_path: ''
 file_datastore_min_record_length: 100
 file_datastore_max_cached_binary_size: 17408
 file_datastore_cache_size: 16
-
