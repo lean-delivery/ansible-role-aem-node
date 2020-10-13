@@ -5,3 +5,6 @@ rulesdir:
   - ~/ansible-lint-rules/rules/
 use_default_rules: true
 verbosity: 1
+warn_list:
+  - '207'  # Nested jinja pattern   
+  - experimental
